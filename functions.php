@@ -21,6 +21,7 @@ class keg {
 		$this->size = ($data['size']) ? $data['size'] : 1;
 	}
 
+	// DISPLAY FUNCTIONS
 	// display the keg's status
 	public function info() {
 		global $db;
@@ -41,6 +42,68 @@ class keg {
 		return TRUE;
 	}
 
+	// have at the variables
+	public function getid() {
+		return $this->id;
+	}
+
+	// UNTESTED
+	public function getintstatus() {
+		return $this->status;
+	}
+
+	// UNTESTED
+	public function getstatus() {
+		global $db;
+		$query = "SELECT status FROM cbw_keg_statuses WHERE id=" . $this->status;
+		$result = $db->query($query);
+		$row = $result->fetch_assoc();
+		return $row['status'];
+	}
+
+	// UNTESTED
+	public function getintbeer() {
+		return $this->beer;
+	}
+
+	// UNTESTED
+	public function getbeer() {
+		if ($this->beer == NULL) return NULL;
+
+		global $db;
+		$query = "SELECT beer FROM cbw_beers WHERE id=" . $this->beer;
+		$result = $db->query($query);
+		$row = $result->fetch_assoc();
+		return $row['beer'];
+	}
+
+	//UNTESTED
+	public function getintlocation() {
+		return $this->location;
+	}
+
+	// UNTESTED
+	public function getlocation() {
+		global $db;
+		$query = "SELECT location FROM cbw_locations WHERE id=" . $this->location;
+		$result = $db->query($query);
+		$row = $result->fetch_assoc();
+		return $row['location'];
+	}
+
+	public function getintsize() {
+		return $this->size;
+	}
+
+	public function getsize() {
+		global $db;
+		$query = "SELECT size FROM cbw_keg_sizes WHERE id=" . $this->size;
+		$result = $db->query($query);
+		$row = $result->fetch_assoc();
+		return $row['size'];
+	}
+
+	// UPDATING FUNCTIONS
 	// now that we've checked the validity of the data in the specific action function, 
 	// update the data
 	private function update() {
