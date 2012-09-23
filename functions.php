@@ -47,9 +47,11 @@ class keg {
 		global $db;
 
 		$query = "UPDATE cbw_kegs SET status=" . $this->status . ", beer=" . $this->beer . ", location=" . $this->location . " WHERE id=" . $this->id . " AND size=" . $this->size;
+		echo "<p>" . $query . "</p>";
 
 		if (!$db->query($query)) {
 			echo "<p>Error updating info for keg " . $this->id . "-" . $this->size . ": #" . $db->errno . ": " . $db->error . "</p>\r";
+			echo "<p>" . $query . "</p>\r";
 			return FALSE;
 		} else {
 			return TRUE;
@@ -66,7 +68,7 @@ class keg {
 		// it had beer in it
 		if ($this->beer != NULL) {
 			echo "Warning: keg was not marked as empty\r";
-			$this->beer = NULL;
+			$this->beer = "NULL";
 		}
 		// it's not dirty
 		if ($this->status != 1) {
@@ -141,7 +143,7 @@ class keg {
 	}
 
 	// it's been used up
-	public function return() {
+	public function pickup() {
 		// it wasn't out somewhere
 		if ($this->status != 5) {
 			echo "Warning: keg was not marked as being in use\r";
@@ -152,11 +154,10 @@ class keg {
 		}
 
 		$this->location = 1;
-		$this->beer = NULL;
+		$this->beer = "NULL";
 		$this->status = 1;
 		$this->update();
 	}
-
 
 }
 
