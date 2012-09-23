@@ -79,29 +79,81 @@ class keg {
 
 	// embeer!
 	public function fill($beer) {
+		// it's not at CBW
+		if ($this->location != 1) {
+			echo "Warning: keg was not marked as being at HQ\r";
+			$this->location = 1;
+		}
+		// it had beer in it
+		if ($this->beer != NULL) {
+			echo "Warning: keg was not marked as empty\r";
+		}
+		// it wasn't clean
+		if ($this->status != 2) {
+			echo "Warning: keg was not marked as clean\r";
+		}
+
+		$this->status = 3;
+		$this->beer = $beer;
+		$this->update();
+	}
+
+	// hook up to Cookiepuss
+	function carbonate() {
+		// usually I try to help out, but I need to know the beer
+		if ($this->beer == NULL) {
+			throw new Exception("Error: keg does not contain beer");
+			return FALSE;
+		}
+		// it's not at CBW
+		if ($this->location != 1) {
+			echo "Warning: keg was not marked as being at HQ\r";
+			$this->location = 1;
+		}
+		// it wasn't full of uncarbed beer
+		if ($this->status != 3) {
+			echo "Warning: keg was not marked as uncarbonated\r";
+		}
+
+		$this->status = 4;
+		$this->update();
 	}
 
 	// send to a bar, or our fridge
 	public function deliver($location) {
+		// usually I try to help out, but I need to know the beer
+		if ($this->beer == NULL) {
+			throw new Exception("Error: keg does not contain beer");
+			return FALSE;
+		}
+		// it's not at CBW
+		if ($this->location != 1) {
+			echo "Warning: keg was not marked as being at HQ\r";
+		}
+		// it wasn't full of carbed beer
+		if ($this->status != 4) {
+			echo "Warning: keg was not marked as uncarbonated\r";
+		}
+
+		$this->status = 5;
+		$this->location = $location;
+		$this->update();
 	}
 
 	// it's been used up
 	public function return() {
 		// it wasn't out somewhere
 		if ($this->status != 5) {
-			echo "Warning: keg was not marked as being in use HQ\r";
-			$this->location = 1;
+			echo "Warning: keg was not marked as being in use\r";
 		}
 		// it didn't have beer in it
 		if ($this->beer == NULL) {
 			echo "Warning: keg was marked as empty\r";
-			$this->beer = NULL;
 		}
 
 		$this->location = 1;
 		$this->beer = NULL;
 		$this->status = 1;
-
 		$this->update();
 	}
 
