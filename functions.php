@@ -87,6 +87,22 @@ class keg {
 
 	// it's been used up
 	public function return() {
+		// it wasn't out somewhere
+		if ($this->status != 5) {
+			echo "Warning: keg was not marked as being in use HQ\r";
+			$this->location = 1;
+		}
+		// it didn't have beer in it
+		if ($this->beer == NULL) {
+			echo "Warning: keg was marked as empty\r";
+			$this->beer = NULL;
+		}
+
+		$this->location = 1;
+		$this->beer = NULL;
+		$this->status = 1;
+
+		$this->update();
 	}
 
 
