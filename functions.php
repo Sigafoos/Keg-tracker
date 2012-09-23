@@ -40,6 +40,56 @@ class keg {
 
 		return TRUE;
 	}
+
+	// now that we've checked the validity of the data in the specific action function, 
+	// update the data
+	private function update() {
+		global $db;
+
+		$query = "UPDATE cbw_kegs SET status=" . $this->status . ", beer=" . $this->beer . ", location=" . $this->location . " WHERE id=" . $this->id . " AND size=" . $this->size;
+
+		if (!$db->query($query)) {
+			echo "<p>Error updating info for keg " . $this->id . "-" . $this->size . ": #" . $db->errno . ": " . $db->error . "</p>\r";
+			return FALSE;
+		} else {
+			return TRUE;
+		}
+	}
+
+	// someone used the keg washer
+	public function clean() {
+		// it's not at CBW
+		if ($this->location != 1) {
+			echo "Warning: keg was not marked as being at HQ\r";
+			$this->location = 1;
+		}
+		// it had beer in it
+		if ($this->beer != NULL) {
+			echo "Warning: keg was not marked as empty\r";
+			$this->beer = NULL;
+		}
+		// it's not dirty
+		if ($this->status != 1) {
+			echo "Warning: keg was not marked as clean\r";
+		}
+
+		$this->status = 2;
+		$this->update();
+	}
+
+	// embeer!
+	public function fill($beer) {
+	}
+
+	// send to a bar, or our fridge
+	public function deliver($location) {
+	}
+
+	// it's been used up
+	public function return() {
+	}
+
+
 }
 
 function new_keg($id, $status = 1, $beer = NULL, $location = 1, $size = 1) {
