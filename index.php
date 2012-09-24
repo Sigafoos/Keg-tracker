@@ -1,12 +1,7 @@
-<!DOCTYPE html>
-<head>
-<title>Kegs!</title>
-</head>
-<body>
+<?php require('header.inc.php'); ?>
 <h1>Keg statuses</h1>
 
 <?php 
-require('functions.php');
 if ($_GET['action'] == "clean") {
 	echo "to do";
 } else if ($_GET['action'] == "fill") {
@@ -47,7 +42,5 @@ if ($_GET['action'] == "clean") {
 	</ul>
 <?php
 }
+require('footer.inc.php');
 ?>
-
-</body>
-</html>
