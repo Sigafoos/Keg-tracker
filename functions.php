@@ -48,59 +48,54 @@ class keg {
 	}
 
 	// UNTESTED
-	public function getintstatus() {
-		return $this->status;
+	public function getstatus($text = 0) {
+		if (!$text) {
+			return $this->status;
+		} else {
+			global $db;
+			$query = "SELECT status FROM cbw_keg_statuses WHERE id=" . $this->status;
+			$result = $db->query($query);
+			$row = $result->fetch_assoc();
+			return $row['status'];
+		}
 	}
 
 	// UNTESTED
-	public function getstatus() {
-		global $db;
-		$query = "SELECT status FROM cbw_keg_statuses WHERE id=" . $this->status;
-		$result = $db->query($query);
-		$row = $result->fetch_assoc();
-		return $row['status'];
+	public function getbeer($text = 0) {
+		if ($this->beer == NULL || !$text) {
+			return $this->beer;
+		} else {
+			global $db;
+			$query = "SELECT beer FROM cbw_beers WHERE id=" . $this->beer;
+			$result = $db->query($query);
+			$row = $result->fetch_assoc();
+			return $row['beer'];
+		}
 	}
 
 	// UNTESTED
-	public function getintbeer() {
-		return $this->beer;
+	public function getlocation($text = 0) {
+		if (!$text) {
+			return $this->location;
+		} else {
+			global $db;
+			$query = "SELECT location FROM cbw_locations WHERE id=" . $this->location;
+			$result = $db->query($query);
+			$row = $result->fetch_assoc();
+			return $row['location'];
+		}
 	}
 
-	// UNTESTED
-	public function getbeer() {
-		if ($this->beer == NULL) return NULL;
-
-		global $db;
-		$query = "SELECT beer FROM cbw_beers WHERE id=" . $this->beer;
-		$result = $db->query($query);
-		$row = $result->fetch_assoc();
-		return $row['beer'];
-	}
-
-	//UNTESTED
-	public function getintlocation() {
-		return $this->location;
-	}
-
-	// UNTESTED
-	public function getlocation() {
-		global $db;
-		$query = "SELECT location FROM cbw_locations WHERE id=" . $this->location;
-		$result = $db->query($query);
-		$row = $result->fetch_assoc();
-		return $row['location'];
-	}
-
-	public function getintsize() {
-		return $this->size;
-	}
-
-	public function getsize() {
-		global $db;
-		$query = "SELECT size FROM cbw_keg_sizes WHERE id=" . $this->size;
-		$result = $db->query($query);
-		$row = $result->fetch_assoc();
-		return $row['size'];
+	public function getsize($text = 0) {
+		if (!$text) {
+			return $this->size;
+		} else {
+			global $db;
+			$query = "SELECT size FROM cbw_keg_sizes WHERE id=" . $this->size;
+			$result = $db->query($query);
+			$row = $result->fetch_assoc();
+			return $row['size'];
+		}
 	}
 
 	// UPDATING FUNCTIONS
