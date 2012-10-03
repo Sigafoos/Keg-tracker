@@ -241,4 +241,33 @@ function delete_keg($id,$size) {
 		return TRUE;
 	}
 }
+
+// pass the status, get the kegs
+function select_kegs($status) {
+	global $db;
+
+	$query = "SELECT id, size FROM cbw_kegs WHERE status=" . $status . " ORDER BY size, id";
+	if (!($result = $db->query($query))) echo "<p>Something's gone wrong: #" . $db->errno . ": " . $db->error . "</p>";
+	while ($row = $result->fetch_assoc()) $kegs[] = new keg($row);
+?>
+	<form method="post">
+	<ul class="rounded">
+	<?php
+	$query = "SELECT id, size FROM cbw_keg_sizes";
+	if (!($result = $db->query($query))) echo "<p>Something's gone wrong: #" . $db->errno . ": " . $db->error . "</p>";
+	while ($row = $result->fetch_assoc()) $sizes[$row['id']] = $row['size'];
+
+	foreach ($kegs as $keg) {
+		$id = $keg->getid();
+		$intsize = $keg->getsize();
+		$size = $sizes[$intsize];
+		//echo "<input type=\"radio\" id=\"" . $id . "_
+		echo "<li><span class=\"toggle\"><input type=\"checkbox\" /></span>" . $size . "  keg #" . $id . "</li>\r";
+	}
+		?>
+			</ul>
+			<a id="submit" class="whiteButton submit" href="#">Submit</a>
+			</form>
+			<?php
+}
 ?>
