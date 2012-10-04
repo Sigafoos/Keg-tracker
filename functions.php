@@ -249,7 +249,6 @@ function select_beer($section) {
 
 	echo "<ul class=\"rounded\">\r\n";
 	$query = "SELECT id, beer FROM cbw_beers WHERE active=1 ORDER BY id";
-	$result = $db->query($query);
 	if (!($result = $db->query($query))) echo "<p>Something's gone wrong: #" . $db->errno . ": " . $db->error . "</p>";
 	while ($row = $result->fetch_assoc()) echo "<li><a href=\"?beer=" . $row['id'] . "#" . $section . "\">" . $row['beer'] . "</a></li>\r\n";
 }
@@ -258,22 +257,31 @@ function select_beer($section) {
 function select_kegs($status) {
 	global $db;
 
-	$query = "SELECT id, size FROM cbw_kegs WHERE status=" . $status . " ORDER BY size, id";
+	// get the beers to look up
+	$query = "SELECT id, beer FROM cbw_beers WHERE active=1";
 	if (!($result = $db->query($query))) echo "<p>Something's gone wrong: #" . $db->errno . ": " . $db->error . "</p>";
-	while ($row = $result->fetch_assoc()) $kegs[] = new keg($row);
-?>
-	<form method="post" action="update.php?status=<?php echo $status; ?>">
-	<ul class="rounded">
-	<?php
+	while ($row = $result->fetch_assoc()) $beer[$row['id']] = $row['beer'];
+
+	// get the keg sizes to look up
 	$query = "SELECT id, size FROM cbw_keg_sizes";
 	if (!($result = $db->query($query))) echo "<p>Something's gone wrong: #" . $db->errno . ": " . $db->error . "</p>";
 	while ($row = $result->fetch_assoc()) $sizes[$row['id']] = $row['size'];
+
+	// get the kegs themselves
+	$query = "SELECT id, size, beer FROM cbw_kegs WHERE status=" . $status . " ORDER BY size, id";
+	if (!($result = $db->query($query))) echo "<p>Something's gone wrong: #" . $db->errno . ": " . $db->error . "</p>";
+	while ($row = $result->fetch_assoc()) $kegs[] = new keg($row);
+?>
+	<form method="post" action="update.php?status=<?php echo $status; if ($_GET['beer']) echo "&amp;beer=" . $_GET['beer']; ?>">
+	<ul class="rounded">
+	<?php
 	foreach ($kegs as $keg) {
 		$id = $keg->getid();
 		$intsize = $keg->getsize();
 		$size = $sizes[$intsize];
-		//echo "<input type=\"radio\" id=\"" . $id . "_
-		echo "<li><span class=\"toggle\"><input type=\"checkbox\" id=\"keg" . $id . "_" . $intsize . "\" name=\"kegs[" . $id . "_" . $intsize . "]\" /></span>" . $size . "  keg #" . $id . "</li>\r\n";
+		echo "<li><span class=\"toggle\"><input type=\"checkbox\" id=\"keg" . $id . "_" . $intsize . "\" name=\"kegs[" . $id . "_" . $intsize . "]\" /></span>" . $size . "  keg #" . $id;
+		if ($keg->getbeer()) echo " (" . $beer[$keg->getbeer()] . ")";
+		echo "</li>\r\n";
 	}
 		?>
 			<li><input type="submit" class="submit" name="action" id="submit" value="Save Entry" /></li>
