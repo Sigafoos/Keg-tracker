@@ -130,7 +130,7 @@ class keg {
 		}
 		// it's not dirty
 		if ($this->status != 1) {
-			echo "Warning: keg was not marked as clean\r";
+			echo "Warning: keg was not marked as dirty\r";
 		}
 
 		$this->status = 2;
@@ -261,19 +261,18 @@ function select_kegs($status) {
 	if (!($result = $db->query($query))) echo "<p>Something's gone wrong: #" . $db->errno . ": " . $db->error . "</p>";
 	while ($row = $result->fetch_assoc()) $kegs[] = new keg($row);
 ?>
-	<form method="post" action="update.php">
+	<form method="post" action="update.php?status=<?php echo $status; ?>">
 	<ul class="rounded">
 	<?php
 	$query = "SELECT id, size FROM cbw_keg_sizes";
 	if (!($result = $db->query($query))) echo "<p>Something's gone wrong: #" . $db->errno . ": " . $db->error . "</p>";
 	while ($row = $result->fetch_assoc()) $sizes[$row['id']] = $row['size'];
 	foreach ($kegs as $keg) {
-break; // tmp man
 		$id = $keg->getid();
 		$intsize = $keg->getsize();
 		$size = $sizes[$intsize];
 		//echo "<input type=\"radio\" id=\"" . $id . "_
-		echo "<li><span class=\"toggle\"><input type=\"checkbox\" id=\"keg" . $id . "_" . $intsize . "\" name=\"keg" . $id . "_" . $intsize . "\" /></span>" . $size . "  keg #" . $id . "</li>\r\n";
+		echo "<li><span class=\"toggle\"><input type=\"checkbox\" id=\"keg" . $id . "_" . $intsize . "\" name=\"kegs[" . $id . "_" . $intsize . "]\" /></span>" . $size . "  keg #" . $id . "</li>\r\n";
 	}
 		?>
 			<li><input type="submit" class="submit" name="action" id="submit" value="Save Entry" /></li>
