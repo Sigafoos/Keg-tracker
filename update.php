@@ -7,34 +7,35 @@ require('functions.php');
 <h1>Update</h1>
 <a href="#home" class="button">Home</a>
 </div>
-<div class="info">
 <?php
-switch($_GET['status']) {
-	// cleaning dirty kegs
-	case 1:
-		$i = 0;
-		foreach ($_POST['kegs'] as $info=>$whatever) {
-			// [0] = id; [1] = size
-			$info = explode("_",$info);
+$i = 0;
+foreach ($_POST['kegs'] as $info=>$whatever) {
+	// [0] = id; [1] = size
+	$info = explode("_",$info);
+	switch($_GET['status']) {
+		case 1: // cleaning dirty kegs
 			$query = "SELECT id, location, status, size, beer FROM cbw_kegs WHERE id=" . $info[0] . " AND size=" . $info[1];
 			$result = $db->query($query);
 			$keg = new Keg($result->fetch_assoc());
 
 			$keg->clean();
-			$i++;
-		}
-
-		echo "<div class=\"info\">" . $i . " kegs processed.</div>\r\n";
-
-		break;
-	default:
-		?>
-			<pre>
-			<?php print_r($_POST); ?>
-			</pre>
-			<?php
 			break;
+
+		case 2: // fill clean kegs
+			print_r($_GET);
+			break;
+
+		default:
+			echo "I'm not sure what to do with status " . $_GET['status'];
+			break;
+	}
+
+	$i++;
 }
+
+echo "<div class=\"info\">" . $i . " keg";
+if ($i > 1) echo "s";
+echo " processed.</div>\r\n";
+
 ?>
-</div>
 </div>
