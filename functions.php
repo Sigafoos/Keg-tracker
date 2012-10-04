@@ -104,7 +104,9 @@ class keg {
 	private function update() {
 		global $db;
 
-		$query = "UPDATE cbw_kegs SET status=" . $this->status . ", beer=" . $this->beer . ", location=" . $this->location . " WHERE id=" . $this->id . " AND size=" . $this->size;
+		$query = "UPDATE cbw_kegs SET status=" . $this->status . ", beer=";
+		$query .= ($this->beer) ? $this->beer : "NULL";
+		$query .= ", location=" . $this->location . " WHERE id=" . $this->id . " AND size=" . $this->size;
 		echo "<p>" . $query . "</p>";
 
 		if (!$db->query($query)) {
