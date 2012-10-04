@@ -12,17 +12,17 @@ $i = 0;
 foreach ($_POST['kegs'] as $info=>$whatever) {
 	// [0] = id; [1] = size
 	$info = explode("_",$info);
+	$query = "SELECT id, location, status, size, beer FROM cbw_kegs WHERE id=" . $info[0] . " AND size=" . $info[1];
+	$result = $db->query($query);
+	$keg = new Keg($result->fetch_assoc());
+
 	switch($_GET['status']) {
 		case 1: // cleaning dirty kegs
-			$query = "SELECT id, location, status, size, beer FROM cbw_kegs WHERE id=" . $info[0] . " AND size=" . $info[1];
-			$result = $db->query($query);
-			$keg = new Keg($result->fetch_assoc());
-
 			$keg->clean();
 			break;
 
 		case 2: // fill clean kegs
-			print_r($_GET);
+			$keg->fill($_GET['beer']);
 			break;
 
 		default:
