@@ -107,7 +107,6 @@ class keg {
 		$query = "UPDATE cbw_kegs SET status=" . $this->status . ", beer=";
 		$query .= ($this->beer) ? $this->beer : "NULL";
 		$query .= ", location=" . $this->location . " WHERE id=" . $this->id . " AND size=" . $this->size;
-		echo "<p>" . $query . "</p>";
 
 		if (!$db->query($query)) {
 			echo "<p>Error updating info for keg " . $this->id . "-" . $this->size . ": #" . $db->errno . ": " . $db->error . "</p>\r";
