@@ -243,14 +243,14 @@ function delete_keg($id,$size) {
 }
 
 // choose your own beer adventure
-function select_beer() {
+function select_beer($section) {
 	global $db;
 
 	echo "<ul class=\"rounded\">\r\n";
 	$query = "SELECT id, beer FROM cbw_beers WHERE active=1 ORDER BY id";
 	$result = $db->query($query);
 	if (!($result = $db->query($query))) echo "<p>Something's gone wrong: #" . $db->errno . ": " . $db->error . "</p>";
-	while ($row = $result->fetch_assoc()) echo "<li><a href=\"?beer=" . $row['id'] . "#clean\">" . $row['beer'] . "</a></li>\r\n";
+	while ($row = $result->fetch_assoc()) echo "<li><a href=\"?beer=" . $row['id'] . "#" . $section . "\">" . $row['beer'] . "</a></li>\r\n";
 }
 
 // pass the status, get the kegs
@@ -261,7 +261,7 @@ function select_kegs($status) {
 	if (!($result = $db->query($query))) echo "<p>Something's gone wrong: #" . $db->errno . ": " . $db->error . "</p>";
 	while ($row = $result->fetch_assoc()) $kegs[] = new keg($row);
 ?>
-	<form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
+	<form method="post" action="update.php">
 	<ul class="rounded">
 	<?php
 	$query = "SELECT id, size FROM cbw_keg_sizes";
