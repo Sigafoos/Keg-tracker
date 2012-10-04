@@ -242,6 +242,17 @@ function delete_keg($id,$size) {
 	}
 }
 
+// choose your own beer adventure
+function select_beer() {
+	global $db;
+
+	echo "<ul class=\"rounded\">\r\n";
+	$query = "SELECT id, beer FROM cbw_beers WHERE active=1 ORDER BY id";
+	$result = $db->query($query);
+	if (!($result = $db->query($query))) echo "<p>Something's gone wrong: #" . $db->errno . ": " . $db->error . "</p>";
+	while ($row = $result->fetch_assoc()) echo "<li><a href=\"?beer=" . $row['id'] . "#clean\">" . $row['beer'] . "</a></li>\r\n";
+}
+
 // pass the status, get the kegs
 function select_kegs($status) {
 	global $db;
@@ -250,23 +261,24 @@ function select_kegs($status) {
 	if (!($result = $db->query($query))) echo "<p>Something's gone wrong: #" . $db->errno . ": " . $db->error . "</p>";
 	while ($row = $result->fetch_assoc()) $kegs[] = new keg($row);
 ?>
-	<form method="post">
+	<form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
 	<ul class="rounded">
 	<?php
 	$query = "SELECT id, size FROM cbw_keg_sizes";
 	if (!($result = $db->query($query))) echo "<p>Something's gone wrong: #" . $db->errno . ": " . $db->error . "</p>";
 	while ($row = $result->fetch_assoc()) $sizes[$row['id']] = $row['size'];
-
 	foreach ($kegs as $keg) {
+break; // tmp man
 		$id = $keg->getid();
 		$intsize = $keg->getsize();
 		$size = $sizes[$intsize];
 		//echo "<input type=\"radio\" id=\"" . $id . "_
-		echo "<li><span class=\"toggle\"><input type=\"checkbox\" /></span>" . $size . "  keg #" . $id . "</li>\r";
+		echo "<li><span class=\"toggle\"><input type=\"checkbox\" id=\"keg" . $id . "_" . $intsize . "\" name=\"keg" . $id . "_" . $intsize . "\" /></span>" . $size . "  keg #" . $id . "</li>\r\n";
 	}
 		?>
+			<li><input type="submit" class="submit" name="action" id="submit" value="Save Entry" /></li>
 			</ul>
-			<a id="submit" class="whiteButton submit" href="#">Submit</a>
+			<!--<a id="submit" class="whiteButton submit" href="#">Submit</a>-->
 			</form>
 			<?php
 }
