@@ -253,6 +253,15 @@ function select_beer($section) {
 	while ($row = $result->fetch_assoc()) echo "<li><a href=\"?beer=" . $row['id'] . "#" . $section . "\">" . $row['beer'] . "</a></li>\r\n";
 }
 
+function select_location($section) {
+	global $db;
+
+	echo "<ul class=\"rounded\">\r\n";
+	$query = "SELECT id, location FROM cbw_locations WHERE active=1 ORDER BY id";
+	if (!($result = $db->query($query))) echo "<p>Something's gone wrong: #" . $db->errno . ": " . $db->error . "</p>";
+	while ($row = $result->fetch_assoc()) echo "<li><a href=\"?location=" . $row['id'] . "#" . $section . "\">" . $row['location'] . "</a></li>\r\n";
+}
+
 // pass the status, get the kegs
 function select_kegs($status) {
 	global $db;
@@ -272,7 +281,7 @@ function select_kegs($status) {
 	if (!($result = $db->query($query))) echo "<p>Something's gone wrong: #" . $db->errno . ": " . $db->error . "</p>";
 	while ($row = $result->fetch_assoc()) $kegs[] = new keg($row);
 ?>
-	<form method="post" action="update.php?status=<?php echo $status; if ($_GET['beer']) echo "&amp;beer=" . $_GET['beer']; ?>">
+	<form method="post" action="update.php?status=<?php echo $status . "&" . $_SERVER['QUERY_STRING']; ?>">
 	<ul class="rounded">
 	<?php
 	foreach ($kegs as $keg) {
