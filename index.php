@@ -11,6 +11,7 @@
 <li><a href="?section=fill#beer">Fill</a></li>
 <li><a href="?section=fill#carbonate">Carbonate</a></li>
 <li><a href="?section=deliver#location">Deliver</a></li>
+<li><a href="#return">Return</a></li>
 </ul>
 
 <h2>Reports</h2>

@@ -266,10 +266,21 @@ function select_location($section) {
 function select_kegs($status) {
 	global $db;
 
-	// get the beers to look up
-	$query = "SELECT id, beer FROM cbw_beers WHERE active=1";
-	if (!($result = $db->query($query))) echo "<p>Something's gone wrong: #" . $db->errno . ": " . $db->error . "</p>";
-	while ($row = $result->fetch_assoc()) $beer[$row['id']] = $row['beer'];
+	// get the beers to look up 
+	// but don't bother if it's anachronistic
+	if ($status > 2) {
+		$query = "SELECT id, beer FROM cbw_beers WHERE active=1";
+		if (!($result = $db->query($query))) echo "<p>Something's gone wrong: #" . $db->errno . ": " . $db->error . "</p>";
+		while ($row = $result->fetch_assoc()) $beers[$row['id']] = $row['beer'];
+	}
+
+	// get the locations to look up
+	// but don't bother if it's anachronistic
+	if ($status == 5) {
+		$query = "SELECT id, location FROM cbw_locations WHERE active=1";
+		if (!($result = $db->query($query))) echo "<p>Something's gone wrong: #" . $db->errno . ": " . $db->error . "</p>";
+		while ($row = $result->fetch_assoc()) $locations[$row['id']] = $row['location'];
+	}
 
 	// get the keg sizes to look up
 	$query = "SELECT id, size FROM cbw_keg_sizes";
@@ -288,8 +299,17 @@ function select_kegs($status) {
 		$id = $keg->getid();
 		$intsize = $keg->getsize();
 		$size = $sizes[$intsize];
+		$beer = $keg->getbeer();
+		$location = $keg->getlocation();
+
+		// if we're returning kegs, separate by location
+		if ($status == 5 && $currlocation != $location) {
+			echo "<h2>" . $locations[$location] . "</h2>";
+			$currlocation = $location;
+		}
+
 		echo "<li><span class=\"toggle\"><input type=\"checkbox\" id=\"keg" . $id . "_" . $intsize . "\" name=\"kegs[" . $id . "_" . $intsize . "]\" /></span>" . $size . "  keg #" . $id;
-		if ($keg->getbeer()) echo " (" . $beer[$keg->getbeer()] . ")";
+		if ($beer) echo " (" . $beers[$beer] . ")";
 		echo "</li>\r\n";
 	}
 		?>

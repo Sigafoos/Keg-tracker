@@ -33,6 +33,10 @@ foreach ($_POST['kegs'] as $info=>$whatever) {
 			$keg->deliver($_GET['location']);
 			break;
 
+		case 5:
+			$keg->pickup();
+			break;
+
 		default:
 			echo "I'm not sure what to do with status " . $_GET['status'];
 			break;
