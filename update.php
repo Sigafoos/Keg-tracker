@@ -17,16 +17,20 @@ foreach ($_POST['kegs'] as $info=>$whatever) {
 	$keg = new Keg($result->fetch_assoc());
 
 	switch($_GET['status']) {
-		case 1: // cleaning dirty kegs
+		case 1:
 			$keg->clean();
 			break;
 
-		case 2: // fill clean kegs
+		case 2:
 			$keg->fill($_GET['beer']);
 			break;
 
-		case 3:
+		case 3: 
 			$keg->carbonate();
+			break;
+
+		case 4:
+			$keg->deliver($_GET['location']);
 			break;
 
 		default:
