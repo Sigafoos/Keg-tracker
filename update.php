@@ -25,6 +25,10 @@ foreach ($_POST['kegs'] as $info=>$whatever) {
 			$keg->fill($_GET['beer']);
 			break;
 
+		case 3:
+			$keg->carbonate();
+			break;
+
 		default:
 			echo "I'm not sure what to do with status " . $_GET['status'];
 			break;
