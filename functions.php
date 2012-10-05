@@ -319,4 +319,25 @@ function select_kegs($status) {
 			</form>
 			<?php
 }
+
+// send a Pushover alert if something important happened.
+// eventually I'll let you send this to people who aren't me
+// and probably support email, etc
+function send_alert($message, $priority = 0) {
+	require('pushover.inc.php'); // my user key
+
+	$alert['token'] = "5DmKP2l58HoqvFGda4zWcnBmLYm3MX";
+	$alert['user'] = $user; // CHANGE THIS: just sends to Dan
+	$alert['title'] = "Keg tracker alert";
+	$request = "token=" . $alert['token'] . "&user=" . $alert['user'] . "&title=" . $alert['title'] . "&message=" . $message;
+	if ($priority == 1) $request .= "&priority=1";
+	$result = urlencode($request);
+
+	$ch = curl_init("https://api.pushover.net/1/messages.json");
+	curl_setopt($ch, CURLOPT_POST, 1);
+	curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); // don't echo the status response, man
+	curl_setopt($ch, CURLOPT_POSTFIELDS, $request);
+
+	return curl_exec($ch);
+}
 ?>
