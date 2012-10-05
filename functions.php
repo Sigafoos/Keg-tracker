@@ -323,13 +323,12 @@ function select_kegs($status) {
 // send a Pushover alert if something important happened.
 // eventually I'll let you send this to people who aren't me
 // and probably support email, etc
-function send_alert($message, $priority = 0) {
+function send_alert($title = "Keg tracker alert", $message, $priority = 0) {
 	require('pushover.inc.php'); // my user key
 
 	$alert['token'] = "5DmKP2l58HoqvFGda4zWcnBmLYm3MX";
 	$alert['user'] = $user; // CHANGE THIS: just sends to Dan
-	$alert['title'] = "Keg tracker alert";
-	$request = "token=" . $alert['token'] . "&user=" . $alert['user'] . "&title=" . $alert['title'] . "&message=" . $message;
+	$request = "token=" . $alert['token'] . "&user=" . $alert['user'] . "&title=" . $title . "&message=" . $message;
 	if ($priority == 1) $request .= "&priority=1";
 	$result = urlencode($request);
 
