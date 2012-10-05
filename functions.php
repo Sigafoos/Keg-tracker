@@ -298,6 +298,7 @@ function select_kegs($status) {
 	foreach ($kegs as $keg) {
 		$id = $keg->getid();
 		$intsize = $keg->getsize();
+		$formid = $id . "_" . $intsize;
 		$size = $sizes[$intsize];
 		$beer = $keg->getbeer();
 		$location = $keg->getlocation();
@@ -308,9 +309,9 @@ function select_kegs($status) {
 			$currlocation = $location;
 		}
 
-		echo "<li><span class=\"toggle\"><input type=\"checkbox\" id=\"keg" . $id . "_" . $intsize . "\" name=\"kegs[" . $id . "_" . $intsize . "]\" /></span>" . $size . "  keg #" . $id;
+		echo "<li><span class=\"toggle\"><input type=\"checkbox\" id=\"keg" . $formid . "\" name=\"kegs[" . $formid . "]\" /></span><label for=\"keg" . $formid . "\">" . $size . "  keg #" . $id;
 		if ($beer) echo " (" . $beers[$beer] . ")";
-		echo "</li>\r\n";
+		echo "</label></li>\r\n";
 	}
 		?>
 			<li><input type="submit" class="submit" name="action" id="submit" value="Save Entry" /></li>
