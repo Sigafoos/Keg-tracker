@@ -26,7 +26,6 @@ class keg {
 	public function info() {
 		global $db;
 		$query = "SELECT cbw_keg_statuses.status, cbw_locations.location, cbw_keg_sizes.size, cbw_beers.beer FROM cbw_kegs INNER JOIN cbw_keg_statuses ON cbw_kegs.status=cbw_keg_statuses.id INNER JOIN cbw_locations ON cbw_kegs.location=cbw_locations.id INNER JOIN cbw_keg_sizes ON cbw_kegs.size=cbw_keg_sizes.id LEFT OUTER JOIN cbw_beers ON cbw_kegs.beer=cbw_beers.id WHERE cbw_kegs.id=" . $this->id . " AND cbw_kegs.size=" . $this->size;
-		$result = $db->query($query);
 		if (!($result = $db->query($query))) {
 			echo "<p>Error getting info for keg " . $this->id . ": #" . $db->errno . ": " . $db->error . "</p>\r";
 			return FALSE;
@@ -113,9 +112,24 @@ class keg {
 			echo "<p>" . $query . "</p>\r";
 			return FALSE;
 		} else {
+			return $this->log();
+		}
+	}
+
+	private function log($status, $timestamp = NULL) {
+		global $db;
+		if (!$timestamp) $timestamp = date("Y-m-d G:i:s");
+
+		$query = "INSERT INTO cbw_keg_log(keg_id, size, status, date) VALUES(" . $this->id . "," . $this->size . ", " . $this->status . ", '" . $timestamp . "')";
+		if (!$db->query($query)) {
+			echo "<p>Error logging update for keg " . $this->id . "-" . $this->size . ": #" . $db->errno . ": " . $db->error . "</p>\r";
+			echo "<p>" . $query . "</p>\r";
+			return FALSE;
+		} else {
 			return TRUE;
 		}
 	}
+
 
 	// someone used the keg washer
 	public function clean() {
@@ -220,7 +234,7 @@ class keg {
 
 }
 
-function new_keg($id, $status = 1, $beer = NULL, $location = 1, $size = 1) {
+function new_keg($id, $status = 1, $beer = "NULL", $location = 1, $size = 1) {
 	global $db;
 	$query = "INSERT INTO cbw_kegs(id, status, beer, location, size) VALUES(" . $id . "," . $status . "," . $beer . "," . $location . "," . $size . ")";
 	if (!$db->query($query)) {
