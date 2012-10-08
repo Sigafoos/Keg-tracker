@@ -1,8 +1,22 @@
-<?php require('header.inc.php'); ?>
+<?php 
+require('header.inc.php'); 
+require('functions.php');
+?>
 
 <div id="home">
 <div class="toolbar">
 <h1>Kegs!</h1>
+</div>
+
+<div class="info">
+<?php
+// number of clean kegs
+$query = "SELECT count(cbw_kegs.id) AS number, cbw_keg_statuses.status FROM cbw_kegs INNER JOIN cbw_keg_statuses ON cbw_kegs.status=cbw_keg_statuses.id WHERE cbw_kegs.status IN (1, 2) GROUP BY cbw_kegs.status ORDER BY cbw_kegs.status";
+if (!($result = $db->query($query))) echo "<p>Oh my: #" . $db->errno . ": " . $db->error . "</p>\r";
+while ($row = $result->fetch_assoc()) $stats[] = $row['status'] . ": " . $row['number'];
+
+echo implode(" | ",$stats);
+?>
 </div>
 
 <h2>Actions</h2>
