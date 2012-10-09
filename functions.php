@@ -176,7 +176,7 @@ class keg {
 	// hook up to Cookiepuss
 	function carbonate() {
 		if ($this->beer == NULL) {
-			echo "Warning: keg full of unknown beer\r");
+			echo "Warning: keg full of unknown beer\r";
 			$this->beer = -1;
 		}
 		// it's not at CBW
