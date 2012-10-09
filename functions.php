@@ -234,7 +234,7 @@ class keg {
 
 }
 
-function new_keg($id, $status = 1, $beer = "NULL", $location = 1, $size = 1) {
+function new_keg($id, $size = 1, $status = 1, $beer = "NULL", $location = 1) {
 	global $db;
 	$query = "INSERT INTO cbw_kegs(id, status, beer, location, size) VALUES(" . $id . "," . $status . "," . $beer . "," . $location . "," . $size . ")";
 	if (!$db->query($query)) {
