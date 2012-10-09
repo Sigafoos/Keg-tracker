@@ -175,10 +175,9 @@ class keg {
 
 	// hook up to Cookiepuss
 	function carbonate() {
-		// usually I try to help out, but I need to know the beer
 		if ($this->beer == NULL) {
-			throw new Exception("Error: keg does not contain beer");
-			return FALSE;
+			echo "Warning: keg full of unknown beer\r");
+			$this->beer = -1;
 		}
 		// it's not at CBW
 		if ($this->location != 1) {
@@ -198,12 +197,8 @@ class keg {
 	public function deliver($location) {
 		// usually I try to help out, but I need to know the beer
 		if ($this->beer == NULL) {
-			throw new Exception("Error: keg does not contain beer");
-			return FALSE;
-		}
-		// it's not at CBW
-		if ($this->location != 1) {
-			echo "Warning: keg was not marked as being at HQ\r";
+			echo "Warning: keg full of unknown beer\r";
+			$this->beer = -1;
 		}
 		// it wasn't full of carbed beer
 		if ($this->status != 4) {
@@ -302,7 +297,7 @@ function select_kegs($status) {
 	while ($row = $result->fetch_assoc()) $sizes[$row['id']] = $row['size'];
 
 	// get the kegs themselves
-	$query = "SELECT id, size, beer, location FROM cbw_kegs WHERE status=" . $status . " ORDER BY location, beer, size, id";
+	$query = "SELECT id, size, beer, location FROM cbw_kegs WHERE status=" . $status . " OR status=-1 ORDER BY location, beer, size, id";
 	if (!($result = $db->query($query))) echo "<p>Something's gone wrong: #" . $db->errno . ": " . $db->error . "</p>";
 	while ($row = $result->fetch_assoc()) $kegs[] = new keg($row);
 ?>
