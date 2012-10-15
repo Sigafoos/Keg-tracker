@@ -1,5 +1,6 @@
 <?php
 require('functions.php');
+$warnings = array();
 // things will happen!
 ?>
 <div id="update">
@@ -45,7 +46,9 @@ foreach ($_POST['kegs'] as $info=>$whatever) {
 	$i++;
 }
 
-echo "<div class=\"info\">" . $i . " keg";
+echo "<div class=\"info\">";
+if (count($warnings)) echo implode("<br />\r",$warnings) . "<br />\r";
+echo $i . " keg";
 if ($i > 1) echo "s";
 echo " processed.</div>\r\n";
 

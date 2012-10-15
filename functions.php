@@ -133,19 +133,21 @@ class keg {
 
 	// someone used the keg washer
 	public function clean() {
+		global $warnings;
+
 		// it's not at CBW
 		if ($this->location != 1) {
-			echo "Warning: keg was not marked as being at HQ\r";
+			$warnings[] = "Warning: keg " . $this->id . "_" . $this->size . " was not marked as being at HQ";
 			$this->location = 1;
 		}
 		// it had beer in it
 		if ($this->beer != NULL) {
-			echo "Warning: keg was not marked as empty\r";
+			$warnings[] = "Warning: keg " . $this->id . "_" . $this->size . " was not marked as empty";
 			$this->beer = "NULL";
 		}
 		// it's not dirty
 		if ($this->status != 1) {
-			echo "Warning: keg was not marked as dirty\r";
+			$warnings[] = "Warning: keg " . $this->id . "_" . $this->size . " was not marked as dirty";
 		}
 
 		$this->status = 2;
@@ -154,18 +156,20 @@ class keg {
 
 	// embeer!
 	public function fill($beer) {
+		global $warnings;
+
 		// it's not at CBW
 		if ($this->location != 1) {
-			echo "Warning: keg was not marked as being at HQ\r";
+			$warnings[] = "Warning: keg " . $this->id . "_" . $this->size . "  was not marked as being at HQ\r";
 			$this->location = 1;
 		}
 		// it had beer in it
 		if ($this->beer != NULL) {
-			echo "Warning: keg was not marked as empty\r";
+			$warnings[] = "Warning: keg " . $this->id . "_" . $this->size . "  was not marked as empty\r";
 		}
 		// it wasn't clean
 		if ($this->status != 2) {
-			echo "Warning: keg was not marked as clean\r";
+			$warnings[] = "Warning: keg " . $this->id . "_" . $this->size . "  was not marked as clean\r";
 		}
 
 		$this->status = 3;
@@ -175,18 +179,20 @@ class keg {
 
 	// hook up to Cookiepuss
 	function carbonate() {
+		global $warnings;
+
 		if ($this->beer == NULL) {
-			echo "Warning: keg full of unknown beer\r";
+			$warnings[] = "Warning: keg " . $this->id . "_" . $this->size . "  full of unknown beer\r";
 			$this->beer = -1;
 		}
 		// it's not at CBW
 		if ($this->location != 1) {
-			echo "Warning: keg was not marked as being at HQ\r";
+			$warnings[] = "Warning: keg " . $this->id . "_" . $this->size . "  was not marked as being at HQ\r";
 			$this->location = 1;
 		}
 		// it wasn't full of uncarbed beer
 		if ($this->status != 3) {
-			echo "Warning: keg was not marked as uncarbonated\r";
+			$warnings[] = "Warning: keg " . $this->id . "_" . $this->size . "  was not marked as uncarbonated\r";
 		}
 
 		$this->status = 4;
@@ -195,14 +201,16 @@ class keg {
 
 	// send to a bar, or our fridge
 	public function deliver($location) {
+		global $warnings;
+
 		// usually I try to help out, but I need to know the beer
 		if ($this->beer == NULL) {
-			echo "Warning: keg full of unknown beer\r";
+			$warnings[] = "Warning: keg " . $this->id . "_" . $this->size . "  full of unknown beer\r";
 			$this->beer = -1;
 		}
 		// it wasn't full of carbed beer
 		if ($this->status != 4) {
-			echo "Warning: keg was not marked as uncarbonated\r";
+			$warnings[] = "Warning: keg " . $this->id . "_" . $this->size . "  was not marked as uncarbonated\r";
 		}
 
 		$this->status = 5;
@@ -212,13 +220,15 @@ class keg {
 
 	// it's been used up
 	public function pickup() {
+		global $warnings;
+
 		// it wasn't out somewhere
 		if ($this->status != 5) {
-			echo "Warning: keg was not marked as being in use\r";
+			$warnings[] = "Warning: keg " . $this->id . "_" . $this->size . "  was not marked as being in use\r";
 		}
 		// it didn't have beer in it
 		if ($this->beer == NULL) {
-			echo "Warning: keg was marked as empty\r";
+			$warnings[] = "Warning: keg " . $this->id . "_" . $this->size . "  was marked as empty\r";
 		}
 
 		$this->location = 1;
