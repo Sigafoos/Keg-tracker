@@ -137,17 +137,17 @@ class keg {
 
 		// it's not at CBW
 		if ($this->location != 1) {
-			$warnings[] = "Warning: keg " . $this->id . "_" . $this->size . " was not marked as being at HQ";
+			$warnings[] = "keg " . $this->id . "_" . $this->size . " was not marked as being at HQ";
 			$this->location = 1;
 		}
 		// it had beer in it
 		if ($this->beer != NULL) {
-			$warnings[] = "Warning: keg " . $this->id . "_" . $this->size . " was not marked as empty";
+			$warnings[] = "keg " . $this->id . "_" . $this->size . " was not marked as empty";
 			$this->beer = "NULL";
 		}
 		// it's not dirty
 		if ($this->status != 1) {
-			$warnings[] = "Warning: keg " . $this->id . "_" . $this->size . " was not marked as dirty";
+			$warnings[] = "keg " . $this->id . "_" . $this->size . " was not marked as dirty";
 		}
 
 		$this->status = 2;
@@ -160,16 +160,16 @@ class keg {
 
 		// it's not at CBW
 		if ($this->location != 1) {
-			$warnings[] = "Warning: keg " . $this->id . "_" . $this->size . "  was not marked as being at HQ\r";
+			$warnings[] = "keg " . $this->id . "_" . $this->size . "  was not marked as being at HQ\r";
 			$this->location = 1;
 		}
 		// it had beer in it
 		if ($this->beer != NULL) {
-			$warnings[] = "Warning: keg " . $this->id . "_" . $this->size . "  was not marked as empty\r";
+			$warnings[] = "keg " . $this->id . "_" . $this->size . "  was not marked as empty\r";
 		}
 		// it wasn't clean
 		if ($this->status != 2) {
-			$warnings[] = "Warning: keg " . $this->id . "_" . $this->size . "  was not marked as clean\r";
+			$warnings[] = "keg " . $this->id . "_" . $this->size . "  was not marked as clean\r";
 		}
 
 		$this->status = 3;
@@ -182,17 +182,17 @@ class keg {
 		global $warnings;
 
 		if ($this->beer == NULL) {
-			$warnings[] = "Warning: keg " . $this->id . "_" . $this->size . "  full of unknown beer\r";
+			$warnings[] = "keg " . $this->id . "_" . $this->size . "  full of unknown beer\r";
 			$this->beer = -1;
 		}
 		// it's not at CBW
 		if ($this->location != 1) {
-			$warnings[] = "Warning: keg " . $this->id . "_" . $this->size . "  was not marked as being at HQ\r";
+			$warnings[] = "keg " . $this->id . "_" . $this->size . "  was not marked as being at HQ\r";
 			$this->location = 1;
 		}
 		// it wasn't full of uncarbed beer
 		if ($this->status != 3) {
-			$warnings[] = "Warning: keg " . $this->id . "_" . $this->size . "  was not marked as uncarbonated\r";
+			$warnings[] = "keg " . $this->id . "_" . $this->size . "  was not marked as uncarbonated\r";
 		}
 
 		$this->status = 4;
@@ -205,12 +205,12 @@ class keg {
 
 		// usually I try to help out, but I need to know the beer
 		if ($this->beer == NULL) {
-			$warnings[] = "Warning: keg " . $this->id . "_" . $this->size . "  full of unknown beer\r";
+			$warnings[] = "keg " . $this->id . "_" . $this->size . "  full of unknown beer\r";
 			$this->beer = -1;
 		}
 		// it wasn't full of carbed beer
 		if ($this->status != 4) {
-			$warnings[] = "Warning: keg " . $this->id . "_" . $this->size . "  was not marked as uncarbonated\r";
+			$warnings[] = "keg " . $this->id . "_" . $this->size . "  was not marked as uncarbonated\r";
 		}
 
 		$this->status = 5;
@@ -224,11 +224,11 @@ class keg {
 
 		// it wasn't out somewhere
 		if ($this->status != 5) {
-			$warnings[] = "Warning: keg " . $this->id . "_" . $this->size . "  was not marked as being in use\r";
+			$warnings[] = "keg " . $this->id . "_" . $this->size . "  was not marked as being in use\r";
 		}
 		// it didn't have beer in it
 		if ($this->beer == NULL) {
-			$warnings[] = "Warning: keg " . $this->id . "_" . $this->size . "  was marked as empty\r";
+			$warnings[] = "keg " . $this->id . "_" . $this->size . "  was marked as empty\r";
 		}
 
 		$this->location = 1;
@@ -266,19 +266,19 @@ function delete_keg($id,$size) {
 function select_beer($section) {
 	global $db;
 
-	echo "<ul class=\"rounded\">\r\n";
+	echo "<ul data-role=\"listview\">\r\n";
 	$query = "SELECT id, beer FROM cbw_beers WHERE active=1 ORDER BY id";
 	if (!($result = $db->query($query))) echo "<p>Something's gone wrong: #" . $db->errno . ": " . $db->error . "</p>";
-	while ($row = $result->fetch_assoc()) echo "<li><a href=\"?beer=" . $row['id'] . "#" . $section . "\">" . $row['beer'] . "</a></li>\r\n";
+	while ($row = $result->fetch_assoc()) echo "<li><a href=\"" . $section . ".php?beer=" . $row['id'] . "\">" . $row['beer'] . "</a></li>\r\n";
 }
 
 function select_location($section) {
 	global $db;
 
-	echo "<ul class=\"rounded\">\r\n";
+	echo "<ul data-role=\"listview\">\r\n";
 	$query = "SELECT id, location FROM cbw_locations WHERE active=1 ORDER BY id";
 	if (!($result = $db->query($query))) echo "<p>Something's gone wrong: #" . $db->errno . ": " . $db->error . "</p>";
-	while ($row = $result->fetch_assoc()) echo "<li><a href=\"?location=" . $row['id'] . "#" . $section . "\">" . $row['location'] . "</a></li>\r\n";
+	while ($row = $result->fetch_assoc()) echo "<li><a href=\"" . $section . ".php?location=" . $row['id'] . "\">" . $row['location'] . "</a></li>\r\n";
 }
 
 // pass the status, get the kegs

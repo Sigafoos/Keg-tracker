@@ -12,9 +12,7 @@ require('functions.php');
 <li><a href="clean.php">Clean</a></li>
 <li><a href="beer.php?action=fill">Fill</a></li>
 <li><a href="carbonate.php">Carbonate</a></li>
-<!--
-<li><a href="?section=deliver#location">Deliver</a></li>
--->
+<li><a href="location.php?action=deliver">Deliver</a></li>
 <li><a href="return.php">Return</a></li>
 </ul>
 </div>

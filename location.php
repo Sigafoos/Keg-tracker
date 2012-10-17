@@ -1,11 +1,13 @@
 <?php 
+require('header.inc.php');
 require('functions.php');
 ?>
-<div id="location">
-<div class="toolbar">
-<a class="back" href="#home">Back</a>
-<a class="button slideup" href="#newlocation">+</a>
+<div data-role="header">
 <h1>Choose location</h1>
 </div>
-<?php select_location($_GET['section']); ?>
+
+<div data-role="content">
+<?php select_location($_GET['action']); ?>
 </div>
+
+<?php require('footer.inc.php'); ?>
