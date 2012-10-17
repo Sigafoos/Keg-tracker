@@ -51,6 +51,7 @@ if ($i > 1) echo "s";
 echo " processed.</p>\r\n";
 
 ?>
+<p><a href="/" data-role="button">Home</a></p>
 </div>
 
 <?php require('footer.inc.php'); ?>
