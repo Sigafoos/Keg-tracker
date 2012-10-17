@@ -7,6 +7,6 @@ require('functions.php');
 </div>
 
 <div data-role="content">
-<?php select_beer($_GET['section']); ?>
+<?php select_beer($_GET['action']); ?>
 </div>
 <?php require('footer.inc.php'); ?>
