@@ -1,10 +1,12 @@
 <?php 
+require('header.inc.php');
 require('functions.php');
 ?>
-<div id="return">
-<div class="toolbar">
-<a class="back" href="#home">Back</a>
+<div data-role="header">
 <h1>Choose kegs</h1>
 </div>
+<div data-role="content">
 <?php select_kegs(5); ?>
 </div>
+
+<?php require('footer.inc.php'); ?>

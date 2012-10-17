@@ -312,8 +312,16 @@ function select_kegs($status) {
 	while ($row = $result->fetch_assoc()) $kegs[] = new keg($row);
 ?>
 	<form method="post" action="update.php?status=<?php echo $status . "&" . $_SERVER['QUERY_STRING']; ?>">
-	<ul class="rounded">
+	<div data-role="fieldcontain">
+	<fieldset data-role="controlgroup">
 	<?php
+	if ($status == 5) {
+		$currlocation = $kegs[0]->getlocation();
+		echo "<legend>" . $locations[$currlocation] . "</legend>\r\n";
+	} else {
+		echo "<legend>Kegs to update</legend>\r\n";
+	}
+
 	foreach ($kegs as $keg) {
 		$id = $keg->getid();
 		$intsize = $keg->getsize();
@@ -324,18 +332,18 @@ function select_kegs($status) {
 
 		// if we're returning kegs, separate by location
 		if ($status == 5 && $currlocation != $location) {
-			echo "<h2>" . $locations[$location] . "</h2>";
+			echo "</fieldset>\r\n</div>\r\n<div data-role=\"fieldcontain\">\r\n<fieldset data-role=\"controlgroup\">\r\n<legend>" . $locations[$location] . "</legend>\r\n";
 			$currlocation = $location;
 		}
 
-		echo "<li><span class=\"toggle\"><input type=\"checkbox\" id=\"keg" . $formid . "\" name=\"kegs[" . $formid . "]\" /></span><label for=\"keg" . $formid . "\">" . $size . "  keg #" . $id;
+		echo "<input type=\"checkbox\" id=\"keg" . $formid . "\" name=\"kegs[" . $formid . "]\" /><label for=\"keg" . $formid . "\">" . $size . "  keg #" . $id;
 		if ($beer) echo " (" . $beers[$beer] . ")";
-		echo "</label></li>\r\n";
+		echo "</label>\r\n";
 	}
 		?>
-			<li><input type="submit" class="submit" name="action" id="submit" value="Save Entry" /></li>
-			</ul>
-			<!--<a id="submit" class="whiteButton submit" href="#">Submit</a>-->
+			</fieldset>
+			</div>
+			<button type="submit" data-rel="dialog">Submit</button>
 			</form>
 			<?php
 }

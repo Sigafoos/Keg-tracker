@@ -1,12 +1,11 @@
 <?php
+require('header.inc.php');
 require('functions.php');
 $warnings = array();
 // things will happen!
 ?>
-<div id="update">
-<div class="toolbar">
+<div data-role="header">
 <h1>Update</h1>
-<a href="#home" class="button">Home</a>
 </div>
 <?php
 $i = 0;
@@ -46,11 +45,12 @@ foreach ($_POST['kegs'] as $info=>$whatever) {
 	$i++;
 }
 
-echo "<div class=\"info\">";
-if (count($warnings)) echo implode("<br />\r",$warnings) . "<br />\r";
-echo $i . " keg";
+if (count($warnings)) echo "<h2>Warnings</h2>\r\n<ul>\r\n<li>" . implode("</li>\r\n<li>",$warnings) . "</ul>\r";
+echo "<p>" . $i . " keg";
 if ($i > 1) echo "s";
-echo " processed.</div>\r\n";
+echo " processed.</p>\r\n";
 
 ?>
 </div>
+
+<?php require('footer.inc.php'); ?>
