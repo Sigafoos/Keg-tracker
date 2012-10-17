@@ -343,7 +343,7 @@ function select_kegs($status) {
 		?>
 			</fieldset>
 			</div>
-			<button type="submit" data-rel="dialog">Submit</button>
+			<button type="submit">Submit</button>
 			</form>
 			<?php
 }
