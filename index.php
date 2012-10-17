@@ -10,9 +10,9 @@ require('functions.php');
 <h2>Actions</h2>
 <ul data-role="listview" data-inset="true">
 <li><a href="clean.php">Clean</a></li>
+<li><a href="beer.php?action=fill">Fill</a></li>
+<li><a href="carbonate.php">Carbonate</a></li>
 <!--
-<li><a href="?section=fill#beer">Fill</a></li>
-<li><a href="?section=fill#carbonate">Carbonate</a></li>
 <li><a href="?section=deliver#location">Deliver</a></li>
 -->
 <li><a href="return.php">Return</a></li>
