@@ -13,7 +13,6 @@ while ($row = $result->fetch_assoc()) $stats[$row['status']] = $row['number'];
 ?>
 
 <div data-role="content">
-<h2>Actions</h2>
 <ul data-role="listview" data-inset="true">
 <li><a href="clean.php">Clean</a> <span class="ui-li-count"><?php echo (int)$stats[1]; ?></span></li>
 <li><a href="beer.php?action=fill">Fill <span class="ui-li-count"><?php echo (int)$stats[2]; ?></span></a></li>
