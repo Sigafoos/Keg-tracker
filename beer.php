@@ -9,3 +9,4 @@ require('functions.php');
 </div>
 <?php select_beer($_GET['section']); ?>
 </div>
+<?php require('footer.inc.php'); ?>
