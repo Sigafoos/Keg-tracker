@@ -1,6 +1,11 @@
 <?php 
-require('header.inc.php');
 require('functions.php');
+
+if ($_POST['edit'] == "yes") {
+	//$keg = new Keg();
+	die(print_r($_POST));
+}
+require('header.inc.php');
 ?>
 <div data-role="header">
 <h1>Choose keg</h1>
@@ -40,6 +45,7 @@ if (!$_GET['id']) {
 	if (!($result = $db->query($query))) echo "<p>Oh my: #" . $db->errno . ": " . $db->error . "</p>\r";
 	$keg = new Keg($result->fetch_assoc());
 	?>
+		<div id="keginfo">
 		<h2>Keg <?php echo $keg->getid() . "_" . $keg->getsize(); ?></h2>
 		<form method="post" action="keg.php<?php echo "?id=" . $_GET['id'] . "&amp;size=" . $_GET['size']; ?>">
 		<label for="status">Status</label>
@@ -81,12 +87,13 @@ if (!$_GET['id']) {
 		?>
 			</select>
 
-			<button type="submit">Submit</button>
+			<!--<button type="submit">Submit</button>-->
 
 		</form>
+		</div>
 		<?php
 } else {
-	echo "stuff";
+	echo "<pre>";print_r($_POST);echo "</pre>";
 }
 
 require('footer.inc.php');
