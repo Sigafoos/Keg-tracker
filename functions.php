@@ -116,7 +116,7 @@ class keg {
 		}
 	}
 
-	private function log($status, $timestamp = NULL) {
+	private function log($timestamp = NULL) {
 		global $db;
 		if (!$timestamp) $timestamp = date("Y-m-d G:i:s");
 
