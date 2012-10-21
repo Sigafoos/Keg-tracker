@@ -1,9 +1,4 @@
 <?php 
-if (isset($_GET['digit1'])) {
-	$id = $_GET['digit1'] . $_GET['digit2'] . $_GET['digit3'];
-	header("Location:keg.php?id=" . (int)$id . "&size=" . $_GET['size']);
-
-}
 require('header.inc.php');
 require('functions.php');
 ?>
@@ -24,21 +19,14 @@ if (!$_GET['id']) {
 		<legend>Keg id</legend>
 		<label for="size" class="ui-hidden-accessible">Keg size</label>
 		<select name="size" id="size">
+		<option value="" selected="selected"></option>
 		<?php foreach ($sizes as $id=>$size) echo "<option value=\"" . $id . "\">" . $size . "</option>\r\n"; ?>
 		</select>
 
-		<label for="digit1" class="ui-hidden-accessible">First digit of keg</label>
-		<select name="digit1" id="digit1">
-		<?php for ($i = 0; $i < 10; $i++) echo "<option value=\"" . $i . "\">" . $i . "</option>\r\n"; ?>
+		<select name="id" id="id">
+		<option value=""></option>
 		</select>
-		<label for="digit2" class="ui-hidden-accessible">Second digit of keg</label>
-		<select name="digit2" id="digit2">
-		<?php for ($i = 0; $i < 10; $i++) echo "<option value=\"" . $i . "\">" . $i . "</option>\r\n"; ?>
-		</select>
-		<label for="digit3" class="ui-hidden-accessible">Third digit of keg</label>
-		<select name="digit3" id="digit3">
-		<?php for ($i = 0; $i < 10; $i++) echo "<option value=\"" . $i . "\">" . $i . "</option>\r\n"; ?>
-		</select>
+
 		</fieldset>
 		</div>
 
