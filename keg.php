@@ -2,8 +2,9 @@
 require('functions.php');
 
 if ($_POST['edit'] == "yes") {
-	//$keg = new Keg();
-	die(print_r($_POST));
+	$keg = new Keg($_POST);
+	//$keg->update();
+	die("yay?");
 }
 require('header.inc.php');
 ?>
@@ -87,7 +88,7 @@ if (!$_GET['id']) {
 		?>
 			</select>
 
-			<!--<button type="submit">Submit</button>-->
+			<button type="submit">Submit</button>
 
 		</form>
 		</div>

@@ -6,7 +6,8 @@ $(document).bind("pageinit",function(){
 			$.post('kegsize.php', {size:$('select#size').val()}, function(data) { $('select#id').html(data); });
 			});
 
-		$('#keginfo select').change(function() {
+		$('#keginfo').submit(function() {
+			alert("yo");
 			// grab the GET variables
 			// from http://stackoverflow.com/questions/439463/how-to-get-get-and-post-variables-with-jquery
 			function getQueryParams(qs) {
@@ -26,6 +27,8 @@ $(document).bind("pageinit",function(){
 			var $_GET = getQueryParams(document.location.search);
 
 			$.post('keg.php', {edit:"yes", id:$_GET['id'], size:$_GET['size'], status:$('#status').val(), beer:$('#beer').val(), location:$('#location').val()}, function(data) {alert(data); });
-			});
+			return false; // stop the submit
+		});
+
 });
 
