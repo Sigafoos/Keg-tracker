@@ -3,7 +3,7 @@ $(document).bind("pageinit",function(){
 
 		$('select#size').change(function(){
 			// get the data from keginfo, display the list in #id
-			$.post('kegsize.php', {size:$('select#size').val()}, function(data) { $('select#id').html(data); });
+			$.post('keg.php', {size:$('select#size').val(), list:"yes"}, function(data) { $('select#id').html(data); });
 			});
 
 		$('#keginfo').submit(function() {
