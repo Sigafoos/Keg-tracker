@@ -8,4 +8,4 @@
 <script src="custom.js"></script>
 <script src="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.js"></script>
 <body>
-<div data-role="page" <?php if ($_SERVER['PHP_SELF'] != "index.php") echo " data-add-back-btn=\"true\""; ?>>
+<div data-role="page">
