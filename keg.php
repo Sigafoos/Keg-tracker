@@ -8,8 +8,8 @@ if ($_POST['list'] == "yes") {
 	die();
 } else if ($_POST['edit'] == "yes") {
 	$keg = new Keg($_POST);
-	//$keg->update();
-	die("yay?");
+	$keg->update();
+	die("success");
 }
 require('header.inc.php');
 ?>
@@ -41,12 +41,12 @@ if (!$_GET['id']) {
 		</fieldset>
 		</div>
 
-		<button class="submit">Submit</button>
+		<button type="submit" data-inline="true" data-theme="b">Submit</button>
 		</form>
 		</div>
 
 		<?php
-} else if (!$_POST['status']) {
+} else {
 	$query = "SELECT id, status, beer, location, size FROM cbw_kegs WHERE id=" . $_GET['id'] . "  AND size=" . $_GET['size'];
 	if (!($result = $db->query($query))) echo "<p>Oh my: #" . $db->errno . ": " . $db->error . "</p>\r";
 	$keg = new Keg($result->fetch_assoc());
@@ -93,13 +93,23 @@ if (!$_GET['id']) {
 		?>
 			</select>
 
-			<button type="submit">Submit</button>
+			<button type="submit" data-inline="true" data-theme="b">Submit</button>
 
 		</form>
 		</div>
+
+		<!-- the success message -->
+		<div id="success" data-role="popup" data-overlay-theme="a" class="ui-corner-all">
+		<div data-role="header" class="ui-corner-top">
+		<h1>Success!</h1>
+		</div>
+
+		<div data-role="content" class="ui-corner-bottom ui-content">
+		<a href="/" data-role="button" data-inline="true" data-theme="b">Home</a>
+		<a href="#" data-role="button" data-inline="true" data-theme="a" data-rel="back">Close</a>
+		</div>
+		</div>
 		<?php
-} else {
-	echo "<pre>";print_r($_POST);echo "</pre>";
 }
 
 require('footer.inc.php');
