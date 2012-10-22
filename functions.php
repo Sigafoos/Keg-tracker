@@ -100,7 +100,7 @@ class keg {
 	// UPDATING FUNCTIONS
 	// now that we've checked the validity of the data in the specific action function, 
 	// update the data
-	private function update() {
+	public function update() {
 		global $db;
 
 		$query = "UPDATE cbw_kegs SET status=" . $this->status . ", beer=";
