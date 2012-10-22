@@ -265,20 +265,24 @@ function delete_keg($id,$size) {
 // choose your own beer adventure
 function select_beer($section) {
 	global $db;
-
+	
+	echo "<div id=\"selectbeer\">\r\n";
 	echo "<ul data-role=\"listview\">\r\n";
 	$query = "SELECT id, beer FROM cbw_beers WHERE active=1 ORDER BY id";
 	if (!($result = $db->query($query))) echo "<p>Something's gone wrong: #" . $db->errno . ": " . $db->error . "</p>";
 	while ($row = $result->fetch_assoc()) echo "<li><a href=\"" . $section . ".php?beer=" . $row['id'] . "\">" . $row['beer'] . "</a></li>\r\n";
+	echo "</ul>\r\n</div>\r\n";
 }
 
 function select_location($section) {
 	global $db;
 
+	echo "<div id=\"selectlocation\">\r\n";
 	echo "<ul data-role=\"listview\">\r\n";
 	$query = "SELECT id, location FROM cbw_locations WHERE active=1 ORDER BY id";
 	if (!($result = $db->query($query))) echo "<p>Something's gone wrong: #" . $db->errno . ": " . $db->error . "</p>";
 	while ($row = $result->fetch_assoc()) echo "<li><a href=\"" . $section . ".php?location=" . $row['id'] . "\">" . $row['location'] . "</a></li>\r\n";
+	echo "</ul>\r\n</div>\r\n";
 }
 
 // pass the status, get the kegs
