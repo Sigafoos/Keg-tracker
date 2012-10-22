@@ -20,5 +20,7 @@ while ($row = $result->fetch_assoc()) $stats[$row['status']] = $row['number'];
 <li><a href="location.php?action=deliver">Deliver <span class="ui-li-count"><?php echo (int)$stats[4]; ?></span></a></li>
 <li><a href="return.php">Return <span class="ui-li-count"><?php echo (int)$stats[5]; ?></span></a></li>
 </ul>
+
+<p><a href="keg.php" data-role="button" data-inline="true" data-theme="b">Edit a single keg</a></p>
 </div>
 <?php require('footer.inc.php'); ?>
