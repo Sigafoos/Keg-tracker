@@ -43,5 +43,11 @@ $(document).bind("pageinit",function(){
 			return false; // stop the submit
 		});
 
+		// new beer submit
+		$('#new').submit(function(){
+				$.post('postactions.php',{new:"beer",beer:$('#beer').val()},function(data){$.mobile.changePage('fill.php?beer='+data);});
+				return false; // don't submit
+				});
+
 });
 
