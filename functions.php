@@ -313,7 +313,10 @@ function select_kegs($status) {
 	while ($row = $result->fetch_assoc()) $sizes[$row['id']] = $row['size'];
 
 	// get the kegs themselves
-	$query = "SELECT id, size, beer, location FROM cbw_kegs WHERE status=" . $status . " OR status=-1 ORDER BY location, beer, size, id";
+	//$query = "SELECT id, size, beer, location FROM cbw_kegs WHERE status=" . $status . " OR status=-1 ORDER BY location, beer, size, id";
+	$query = "SELECT id, size, beer, location FROM cbw_kegs WHERE status=" . $status;
+	if ($status == 1) $query .= " OR status = -1";
+	$query .= " ORDER BY location, beer, size, id";
 	if (!($result = $db->query($query))) echo "<p>Something's gone wrong: #" . $db->errno . ": " . $db->error . "</p>";
 	while ($row = $result->fetch_assoc()) $kegs[] = new keg($row);
 ?>
