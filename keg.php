@@ -8,8 +8,9 @@ if ($_POST['list'] == "yes") {
 	die();
 } else if ($_POST['edit'] == "yes") {
 	$keg = new Keg($_POST);
+	//echo "id: " . $keg->getid() . "\nsize: " . $keg->getsize() . "\nstatus: " . $keg->getstatus() . "\nbeer: " . $keg->getbeer() . "\nlocation: " . $keg->getlocation();
 	$keg->update();
-	die("success");
+	die();
 }
 require('header.inc.php');
 ?>
