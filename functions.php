@@ -294,7 +294,7 @@ function select_kegs($status) {
 	// get the beers to look up 
 	// but don't bother if it's anachronistic
 	if ($status > 2) {
-		$query = "SELECT id, beer FROM cbw_beers WHERE active=1";
+		$query = "SELECT id, beer FROM cbw_beers";
 		if (!($result = $db->query($query))) echo "<p>Something's gone wrong: #" . $db->errno . ": " . $db->error . "</p>";
 		while ($row = $result->fetch_assoc()) $beers[$row['id']] = $row['beer'];
 	}
@@ -302,7 +302,7 @@ function select_kegs($status) {
 	// get the locations to look up
 	// but don't bother if it's anachronistic
 	if ($status == 5) {
-		$query = "SELECT id, location FROM cbw_locations WHERE active=1";
+		$query = "SELECT id, location FROM cbw_locations";
 		if (!($result = $db->query($query))) echo "<p>Something's gone wrong: #" . $db->errno . ": " . $db->error . "</p>";
 		while ($row = $result->fetch_assoc()) $locations[$row['id']] = $row['location'];
 	}
