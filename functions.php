@@ -344,8 +344,7 @@ function select_kegs($status) {
 
 	// get the kegs themselves
 	//$query = "SELECT id, size, beer, location FROM cbw_kegs WHERE status=" . $status . " OR status=-1 ORDER BY location, beer, size, id";
-	$query = "SELECT id, size, beer, location FROM cbw_kegs";
-	if ($status != 5) $query .= " WHERE status=" . $status;
+	$query = "SELECT id, size, beer, location FROM cbw_kegs WHERE status=" . $status;
 	if ($status == 1) $query .= " OR status = -1";
 	$query .= " ORDER BY location DESC, beer, size, id";
 	if (!($result = $db->query($query))) echo "<p>Something's gone wrong: #" . $db->errno . ": " . $db->error . "</p>";
