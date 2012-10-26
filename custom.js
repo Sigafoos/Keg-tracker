@@ -52,6 +52,18 @@ $(document).bind("pageinit",function(){
 			return false; // stop the submit
 		});
 
+		$('#kegs').submit(function() {
+				var ids = Array();
+				alert('Dan is messing with stuff. If you see this, let him know and he\'ll fix it.');
+				$('#kegs input:checkbox:checked').each(function(){
+					ids[ids.length] = $(this).attr('id').substr(3);
+					});
+				// HERE vvv VVV
+				// it will be ie 36_1 with id_size
+				alert(ids[0]);
+				return false; // stop the submit
+				});
+
 		// new beer submit
 		$('#new').submit(function(){
 				if ($('#beer').val() != undefined) $.post('postactions.php',{new:"beer",beer:$('#beer').val()},function(data){$.mobile.changePage('fill.php?beer='+data);});

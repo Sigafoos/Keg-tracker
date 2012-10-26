@@ -276,7 +276,7 @@ function select_beer($section) {
 
 	// the "are you sure?" dialog
 	?>
-		<div id="confirm" data-role="popup" data-role="popup" data-overlay-theme="a" class="ui-corner-all">
+		<div id="confirm" data-role="popup" data-overlay-theme="a" class="ui-corner-all">
 		<div data-role="header" class="ui-corner-top">
 		<h1>Really?</h1>
 		</div>
@@ -363,6 +363,7 @@ function select_kegs($status) {
 	if (!($result = $db->query($query))) echo "<p>Something's gone wrong: #" . $db->errno . ": " . $db->error . "</p>";
 	while ($row = $result->fetch_assoc()) $kegs[] = new keg($row);
 ?>
+	<div id="kegs">
 	<form method="post" action="update.php?status=<?php echo $status . "&" . $_SERVER['QUERY_STRING']; ?>">
 	<div data-role="fieldcontain">
 	<fieldset data-role="controlgroup">
@@ -397,6 +398,19 @@ function select_kegs($status) {
 			</div>
 			<button type="submit"  data-theme="b">Submit</button>
 			</form>
+			</div>
+
+			<div id="success" data-role="popup" data-overlay-theme="a" class="ui-corner-all">
+			<div data-role="header" class="ui-corner-top">
+			<h1>Really?</h1>
+			</div>
+
+			<div data-role="content" class="ui-corner-bottom ui-content">
+			<p>Are you sure you want to do this?</p>
+			<a href="#" class="archive" data-role="button" data-inline="true" data-theme="b">Yes</a>
+			<a href="#" data-role="button" data-inline="true" data-theme="a" data-rel="back">No</a>
+			</div>
+			</div>
 			<?php
 }
 
