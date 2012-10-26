@@ -47,7 +47,7 @@ $(document).bind("pageinit",function(){
 
 			var $_GET = getQueryParams(document.location.search);
 
-			$.post('keg.php', {edit:"yes", id:$_GET['id'], size:$_GET['size'], status:$('#status').val(), beer:$('#beer').val(), location:$('#location').val()});
+			$.post('keg.php', {edit:"yes", id:$_GET['id'], size:$_GET['size'], status:$('#status').val(), beer:$('#beer').val(), location:$('#location').val()},function(data){ if (data !== "") alert(data); });
 			$('#success').popup("open", {transition: "pop"});
 			return false; // stop the submit
 		});
