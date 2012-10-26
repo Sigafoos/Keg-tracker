@@ -15,9 +15,9 @@ class keg {
 			return FALSE;
 		}
 
-		$this->status = ($data['status']) ? $data['status'] : 1;
-		$this->beer = $data['beer']; // it's okay to be null
-		$this->location = ($data['location']) ? $data['location'] : 1;
+		$this->status = ($data['status']) ? $data['status'] : -1;
+		$this->beer = ($data['beer']) ? $data['beer'] : 0;
+		$this->location = ($data['location']) ? $data['location'] : -1;
 		$this->size = ($data['size']) ? $data['size'] : 1;
 	}
 
@@ -61,7 +61,7 @@ class keg {
 
 	// UNTESTED
 	public function getbeer($text = 0) {
-		if ($this->beer == NULL || !$text) {
+		if (!$text) {
 			return $this->beer;
 		} else {
 			global $db;
@@ -103,9 +103,7 @@ class keg {
 	public function update() {
 		global $db;
 
-		$query = "UPDATE cbw_kegs SET status=" . $this->status . ", beer=";
-		$query .= ($this->beer) ? $this->beer : "NULL";
-		$query .= ", location=" . $this->location . " WHERE id=" . $this->id . " AND size=" . $this->size;
+		$query = "UPDATE cbw_kegs SET status=" . $this->status . ", beer=" . $this->beeri . ", location=" . $this->location . " WHERE id=" . $this->id . " AND size=" . $this->size;
 
 		if (!$db->query($query)) {
 			echo "<p>Error updating info for keg " . $this->id . "-" . $this->size . ": #" . $db->errno . ": " . $db->error . "</p>\r";
@@ -141,9 +139,9 @@ class keg {
 			$this->location = 1;
 		}
 		// it had beer in it
-		if ($this->beer != NULL) {
+		if ($this->beer != 0) {
 			$warnings[] = "keg " . $this->id . "_" . $this->size . " was not marked as empty";
-			$this->beer = "NULL";
+			$this->beer = 0;
 		}
 		// it's not dirty
 		if ($this->status != 1) {
@@ -164,7 +162,7 @@ class keg {
 			$this->location = 1;
 		}
 		// it had beer in it
-		if ($this->beer != NULL) {
+		if ($this->beer != 0) {
 			$warnings[] = "keg " . $this->id . "_" . $this->size . "  was not marked as empty\r";
 		}
 		// it wasn't clean
@@ -181,7 +179,8 @@ class keg {
 	function carbonate() {
 		global $warnings;
 
-		if ($this->beer == NULL) {
+		// we don't know the beer
+		if ($this->beer == 0) {
 			$warnings[] = "keg " . $this->id . "_" . $this->size . "  full of unknown beer\r";
 			$this->beer = -1;
 		}
@@ -203,8 +202,8 @@ class keg {
 	public function deliver($location) {
 		global $warnings;
 
-		// usually I try to help out, but I need to know the beer
-		if ($this->beer == NULL) {
+		// we don't know the beer
+		if ($this->beer == 0) {
 			$warnings[] = "keg " . $this->id . "_" . $this->size . "  full of unknown beer\r";
 			$this->beer = -1;
 		}
@@ -227,19 +226,19 @@ class keg {
 			$warnings[] = "keg " . $this->id . "_" . $this->size . "  was not marked as being in use\r";
 		}
 		// it didn't have beer in it
-		if ($this->beer == NULL) {
+		if ($this->beer == 0) {
 			$warnings[] = "keg " . $this->id . "_" . $this->size . "  was marked as empty\r";
 		}
 
 		$this->location = 1;
-		$this->beer = "NULL";
+		$this->beer = 0;
 		$this->status = 1;
 		$this->update();
 	}
 
 }
 
-function new_keg($id, $size = 1, $status = -1, $beer = "NULL", $location = -1) {
+function new_keg($id, $size = 1, $status = -1, $beer = -1, $location = -1) {
 	global $db;
 	$query = "INSERT INTO cbw_kegs(id, status, beer, location, size) VALUES(" . $id . "," . $status . "," . $beer . "," . $location . "," . $size . ")";
 	if (!$db->query($query)) {
