@@ -2,14 +2,23 @@ $(document).bind("pageinit",function(){
 		$.mobile.defaultPageTransition = "slidefade";
 
 		// archive a beer/location
-		$('a.archive').on('click',function(){
-			//alert("nothing yet");
-			if (this.id.substr(0,1) == "b") { // beer
-			$.post('archive.php', {beer:this.id.substr(1)});
-			} else if (this.id.substr(0,1) == "l") { // location
-			$.post('archive.php', {location:this.id.substr(1)});
+		$('a.confirm').on('click',function(){
+			var theid = $(this).attr('id');
+
+			if (theid.substr(0,1) == "b") { // beer
+			$('#confirm a.archive').on('click',function(){
+				$.post('archive.php', {beer:theid.substr(1)});
+				$('#confirm').popup('close');
+				$('#'+theid).parent().remove();
+				});
+			} else if (theid.substr(0,1) == "l") { // location
+			$('#confirm a.archive').on('click',function(){
+				$.post('archive.php', {location:theid.substr(1)});
+				$('#confirm').popup('close');
+				$('#'+theid).parent().remove();
+				});
 			}
-			$(this).parent().remove();
+			$('#confirm').popup('open');
 			});
 
 		// update the select with the available kegs

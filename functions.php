@@ -271,9 +271,24 @@ function select_beer($section) {
 	$query = "SELECT id, beer FROM cbw_beers WHERE active=1 ORDER BY beer";
 	if (!($result = $db->query($query))) echo "<p>Something's gone wrong: #" . $db->errno . ": " . $db->error . "</p>";
 	while ($row = $result->fetch_assoc()) {
-		echo "<li><a href=\"" . $section . ".php?beer=" . $row['id'] . "\">" . $row['beer'] . "</a><a href=\"#\" class=\"archive\" id=\"b" . $row['id'] . "\" data-icon=\"delete\" data-theme=\"a\" title=\"Archive " . $row['beer'] . "\"></a></li>\r\n";
+		echo "<li><a href=\"" . $section . ".php?beer=" . $row['id'] . "\">" . $row['beer'] . "</a><a href=\"#\" class=\"confirm\" id=\"b" . $row['id'] . "\" data-icon=\"delete\" data-theme=\"a\" title=\"Archive " . $row['beer'] . "\"></a></li>\r\n";
 	}
 	echo "</ul>\r\n</div>\r\n";
+
+	// the "are you sure?" dialog
+	?>
+		<div id="confirm" data-role="popup" data-role="popup" data-overlay-theme="a" class="ui-corner-all">
+		<div data-role="header" class="ui-corner-top">
+		<h1>Really?</h1>
+		</div>
+
+		<div data-role="content" class="ui-corner-bottom ui-content">
+		<p>Are you sure you want to do this?</p>
+		<a href="#" class="archive" data-role="button" data-inline="true" data-theme="b">Yes</a>
+		<a href="#" data-role="button" data-inline="true" data-theme="a" data-rel="back">No</a>
+		</div>
+		</div>
+		<?php
 }
 
 function select_location($section) {
@@ -283,8 +298,23 @@ function select_location($section) {
 	echo "<ul data-role=\"listview\">\r\n";
 	$query = "SELECT id, location FROM cbw_locations WHERE active=1 ORDER BY location";
 	if (!($result = $db->query($query))) echo "<p>Something's gone wrong: #" . $db->errno . ": " . $db->error . "</p>";
-	while ($row = $result->fetch_assoc()) echo "<li><a href=\"" . $section . ".php?location=" . $row['id'] . "\">" . $row['location'] . "</a><a href=\"#\" class=\"archive\" id=\"l" . $row['id'] . "\" data-icon=\"delete\" data-theme=\"a\" title=\"Archive " . $row['location'] . "\"></a></li>\r\n";
+	while ($row = $result->fetch_assoc()) echo "<li><a href=\"" . $section . ".php?location=" . $row['id'] . "\">" . $row['location'] . "</a><a href=\"#\" class=\"confirm\" id=\"l" . $row['id'] . "\" data-icon=\"delete\" data-theme=\"a\" data-position-to=\"window\" title=\"Archive " . $row['location'] . "\"></a></li>\r\n";
 	echo "</ul>\r\n</div>\r\n";
+
+	// the "are you sure?" dialog
+	?>
+		<div id="confirm" data-role="popup" data-role="popup" data-overlay-theme="a" class="ui-corner-all">
+		<div data-role="header" class="ui-corner-top">
+		<h1>Really?</h1>
+		</div>
+
+		<div data-role="content" class="ui-corner-bottom ui-content">
+		<p>Are you sure you want to do this?</p>
+		<a href="#" class="archive" data-role="button" data-inline="true" data-theme="b">Yes</a>
+		<a href="#" data-role="button" data-inline="true" data-theme="a" data-rel="back">No</a>
+		</div>
+		</div>
+		<?php
 }
 
 // pass the status, get the kegs
@@ -314,9 +344,10 @@ function select_kegs($status) {
 
 	// get the kegs themselves
 	//$query = "SELECT id, size, beer, location FROM cbw_kegs WHERE status=" . $status . " OR status=-1 ORDER BY location, beer, size, id";
-	$query = "SELECT id, size, beer, location FROM cbw_kegs WHERE status=" . $status;
+	$query = "SELECT id, size, beer, location FROM cbw_kegs";
+	if ($status != 5) $query .= " WHERE status=" . $status;
 	if ($status == 1) $query .= " OR status = -1";
-	$query .= " ORDER BY location, beer, size, id";
+	$query .= " ORDER BY location DESC, beer, size, id";
 	if (!($result = $db->query($query))) echo "<p>Something's gone wrong: #" . $db->errno . ": " . $db->error . "</p>";
 	while ($row = $result->fetch_assoc()) $kegs[] = new keg($row);
 ?>
