@@ -1,5 +1,7 @@
 <?php
 if (!$db) require('../db_connect.php');
+require('api.inc.php'); // your user keys (Pushover and Facebook)
+
 
 class keg {
 	private $id;
@@ -404,10 +406,8 @@ function select_kegs($status) {
 // eventually I'll let you send this to people who aren't me
 // and probably support email, etc
 function send_alert($title = "Keg tracker alert", $message, $priority = 0) {
-	require('pushover.inc.php'); // my user key
-
 	$alert['token'] = "5DmKP2l58HoqvFGda4zWcnBmLYm3MX";
-	$alert['user'] = $user; // CHANGE THIS: just sends to Dan
+	$alert['user'] = $pushover; // CHANGE THIS: just sends to Dan
 	$request = "token=" . $alert['token'] . "&user=" . $alert['user'] . "&title=" . $title . "&message=" . $message;
 	if ($priority == 1) $request .= "&priority=1";
 	$result = urlencode($request);
