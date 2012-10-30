@@ -399,18 +399,18 @@ function select_kegs($status) {
 			<button type="submit"  data-theme="b">Submit</button>
 			</form>
 			</div>
-
+			<!-- the success message -->
 			<div id="success" data-role="popup" data-overlay-theme="a" class="ui-corner-all">
 			<div data-role="header" class="ui-corner-top">
-			<h1>Really?</h1>
+			<h1>Success!</h1>
 			</div>
 
 			<div data-role="content" class="ui-corner-bottom ui-content">
-			<p>Are you sure you want to do this?</p>
-			<a href="#" class="archive" data-role="button" data-inline="true" data-theme="b">Yes</a>
-			<a href="#" data-role="button" data-inline="true" data-theme="a" data-rel="back">No</a>
+			<div id="message"></div>
+			<a href="/" data-role="button" data-theme="b">Home</a>
 			</div>
 			</div>
+
 			<?php
 }
 
