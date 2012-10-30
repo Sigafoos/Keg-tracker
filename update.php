@@ -1,4 +1,8 @@
 <?php
+// this file isn't needed anymore;
+// but just in case the js hijack fails,
+// I'm leaving it in.
+// It will probably be outdated eventually
 require('header.inc.php');
 require('functions.php');
 $warnings = array();
