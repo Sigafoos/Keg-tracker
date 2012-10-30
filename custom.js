@@ -52,6 +52,27 @@ $(document).bind("pageinit",function(){
 			return false; // stop the submit
 		});
 
+		$('#kegs').submit(function() {
+				var ids = Array();
+				$('#kegs input:checkbox:checked').each(function(){
+					ids[ids.length] = $(this).attr('id').substr(3);
+					});
+				// perhaps there's a better way to do this (ie localStorage)
+				// but I sort of like the backwards compatability with php
+				// that or I'm dumb
+				var vars = {update:'stuff', ids:ids.join('+')};
+				var action = $('#kegs form').attr('action');
+				var qs = action.substr(action.indexOf('?')+1).split('&');
+				for (var i = 0; i < qs.length; i++) {
+				var delimiter = qs[i].indexOf('=');
+				vars[qs[i].substr(0,delimiter)] = qs[i].substr(delimiter+1);
+				}
+
+				$.post('postactions.php', vars, function(data){$('#message').html(data);});
+				$('#success').popup('open', {transition: 'pop'});
+				return false; // stop the submit
+				});
+
 		// new beer submit
 		$('#new').submit(function(){
 				if ($('#beer').val() != undefined) $.post('postactions.php',{new:"beer",beer:$('#beer').val()},function(data){$.mobile.changePage('fill.php?beer='+data);});
