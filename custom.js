@@ -54,13 +54,24 @@ $(document).bind("pageinit",function(){
 
 		$('#kegs').submit(function() {
 				var ids = Array();
+				var attr = $('#kegs form').attr('action');
 				alert('Dan is messing with stuff. If you see this, let him know and he\'ll fix it.');
 				$('#kegs input:checkbox:checked').each(function(){
 					ids[ids.length] = $(this).attr('id').substr(3);
 					});
-				// HERE vvv VVV
-				// it will be ie 36_1 with id_size
-				alert(ids[0]);
+				// perhaps there's a better way to do this (ie localStorage)
+				// but I sort of like the backwards compatability with php
+				// that or I'm dumb
+				var vars = {update:"stuff", ids:ids.join('+')};
+				var tmpvaps = attr.substr(attr.indexOf('?')+1).split('&');
+				alert(tmpvars.length);
+				// test it
+				/*
+				var teststring = '';
+				vars.map(function(value,key){ teststring = teststring + '; ' + key + ': ' + value; });
+				alert(teststring);
+				*/
+				//$.post('postactions.php', vars, function(data){alert(data);});
 				return false; // stop the submit
 				});
 

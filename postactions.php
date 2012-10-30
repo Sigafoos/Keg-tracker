@@ -12,5 +12,8 @@ if ($_POST['new'] == "beer") {
 	if (!($result = $db->query($query))) echo "<p>Something's gone wrong: #" . $db->errno . ": " . $db->error . "</p>";
 
 	echo $db->insert_id;
+} else if ($_POST['update'] && $_POST['ids']) {
+	$ids = explode("+",$_POST['ids']);
+	die();
 }
 ?>
