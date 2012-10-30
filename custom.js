@@ -63,15 +63,13 @@ $(document).bind("pageinit",function(){
 				// but I sort of like the backwards compatability with php
 				// that or I'm dumb
 				var vars = {update:"stuff", ids:ids.join('+')};
-				var tmpvaps = attr.substr(attr.indexOf('?')+1).split('&');
-				alert(tmpvars.length);
-				// test it
-				/*
-				var teststring = '';
-				vars.map(function(value,key){ teststring = teststring + '; ' + key + ': ' + value; });
-				alert(teststring);
-				*/
-				//$.post('postactions.php', vars, function(data){alert(data);});
+				var qs = attr.substr(attr.indexOf('?')+1).split('&');
+				for (var i = 0; i < qs.length; i++) {
+				var delimiter = qs[i].indexOf('=');
+				vars[qs[i].substr(0,delimiter)] = qs[i].substr(delimiter+1);
+				}
+
+				$.post('postactions.php', vars, function(data){alert(data);});
 				return false; // stop the submit
 				});
 
