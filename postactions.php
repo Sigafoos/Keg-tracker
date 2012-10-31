@@ -23,13 +23,13 @@ if ($_POST['new'] == "beer") {
 		$result = $db->query($query);
 		$keg = new Keg($result->fetch_assoc());
 
-		switch($_GET['status']) {
+		switch($_POST['status']) {
 			case 1:
 				$keg->clean();
 				break;
 
 			case 2:
-				$keg->fill($_GET['beer']);
+				$keg->fill($_POST['beer']);
 				break;
 
 			case 3: 
@@ -37,7 +37,7 @@ if ($_POST['new'] == "beer") {
 				break;
 
 			case 4:
-				$keg->deliver($_GET['location']);
+				$keg->deliver($_POST['location']);
 				break;
 
 			case 5:
@@ -45,7 +45,7 @@ if ($_POST['new'] == "beer") {
 				break;
 
 			default:
-				echo "I'm not sure what to do with status " . $_GET['status'];
+				echo "I'm not sure what to do with status " . $_POST['status'];
 				break;
 		}
 
