@@ -24,6 +24,10 @@ if (!$_GET['id']) {
 	$query = "SELECT id, size FROM cbw_keg_sizes ORDER BY id";
 	if (!($result = $db->query($query))) echo "<p>Oh my: #" . $db->errno . ": " . $db->error . "</p>\r";
 	while ($row = $result->fetch_assoc()) $sizes[$row['id']] = $row['size'];
+
+	$query = "SELECT id FROM cbw_kegs WHERE size=1";
+	if (!($result = $db->query($query))) echo "<p>Oh my: #" . $db->errno . ": " . $db->error . "</p>\r";
+	while ($row = $result->fetch_assoc()) $kegs[] = $row['id'];
 	?>
 		<div data-role="content">
 		<form method="get" action="keg.php">
@@ -32,12 +36,15 @@ if (!$_GET['id']) {
 		<legend>Keg id</legend>
 		<label for="size" class="ui-hidden-accessible">Keg size</label>
 		<select name="size" id="size">
-		<option value="" selected="selected"></option>
-		<?php foreach ($sizes as $id=>$size) echo "<option value=\"" . $id . "\">" . $size . "</option>\r\n"; ?>
+		<?php foreach ($sizes as $id=>$size) {
+			echo "<option value=\"" . $id . "\"";
+			if ($id == 1) echo " selected=\"selected\"";
+			echo ">" . $size . "</option>\r\n"; 
+		}?>
 		</select>
 
 		<select name="id" id="id">
-		<option value=""></option>
+		<?php foreach ($kegs as $keg) echo "<option value=\"" . $keg . "\">" . $keg . "</option>\r\n"; ?>
 		</select>
 
 		</fieldset>
@@ -72,7 +79,7 @@ if (!$_GET['id']) {
 		<label for="beer">Beer</label>
 		<select name="beer" id="beer">
 		<?php 
-		$query = "SELECT id, beer FROM cbw_beers ORDER BY id";
+		$query = "SELECT id, beer FROM cbw_beers WHERE active=1 ORDER BY beer";
 		if (!($result = $db->query($query))) echo "<p>Oh my: #" . $db->errno . ": " . $db->error . "</p>\r";
 		while ($row = $result->fetch_assoc()) {
 			echo "<option value=\"" . $row['id'] . "\"";
@@ -85,7 +92,7 @@ if (!$_GET['id']) {
 		<label for="location">Location</label>
 		<select name="location" id="location">
 		<?php 
-		$query = "SELECT id, location FROM cbw_locations ORDER BY id";
+		$query = "SELECT id, location FROM cbw_locations WHERE active=1 ORDER BY location";
 		if (!($result = $db->query($query))) echo "<p>Oh my: #" . $db->errno . ": " . $db->error . "</p>\r";
 		while ($row = $result->fetch_assoc()) {
 			echo "<option value=\"" . $row['id'] . "\"";
