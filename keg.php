@@ -79,7 +79,7 @@ if (!$_GET['id']) {
 		<label for="beer">Beer</label>
 		<select name="beer" id="beer">
 		<?php 
-		$query = "SELECT id, beer FROM cbw_beers WHERE active=1 ORDER BY beer";
+		$query = "SELECT id, beer FROM cbw_beers WHERE active=1 OR id<1 ORDER BY beer";
 		if (!($result = $db->query($query))) echo "<p>Oh my: #" . $db->errno . ": " . $db->error . "</p>\r";
 		while ($row = $result->fetch_assoc()) {
 			echo "<option value=\"" . $row['id'] . "\"";
