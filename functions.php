@@ -120,7 +120,7 @@ class keg {
 		global $db;
 		if (!$timestamp) $timestamp = date("Y-m-d G:i:s");
 
-		$query = "INSERT INTO cbw_keg_log(keg_id, size, status, date) VALUES(" . $this->id . "," . $this->size . ", " . $this->status . ", '" . $timestamp . "')";
+		$query = "INSERT INTO cbw_keg_log(keg_id, size, status, location, beer, date) VALUES(" . $this->id . "," . $this->size . ", " . $this->status . ", " . $this->location . ", " . $this->beer . ", '" . $timestamp . "')";
 		if (!$db->query($query)) {
 			echo "<p>Error logging update for keg " . $this->id . "-" . $this->size . ": #" . $db->errno . ": " . $db->error . "</p>\r";
 			echo "<p>" . $query . "</p>\r";
