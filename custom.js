@@ -9,13 +9,13 @@ $(document).bind("pageinit",function(){
 			$('#confirm a.archive').on('click',function(){
 				$.post('archive.php', {beer:theid.substr(1)});
 				$('#confirm').popup('close');
-				$('#'+theid).parent().remove();
+				$('#'+theid).parent().fadeOut('slow');
 				});
 			} else if (theid.substr(0,1) == "l") { // location
 			$('#confirm a.archive').on('click',function(){
 				$.post('archive.php', {location:theid.substr(1)});
 				$('#confirm').popup('close');
-				$('#'+theid).parent().remove();
+				$('#'+theid).parent().fadeOut('slow');
 				});
 			}
 			$('#confirm').popup('open');
@@ -78,6 +78,12 @@ $(document).bind("pageinit",function(){
 				if ($('#beer').val() != undefined) $.post('postactions.php',{new:"beer",beer:$('#beer').val()},function(data){$.mobile.changePage('fill.php?beer='+data);});
 				else if ($('#location').val() != undefined) $.post('postactions.php',{new:"location",location:$('#location').val()},function(data){$.mobile.changePage('deliver.php?location='+data);});
 				return false; // don't submit
+				});
+
+		// re-activate a deactivated beer
+		$('.activate').on('click',function(){
+				$.post('postactions.php',{activate:$(this).attr('id')});
+				$(this).fadeOut('fast');
 				});
 
 });
