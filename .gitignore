@@ -1,5 +1,4 @@
-jqtouch/
 .htaccess
 .htpasswd
 test.php
-api.inc.php
+config.inc.php

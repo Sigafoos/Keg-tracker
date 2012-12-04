@@ -1,7 +1,5 @@
 <?php
-if (!$db) require('../db_connect.php');
-require('api.inc.php'); // your user keys (Pushover and Facebook)
-
+require('config.inc.php'); // your user keys (Pushover and Facebook)
 
 class keg {
 	private $id;
