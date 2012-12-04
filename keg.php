@@ -2,7 +2,7 @@
 require('functions.php');
 
 if ($_POST['list'] == "yes") {
-	$query = "SELECT id FROM cbw_kegs WHERE size=" . $_POST['size'];
+	$query = "SELECT id FROM " . $dbprefix . "kegs WHERE size=" . $_POST['size'];
 	if (!($result = $db->query($query))) echo "<p>Oh my: #" . $db->errno . ": " . $db->error . "</p>\r";
 	while ($row = $result->fetch_assoc()) echo "<option value=\"" . $row['id'] . "\">" . $row['id'] . "</option>";
 	die();
@@ -21,11 +21,11 @@ require('header.inc.php');
 
 <?php
 if (!$_GET['id']) {
-	$query = "SELECT id, size FROM cbw_keg_sizes ORDER BY id";
+	$query = "SELECT id, size FROM " . $dbprefix . "keg_sizes ORDER BY id";
 	if (!($result = $db->query($query))) echo "<p>Oh my: #" . $db->errno . ": " . $db->error . "</p>\r";
 	while ($row = $result->fetch_assoc()) $sizes[$row['id']] = $row['size'];
 
-	$query = "SELECT id FROM cbw_kegs WHERE size=1";
+	$query = "SELECT id FROM " . $dbprefix . "kegs WHERE size=1";
 	if (!($result = $db->query($query))) echo "<p>Oh my: #" . $db->errno . ": " . $db->error . "</p>\r";
 	while ($row = $result->fetch_assoc()) $kegs[] = $row['id'];
 	?>
@@ -56,7 +56,7 @@ if (!$_GET['id']) {
 
 		<?php
 } else {
-	$query = "SELECT id, status, beer, location, size FROM cbw_kegs WHERE id=" . $_GET['id'] . "  AND size=" . $_GET['size'];
+	$query = "SELECT id, status, beer, location, size FROM " . $dbprefix . "kegs WHERE id=" . $_GET['id'] . "  AND size=" . $_GET['size'];
 	if (!($result = $db->query($query))) echo "<p>Oh my: #" . $db->errno . ": " . $db->error . "</p>\r";
 	$keg = new Keg($result->fetch_assoc());
 	?>
@@ -66,7 +66,7 @@ if (!$_GET['id']) {
 		<label for="status">Status</label>
 		<select name="status" id="status">
 		<?php 
-		$query = "SELECT id, status FROM cbw_keg_statuses ORDER BY id";
+		$query = "SELECT id, status FROM " . $dbprefix . "keg_statuses ORDER BY id";
 		if (!($result = $db->query($query))) echo "<p>Oh my: #" . $db->errno . ": " . $db->error . "</p>\r";
 		while ($row = $result->fetch_assoc()) {
 			echo "<option value=\"" . $row['id'] . "\"";
@@ -79,7 +79,7 @@ if (!$_GET['id']) {
 		<label for="beer">Beer</label>
 		<select name="beer" id="beer">
 		<?php 
-		$query = "SELECT id, beer FROM cbw_beers WHERE active=1 OR id<1 ORDER BY beer";
+		$query = "SELECT id, beer FROM " . $dbprefix . "beers WHERE active=1 OR id<1 ORDER BY beer";
 		if (!($result = $db->query($query))) echo "<p>Oh my: #" . $db->errno . ": " . $db->error . "</p>\r";
 		while ($row = $result->fetch_assoc()) {
 			echo "<option value=\"" . $row['id'] . "\"";
@@ -92,7 +92,7 @@ if (!$_GET['id']) {
 		<label for="location">Location</label>
 		<select name="location" id="location">
 		<?php 
-		$query = "SELECT id, location FROM cbw_locations WHERE active=1 ORDER BY location";
+		$query = "SELECT id, location FROM " . $dbprefix . "locations WHERE active=1 OR id<1 ORDER BY location";
 		if (!($result = $db->query($query))) echo "<p>Oh my: #" . $db->errno . ": " . $db->error . "</p>\r";
 		while ($row = $result->fetch_assoc()) {
 			echo "<option value=\"" . $row['id'] . "\"";
