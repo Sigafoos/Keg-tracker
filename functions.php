@@ -24,8 +24,8 @@ class keg {
 	// DISPLAY FUNCTIONS
 	// display the keg's status
 	public function info() {
-		global $db;
-		$query = "SELECT cbw_keg_statuses.status, cbw_locations.location, cbw_keg_sizes.size, cbw_beers.beer FROM cbw_kegs INNER JOIN cbw_keg_statuses ON cbw_kegs.status=cbw_keg_statuses.id INNER JOIN cbw_locations ON cbw_kegs.location=cbw_locations.id INNER JOIN cbw_keg_sizes ON cbw_kegs.size=cbw_keg_sizes.id LEFT OUTER JOIN cbw_beers ON cbw_kegs.beer=cbw_beers.id WHERE cbw_kegs.id=" . $this->id . " AND cbw_kegs.size=" . $this->size;
+		global $db,$dbprefix;
+		$query = "SELECT " . $dbprefix . "keg_statuses.status, " . $dbprefix . "locations.location, " . $dbprefix . "keg_sizes.size, " . $dbprefix . "beers.beer FROM " . $dbprefix . "kegs INNER JOIN " . $dbprefix . "keg_statuses ON " . $dbprefix . "kegs.status=" . $dbprefix . "keg_statuses.id INNER JOIN " . $dbprefix . "locations ON " . $dbprefix . "kegs.location=" . $dbprefix . "locations.id INNER JOIN " . $dbprefix . "keg_sizes ON " . $dbprefix . "kegs.size=" . $dbprefix . "keg_sizes.id LEFT OUTER JOIN " . $dbprefix . "beers ON " . $dbprefix . "kegs.beer=" . $dbprefix . "beers.id WHERE " . $dbprefix . "kegs.id=" . $this->id . " AND " . $dbprefix . "kegs.size=" . $this->size;
 		if (!($result = $db->query($query))) {
 			echo "<p>Error getting info for keg " . $this->id . ": #" . $db->errno . ": " . $db->error . "</p>\r";
 			return FALSE;
@@ -51,8 +51,8 @@ class keg {
 		if (!$text) {
 			return $this->status;
 		} else {
-			global $db;
-			$query = "SELECT status FROM cbw_keg_statuses WHERE id=" . $this->status;
+			global $db,$dbprefix;
+			$query = "SELECT status FROM " . $dbprefix . "keg_statuses WHERE id=" . $this->status;
 			$result = $db->query($query);
 			$row = $result->fetch_assoc();
 			return $row['status'];
@@ -64,8 +64,8 @@ class keg {
 		if (!$text) {
 			return $this->beer;
 		} else {
-			global $db;
-			$query = "SELECT beer FROM cbw_beers WHERE id=" . $this->beer;
+			global $db,$dbprefix;
+			$query = "SELECT beer FROM " . $dbprefix . "beers WHERE id=" . $this->beer;
 			$result = $db->query($query);
 			$row = $result->fetch_assoc();
 			return $row['beer'];
@@ -77,8 +77,8 @@ class keg {
 		if (!$text) {
 			return $this->location;
 		} else {
-			global $db;
-			$query = "SELECT location FROM cbw_locations WHERE id=" . $this->location;
+			global $db,$dbprefix;
+			$query = "SELECT location FROM " . $dbprefix . "locations WHERE id=" . $this->location;
 			$result = $db->query($query);
 			$row = $result->fetch_assoc();
 			return $row['location'];
@@ -89,8 +89,8 @@ class keg {
 		if (!$text) {
 			return $this->size;
 		} else {
-			global $db;
-			$query = "SELECT size FROM cbw_keg_sizes WHERE id=" . $this->size;
+			global $db,$dbprefix;
+			$query = "SELECT size FROM " . $dbprefix . "keg_sizes WHERE id=" . $this->size;
 			$result = $db->query($query);
 			$row = $result->fetch_assoc();
 			return $row['size'];
@@ -101,9 +101,9 @@ class keg {
 	// now that we've checked the validity of the data in the specific action function, 
 	// update the data
 	public function update() {
-		global $db;
+		global $db,$dbprefix;
 
-		$query = "UPDATE cbw_kegs SET status=" . $this->status . ", beer=" . $this->beer . ", location=" . $this->location . " WHERE id=" . $this->id . " AND size=" . $this->size;
+		$query = "UPDATE " . $dbprefix . "kegs SET status=" . $this->status . ", beer=" . $this->beer . ", location=" . $this->location . " WHERE id=" . $this->id . " AND size=" . $this->size;
 
 		if (!$db->query($query)) {
 			echo "<p>Error updating info for keg " . $this->id . "-" . $this->size . ": #" . $db->errno . ": " . $db->error . "</p>\r";
@@ -115,10 +115,10 @@ class keg {
 	}
 
 	private function log($timestamp = NULL) {
-		global $db;
+		global $db,$dbprefix;
 		if (!$timestamp) $timestamp = date("Y-m-d G:i:s");
 
-		$query = "INSERT INTO cbw_keg_log(keg_id, size, status, location, beer, date) VALUES(" . $this->id . "," . $this->size . ", " . $this->status . ", " . $this->location . ", " . $this->beer . ", '" . $timestamp . "')";
+		$query = "INSERT INTO " . $dbprefix . "keg_log(keg_id, size, status, location, beer, date) VALUES(" . $this->id . "," . $this->size . ", " . $this->status . ", " . $this->location . ", " . $this->beer . ", '" . $timestamp . "')";
 		if (!$db->query($query)) {
 			echo "<p>Error logging update for keg " . $this->id . "-" . $this->size . ": #" . $db->errno . ": " . $db->error . "</p>\r";
 			echo "<p>" . $query . "</p>\r";
@@ -239,8 +239,8 @@ class keg {
 }
 
 function new_keg($id, $size = 1, $status = -1, $beer = -1, $location = -1) {
-	global $db;
-	$query = "INSERT INTO cbw_kegs(id, status, beer, location, size) VALUES(" . $id . "," . $status . "," . $beer . "," . $location . "," . $size . ")";
+	global $db,$dbprefix;
+	$query = "INSERT INTO " . $dbprefix . "kegs(id, status, beer, location, size) VALUES(" . $id . "," . $status . "," . $beer . "," . $location . "," . $size . ")";
 	if (!$db->query($query)) {
 		echo "<p>Error creating keg " . $id . ": #" . $db->errno . ": " . $db->error . "</p>\r";
 		return FALSE;
@@ -251,8 +251,8 @@ function new_keg($id, $size = 1, $status = -1, $beer = -1, $location = -1) {
 
 // This should really never be used
 function delete_keg($id,$size) {
-	global $db;
-	$query = "DELETE FROM cbw_kegs WHERE id=" . $id . " AND size=" . $size;
+	global $db,$dbprefix;
+	$query = "DELETE FROM " . $dbprefix . "kegs WHERE id=" . $id . " AND size=" . $size;
 	if (!$db->query($query)) {
 		echo "<p>Error deleting keg " . $id . ": #" . $db->errno . ": " . $db->error . "</p>\r";
 		return FALSE;
@@ -263,11 +263,11 @@ function delete_keg($id,$size) {
 
 // choose your own beer adventure
 function select_beer($section) {
-	global $db;
+	global $db,$dbprefix;
 	
 	echo "<div id=\"select\">\r\n";
 	echo "<ul data-role=\"listview\">\r\n";
-	$query = "SELECT id, beer FROM cbw_beers WHERE active=1 ORDER BY beer";
+	$query = "SELECT id, beer FROM " . $dbprefix . "beers WHERE active=1 ORDER BY beer";
 	if (!($result = $db->query($query))) echo "<p>Something's gone wrong: #" . $db->errno . ": " . $db->error . "</p>";
 	while ($row = $result->fetch_assoc()) {
 		echo "<li><a href=\"" . $section . ".php?beer=" . $row['id'] . "\">" . $row['beer'] . "</a><a href=\"#\" class=\"confirm\" id=\"b" . $row['id'] . "\" data-icon=\"delete\" data-theme=\"a\" title=\"Archive " . $row['beer'] . "\"></a></li>\r\n";
@@ -291,11 +291,11 @@ function select_beer($section) {
 }
 
 function select_location($section) {
-	global $db;
+	global $db,$dbprefix;
 
 	echo "<div id=\"select\">\r\n";
 	echo "<ul data-role=\"listview\">\r\n";
-	$query = "SELECT id, location FROM cbw_locations WHERE active=1 ORDER BY location";
+	$query = "SELECT id, location FROM " . $dbprefix . "locations WHERE active=1 ORDER BY location";
 	if (!($result = $db->query($query))) echo "<p>Something's gone wrong: #" . $db->errno . ": " . $db->error . "</p>";
 	while ($row = $result->fetch_assoc()) echo "<li><a href=\"" . $section . ".php?location=" . $row['id'] . "\">" . $row['location'] . "</a><a href=\"#\" class=\"confirm\" id=\"l" . $row['id'] . "\" data-icon=\"delete\" data-theme=\"a\" data-position-to=\"window\" title=\"Archive " . $row['location'] . "\"></a></li>\r\n";
 	echo "</ul>\r\n</div>\r\n";
@@ -318,12 +318,11 @@ function select_location($section) {
 
 // pass the status, get the kegs
 function select_kegs($status) {
-	global $db;
-
+	global $db,$dbprefix;
 	// get the beers to look up 
 	// but don't bother if it's anachronistic
 	if ($status > 2) {
-		$query = "SELECT id, beer FROM cbw_beers";
+		$query = "SELECT id, beer FROM " . $dbprefix . "beers";
 		if (!($result = $db->query($query))) echo "<p>Something's gone wrong: #" . $db->errno . ": " . $db->error . "</p>";
 		while ($row = $result->fetch_assoc()) $beers[$row['id']] = $row['beer'];
 	}
@@ -331,19 +330,19 @@ function select_kegs($status) {
 	// get the locations to look up
 	// but don't bother if it's anachronistic
 	if ($status == 5) {
-		$query = "SELECT id, location FROM cbw_locations";
+		$query = "SELECT id, location FROM " . $dbprefix . "locations";
 		if (!($result = $db->query($query))) echo "<p>Something's gone wrong: #" . $db->errno . ": " . $db->error . "</p>";
 		while ($row = $result->fetch_assoc()) $locations[$row['id']] = $row['location'];
 	}
 
 	// get the keg sizes to look up
-	$query = "SELECT id, size FROM cbw_keg_sizes";
+	$query = "SELECT id, size FROM " . $dbprefix . "keg_sizes";
 	if (!($result = $db->query($query))) echo "<p>Something's gone wrong: #" . $db->errno . ": " . $db->error . "</p>";
 	while ($row = $result->fetch_assoc()) $sizes[$row['id']] = $row['size'];
 
 	// get the kegs themselves
-	//$query = "SELECT id, size, beer, location FROM cbw_kegs WHERE status=" . $status . " OR status=-1 ORDER BY location, beer, size, id";
-	$query = "SELECT id, size, beer, location FROM cbw_kegs WHERE status=" . $status;
+	//$query = "SELECT id, size, beer, location FROM " . $dbprefix . "kegs WHERE status=" . $status . " OR status=-1 ORDER BY location, beer, size, id";
+	$query = "SELECT id, size, beer, location FROM " . $dbprefix . "kegs WHERE status=" . $status;
 	if ($status == 1) $query .= " OR status = -1";
 	$query .= " ORDER BY";
 	switch ($status) {
