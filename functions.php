@@ -343,7 +343,7 @@ function select_kegs($status) {
 	// get the kegs themselves
 	//$query = "SELECT id, size, beer, location FROM " . $dbprefix . "kegs WHERE status=" . $status . " OR status=-1 ORDER BY location, beer, size, id";
 	$query = "SELECT id, size, beer, location FROM " . $dbprefix . "kegs WHERE status=" . $status;
-	if ($status == 1) $query .= " OR status = -1";
+	//if ($status == 1) $query .= " OR status = -1";
 	$query .= " ORDER BY";
 	switch ($status) {
 		case 1:
