@@ -4,6 +4,7 @@ require('functions.php');
 ?>
 <div data-role="header">
 <h1>Kegs!</h1>
+<a href="newkeg.php" data-type="button" data-theme="b" data-icon="plus" class="ui-btn-right">New keg</a>
 </div>
 
 <?php
