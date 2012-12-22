@@ -24,7 +24,8 @@ $(document).bind("pageinit",function(){
 		// update the select with the available kegs
 		$('select#size').change(function(){
 			// get the data from keginfo, display the list in #id
-			$.post('keg.php', {size:$('select#size').val(), list:"yes"}, function(data) { $('select#id').html(data); });
+				var url = window.location.pathname.substr(1);
+			$.post(url, {size:$('select#size').val(), list:"yes"}, function(data) { $('select#id').html(data); });
 			});
 
 		// hijack the submit of a keg edit
