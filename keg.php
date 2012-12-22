@@ -1,7 +1,7 @@
 <?php 
 require('functions.php');
 
-if ($_POST['list'] == "yes") {
+if ($_POST['update'] == "yes") {
 	$query = "SELECT id FROM " . $dbprefix . "kegs WHERE size=" . $_POST['size'];
 	if (!($result = $db->query($query))) echo "<p>Oh my: #" . $db->errno . ": " . $db->error . "</p>\r";
 	while ($row = $result->fetch_assoc()) echo "<option value=\"" . $row['id'] . "\">" . $row['id'] . "</option>";
