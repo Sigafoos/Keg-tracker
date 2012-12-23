@@ -25,9 +25,7 @@ $(document).bind("pageinit",function(){
 		$('select#size').change(function(){
 			// get the data from keginfo, display the list in #id
 				var url = window.location.pathname.substr(1);
-			//$.post(url, {size:$('select#size').val(), update:"yes"}, function(data) { alert(data); });
-				//alert($('#id')[0].outerHTML);
-			$.post(url, {size:$('select#size').val(), update:"yes"}, function(data) { $('#id')[0].outerHTML = data; });
+			$.post(url, {size:$('select#size').val(), update:"yes"}, function(data) { $('#id').replaceWith(data); });
 			});
 
 		// hijack the submit of a keg edit
