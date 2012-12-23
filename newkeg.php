@@ -19,6 +19,10 @@ $query = "SELECT max(id) AS id FROM " . $dbprefix . "kegs WHERE size=1";
 if (!($result = $db->query($query))) echo "<p>Oh my: #" . $db->errno . ": " . $db->error . "</p>\r";
 $row = $result->fetch_assoc();
 $maxid = $row['id'] + 1;
+
+$query = "SELECT id, status FROM " . $dbprefix . "keg_statuses";
+if (!($result = $db->query($query))) echo "<p>Oh my: #" . $db->errno . ": " . $db->error . "</p>\r";
+while ($row = $result->fetch_assoc()) $statuses[$row['id']] = $row['status'];
 ?>
 <div data-role="header">
 <a href="#" data-rel="back" data-type="button" data-theme="b" data-icon="arrow-l">Back</a>
@@ -43,6 +47,15 @@ $maxid = $row['id'] + 1;
 <label for="end">Second id</label>
 <input type="number" pattern="[0-9]*" name="end" id="end" placeholder="Leave blank if only adding one keg" />
 </div>
+
+<div data-role="fieldcontain">
+<label for="status">Status</label>
+<select name="status" id="status">
+<?php foreach($statuses as $id=>$status) echo "<option value=\"" . $id . "\">" . $status . "</option>\r\n"; ?>
+</select>
+</div>
+
+<button type="submit" data-theme="b">Submit</button>
 
 </form>
 </div>
