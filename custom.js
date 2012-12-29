@@ -87,5 +87,11 @@ $(document).bind("pageinit",function(){
 				$(this).fadeOut('fast');
 				});
 
+		$('#newkeg').submit(function(){
+				var vars = {new:"keg", size:$('#size').val(), id:$('#id').val(), end:$('#end').val(), status:$('#status').val() };
+				$.post('postactions.php',vars);
+				return false;
+				});
+
 });
 

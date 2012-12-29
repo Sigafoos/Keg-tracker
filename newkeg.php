@@ -30,7 +30,7 @@ while ($row = $result->fetch_assoc()) $statuses[$row['id']] = $row['status'];
 </div>
 
 <div data-role="content">
-<form action="" method="post">
+<form action="" method="post" id="newkeg">
 <div data-role="fieldcontain">
 <label for="size">Size</label>
 <select name="size" id="size">

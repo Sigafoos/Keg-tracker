@@ -7,11 +7,38 @@ if ($_POST['new'] == "beer") {
 	if (!($result = $db->query($query))) echo "<p>Something's gone wrong: #" . $db->errno . ": " . $db->error . "</p>";
 
 	echo $db->insert_id;
+
 } else if ($_POST['new'] == "location") {
 	$query = "INSERT INTO cbw_locations(location) VALUES('" . $db->real_escape_string($_POST['location']) . "')";
 	if (!($result = $db->query($query))) echo "<p>Something's gone wrong: #" . $db->errno . ": " . $db->error . "</p>";
 
 	echo $db->insert_id;
+
+} else if ($_POST['new'] == "keg") {
+	if (!$_POST['end']) $_POST['end'] = $_POST['id'];
+	switch($_POST['status']) {
+		case 1: // dirty
+		case 2: // empty/clean
+		case 6: // broken
+			$beer = 0;
+			$location = 1;
+			break;
+
+		case 3: // uncarbonated
+		case 4: // carbonated
+			$beer = -1;
+			$location = 1;
+			break;
+
+		case 5: // in use
+		case -1: // unknown
+		default: // REALLY unknown (how did you even do this?)
+			$beer = -1;
+			$location = -1;
+			break;
+	}
+	for ($i = $_POST['id']; $i <= $_POST['end']; $i++) new_keg($i,$_POST['size'],$_POST['status'],$beer,$location);
+
 } else if ($_POST['update']) {
 	//$ids = explode("+",$_POST['ids']);
 	if (!$_POST['ids']) die("0 kegs processed.");
@@ -55,6 +82,7 @@ if ($_POST['new'] == "beer") {
 	echo "<p>" . $i . " keg";
 	if ($i > 1) echo "s";
 	echo " processed.</p>\r\n";
+
 } else if ($_POST['activate']) {
 	$id = substr($_POST['activate'],1);
 	switch (substr($_POST['activate'],0,1)) {
