@@ -89,7 +89,15 @@ $(document).bind("pageinit",function(){
 
 		$('#newkeg').submit(function(){
 				var vars = {new:"keg", size:$('#size').val(), id:$('#id').val(), end:$('#end').val(), status:$('#status').val() };
+				var count = 1;
+				if ($('#end').val()) count = $('#end').val()-$('#id').val() + 1;
+
 				$.post('postactions.php',vars);
+				var message = count + ' keg';
+				if (count != 1) message = message + 's';
+				message = message + ' added';
+				$('#message').html(message);
+				$('#success').popup('open', {transition: 'pop'});
 				return false;
 				});
 

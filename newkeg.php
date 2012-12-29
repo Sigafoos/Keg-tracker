@@ -58,6 +58,18 @@ while ($row = $result->fetch_assoc()) $statuses[$row['id']] = $row['status'];
 <button type="submit" data-theme="b">Submit</button>
 
 </form>
+
+<!-- the success message -->
+<div id="success" data-role="popup" data-overlay-theme="a" class="ui-corner-all">
+<div data-role="header" class="ui-corner-top">
+<h1>Success!</h1>
+</div>
+
+<div data-role="content" class="ui-corner-bottom ui-content">
+<div id="message"></div>
+<a href="/" data-role="button" data-theme="b">Home</a>
+</div>
+</div>
 </div>
 
 <?php require('footer.inc.php'); ?>
