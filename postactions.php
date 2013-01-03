@@ -42,6 +42,8 @@ if ($_POST['new'] == "beer") {
 } else if ($_POST['update']) {
 	//$ids = explode("+",$_POST['ids']);
 	if (!$_POST['ids']) die("0 kegs processed.");
+	if (!$_POST['beer']) $_POST['beer'] = -1;
+	if (!$_POST['location']) $_POST['location'] = -1;
 
 	foreach (explode("+",$_POST['ids']) as $info) {
 		// [0] = id; [1] = size
@@ -82,18 +84,5 @@ if ($_POST['new'] == "beer") {
 	echo "<p>" . $i . " keg";
 	if ($i > 1) echo "s";
 	echo " processed.</p>\r\n";
-
-} else if ($_POST['activate']) {
-	$id = substr($_POST['activate'],1);
-	switch (substr($_POST['activate'],0,1)) {
-		case "b":
-			$query = "UPDATE cbw_beers SET active=1 WHERE id=" . $id;
-			break;
-
-		case "l":
-			$query = "UPDATE cbw_locations SET active=1 WHERE id=" . $id;
-			break;
-	}
-	if (!($result = $db->query($query))) echo "<p>Something's gone wrong: #" . $db->errno . ": " . $db->error . "</p>";
 }
 ?>
