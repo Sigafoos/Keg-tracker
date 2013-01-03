@@ -153,7 +153,7 @@ class keg {
 	}
 
 	// embeer!
-	public function fill($beer) {
+	public function fill($beer = -1) {
 		global $warnings;
 
 		// it's not at CBW
@@ -199,7 +199,7 @@ class keg {
 	}
 
 	// send to a bar, or our fridge
-	public function deliver($location) {
+	public function deliver($location = -1) {
 		global $warnings;
 
 		// we don't know the beer
