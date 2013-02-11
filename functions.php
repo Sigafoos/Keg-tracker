@@ -318,7 +318,7 @@ function select_kegs($status) {
 	$query = "SELECT id, size, beer, location FROM " . $dbprefix . "kegs WHERE status=" . $status;
 	//if ($status == 1) $query .= " OR status = -1";
 	// if you're delivering, carbonated (now obsolete) or not is irrelevant
-	if ($status == 4) $query .= " OR status = 3";
+	if ($status == 3) $query .= " OR status=4";
 	$query .= " ORDER BY";
 	switch ($status) {
 		case 1:
