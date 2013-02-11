@@ -15,11 +15,10 @@ while ($row = $result->fetch_assoc()) $stats[$row['status']] = $row['number'];
 
 <div data-role="content">
 <ul data-role="listview" data-inset="true">
-<li><a href="clean.php">Cleaned</a> <span class="ui-li-count"><?php echo (int)$stats[1]; ?></span></li>
-<li><a href="beer.php?action=fill">Filled <span class="ui-li-count"><?php echo (int)$stats[2]; ?></span></a></li>
-<li><a href="carbonate.php">Carbonated <span class="ui-li-count"><?php echo (int)$stats[3]; ?></span></a></li>
-<li><a href="location.php?action=deliver">Marked as in use <span class="ui-li-count"><?php echo (int)$stats[4]; ?></span></a></li>
-<li><a href="return.php">Marked as dirty <span class="ui-li-count"><?php echo (int)$stats[5]; ?></span></a></li>
+<li><a href="clean.php">Clean</a> <span class="ui-li-count"><?php echo (int)$stats[1]; ?></span></li>
+<li><a href="beer.php?action=fill">Fill<span class="ui-li-count"><?php echo (int)$stats[2]; ?></span></a></li>
+<li><a href="location.php?action=deliver">Mark in use <span class="ui-li-count"><?php echo (int)$stats[4]; ?></span></a></li>
+<li><a href="return.php">Mark as dirty <span class="ui-li-count"><?php echo (int)$stats[5]; ?></span></a></li>
 </ul>
 
 <p><a href="keg.php" data-role="button" data-inline="true" data-theme="b">Edit a keg</a><a href="activate.php" data-role="button" data-inline="true" data-theme="b">Reactivate</a></p>

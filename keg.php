@@ -67,8 +67,7 @@ if (!$_GET['id']) {
 
 		<a href="#" class="action" id="a1" data-role="button" data-inline="true" data-theme="b">Clean</a>
 		<a href="#" class="action" id="a2" data-role="button" data-inline="true" data-theme="b">Fill</a>
-		<a href="#" class="action" id="a3" data-role="button" data-inline="true" data-theme="b">Carbonate</a>
-		<a href="#" class="action" id="a4" data-role="button" data-inline="true" data-theme="b">Deliver</a>
+		<a href="#" class="action" id="a4" data-role="button" data-inline="true" data-theme="b">In use</a>
 		<a href="#" class="action" id="a5" data-role="button" data-inline="true" data-theme="b">Dirty</a>
 
 		<form method="post" action="keg.php<?php echo "?id=" . $_GET['id'] . "&amp;size=" . $_GET['size']; ?>">

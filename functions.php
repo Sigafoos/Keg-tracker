@@ -175,29 +175,6 @@ class keg {
 		$this->update();
 	}
 
-	// hook up to Cookiepuss
-	function carbonate() {
-		global $warnings;
-
-		// we don't know the beer
-		if ($this->beer == 0) {
-			$warnings[] = "keg " . $this->id . "_" . $this->size . "  full of unknown beer\r";
-			$this->beer = -1;
-		}
-		// it's not at CBW
-		if ($this->location != 1) {
-			$warnings[] = "keg " . $this->id . "_" . $this->size . "  was not marked as being at HQ\r";
-			$this->location = 1;
-		}
-		// it wasn't full of uncarbed beer
-		if ($this->status != 3) {
-			$warnings[] = "keg " . $this->id . "_" . $this->size . "  was not marked as uncarbonated\r";
-		}
-
-		$this->status = 4;
-		$this->update();
-	}
-
 	// send to a bar, or our fridge
 	public function deliver($location = -1) {
 		global $warnings;
@@ -206,10 +183,6 @@ class keg {
 		if ($this->beer == 0) {
 			$warnings[] = "keg " . $this->id . "_" . $this->size . "  full of unknown beer\r";
 			$this->beer = -1;
-		}
-		// it wasn't full of carbed beer
-		if ($this->status != 4) {
-			$warnings[] = "keg " . $this->id . "_" . $this->size . "  was not marked as uncarbonated\r";
 		}
 
 		$this->status = 5;
@@ -344,6 +317,8 @@ function select_kegs($status) {
 	//$query = "SELECT id, size, beer, location FROM " . $dbprefix . "kegs WHERE status=" . $status . " OR status=-1 ORDER BY location, beer, size, id";
 	$query = "SELECT id, size, beer, location FROM " . $dbprefix . "kegs WHERE status=" . $status;
 	//if ($status == 1) $query .= " OR status = -1";
+	// if you're delivering, carbonated (now obsolete) or not is irrelevant
+	if ($status == 4) $query .= " OR status = 3";
 	$query .= " ORDER BY";
 	switch ($status) {
 		case 1:

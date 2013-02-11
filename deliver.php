@@ -9,6 +9,6 @@ require('functions.php');
 </div>
 
 <div data-role="content">
-<?php select_kegs(4); ?>
+<?php select_kegs(3); ?>
 </div>
 <?php require('footer.inc.php'); ?>
