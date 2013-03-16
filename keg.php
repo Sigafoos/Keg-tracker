@@ -62,7 +62,7 @@ if (!$_GET['id']) {
 	if (!($result = $db->query($query))) echo "<p>Oh my: #" . $db->errno . ": " . $db->error . "</p>\r";
 	$keg = new Keg($result->fetch_assoc());
 	?>
-		<div id="keginfo">
+		<div id="keginfo" data-role="content">
 		<h2>Keg <?php echo $keg->getid() . "_" . $keg->getsize(); ?></h2>
 
 		<a href="#" class="action" id="a1" data-role="button" data-inline="true" data-theme="b">Clean</a>
@@ -113,6 +113,54 @@ if (!$_GET['id']) {
 			<button type="submit" data-inline="true" data-theme="b">Submit</button>
 
 		</form>
+
+		<table data-role="table" class="ui-responsive table-stroke">
+		<thead>
+		<tr>
+		<th>Date</th>
+		<th>Action</th>
+		<!--<th>Comments</th>-->
+		</tr>
+		</thead>
+		<tbody>
+		<?php
+		$query = "SELECT date, status, " . $dbprefix . "locations.location, " . $dbprefix . "beers.beer FROM " . $dbprefix . "keg_log INNER JOIN " . $dbprefix . "locations ON " . $dbprefix . "keg_log.location=" . $dbprefix . "locations.id INNER JOIN " . $dbprefix . "beers ON " . $dbprefix . "keg_log.beer=" . $dbprefix . "beers.id WHERE keg_id=" . $_GET['id'] . " AND size=" . $_GET['size'] . " ORDER BY date DESC LIMIT 5";
+		if (!($result = $db->query($query))) echo "<p>Oh my: #" . $db->errno . ": " . $db->error . "</p>\r";
+		while ($row = $result->fetch_assoc()) {
+			echo "<tr>\r";
+			echo "<th>" . date("m/d/y",strtotime($row['date'])) . "</th>\r";
+			echo "<td>";
+			switch ($row['status']) {
+				case 1:
+					echo "Emptied/returned";
+					break;
+				case 2:
+					echo "Cleaned";
+					break;
+				case 3:
+				case 4:
+					echo "Filled with " . $row['beer'];
+					break;
+				case 5:
+					echo "Delivered to " . $row['location'];
+					break;
+				case 6:
+					echo "Broken";
+					break;
+				case -1:
+					echo "Unknown";
+					break;
+				default:
+					echo "???";// (" . print_r($row) . ")";
+
+			}
+			echo "</td>\r";
+			//echo "<td></td>"; // comments still coming
+			echo "</tr>\r";
+		}
+		?>
+			</tbody>
+			</table>
 		</div>
 
 		<!-- the success message -->
@@ -126,6 +174,7 @@ if (!$_GET['id']) {
 		<a href="#" data-role="button" data-inline="true" data-theme="a" data-rel="back">Close</a>
 		</div>
 		</div>
+
 		<?php
 }
 
