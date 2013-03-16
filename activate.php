@@ -3,7 +3,7 @@ require('functions.php');
 require('header.inc.php');
 ?>
 <div data-role="header">
-<a href="#" data-rel="back" data-type="button" data-theme="b" data-icon="arrow-l">Back</a>
+<a href="/" data-type="button" data-theme="b" data-icon="home">Home</a>
 <h1>Reactivate</h1>
 </div>
 

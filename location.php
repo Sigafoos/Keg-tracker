@@ -3,7 +3,7 @@ require('header.inc.php');
 require('functions.php');
 ?>
 <div data-role="header">
-<a href="#" data-rel="back" data-type="button" data-theme="b" data-icon="arrow-l">Back</a>
+<a href="/" data-type="button" data-theme="b" data-icon="home">Home</a>
 <h1>Choose location</h1>
 <a href="#new" data-rel="popup" data-type="button" data-theme="b" data-icon="plus" data-inline="true" data-position-to="window" data-transition="slideup" title="new location">New</a>
 </div>

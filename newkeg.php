@@ -25,7 +25,7 @@ if (!($result = $db->query($query))) echo "<p>Oh my: #" . $db->errno . ": " . $d
 while ($row = $result->fetch_assoc()) $statuses[$row['id']] = $row['status'];
 ?>
 <div data-role="header">
-<a href="#" data-rel="back" data-type="button" data-theme="b" data-icon="arrow-l">Back</a>
+<a href="/" data-type="button" data-theme="b" data-icon="home">Home</a>
 <h1>New keg</h1>
 </div>
 
