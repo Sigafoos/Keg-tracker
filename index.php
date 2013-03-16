@@ -21,6 +21,10 @@ while ($row = $result->fetch_assoc()) $stats[$row['status']] = $row['number'];
 <li><a href="return.php">Mark as dirty <span class="ui-li-count"><?php echo (int)$stats[5]; ?></span></a></li>
 </ul>
 
-<p><a href="keg.php" data-role="button" data-inline="true" data-theme="b">Edit a keg</a><a href="activate.php" data-role="button" data-inline="true" data-theme="b">Reactivate</a></p>
+<div>
+<a href="keg.php" data-role="button" data-inline="true" data-theme="b">Edit a keg</a>
+<a href="log.php" data-role="button" data-inline="true" data-theme="b">Keg log</a>
+<a href="activate.php" data-role="button" data-inline="true" data-theme="b">Reactivate</a>
+</div>
 </div>
 <?php require('footer.inc.php'); ?>
