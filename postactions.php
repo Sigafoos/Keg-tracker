@@ -62,9 +62,6 @@ if ($_POST['new'] == "beer") {
 				break;
 
 			case 3: 
-				$keg->carbonate();
-				break;
-
 			case 4:
 				$keg->deliver($_POST['location']);
 				break;
