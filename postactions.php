@@ -81,5 +81,16 @@ if ($_POST['new'] == "beer") {
 	echo "<p>" . $i . " keg";
 	if ($i > 1) echo "s";
 	echo " processed.</p>\r\n";
+} else if ($_POST["clean"] == "true") {
+	if (!$_POST['ids']) die("0 kegs processed.");
+	foreach (explode("+",$_POST['ids']) as $info) {
+		// [0] = id; [1] = size
+		$info = explode("_",$info);
+		$query = "SELECT id, location, status, size, beer FROM cbw_kegs WHERE id=" . $info[0] . " AND size=" . $info[1];
+		$result = $db->query($query);
+		$keg = new Keg($result->fetch_assoc());
+
+		$keg->unknown();
+	}
 }
 ?>

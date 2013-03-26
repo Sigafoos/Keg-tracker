@@ -209,6 +209,14 @@ class keg {
 		$this->update();
 	}
 
+	// we don't know anything about this keg anymore
+	public function unknown() {
+		$this->location = -1;
+		$this->beer = -1;
+		$this->status = -1;
+		$this->update();
+	}
+
 }
 
 function new_keg($id, $size = 1, $status = -1, $beer = -1, $location = -1) {
