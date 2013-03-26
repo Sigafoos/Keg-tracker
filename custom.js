@@ -1,3 +1,6 @@
+/** WHAT THE HELL THIS ISN'T UPDATING!!!
+  Don't forget you're using minified code:
+  uglifyjs custom.js -o custom-min.js */
 $(document).bind("pageinit",function(){
 		$.mobile.defaultPageTransition = "slidefade";
 
