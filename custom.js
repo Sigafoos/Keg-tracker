@@ -5,7 +5,8 @@ $(document).bind("pageinit",function(){
 		$.mobile.defaultPageTransition = "slidefade";
 
 		// let me access $_GET
-		function getQueryParams(qs) {
+		function getQueryParams() {
+		var qs = window.location.href.split('?')[1]
 		qs = qs.split("+").join(" ");
 		var params = {},
 		tokens,
@@ -51,15 +52,14 @@ $(document).bind("pageinit",function(){
 			// grab the GET variables
 			// from http://stackoverflow.com/questions/439463/how-to-get-get-and-post-variables-with-jquery
 
-			var $_GET = getQueryParams(document.location.search);
-
+			var $_GET = getQueryParams();
 			$.post('keg.php', {edit:"yes", id:$_GET['id'], size:$_GET['size'], status:$('#status').val(), beer:$('#beer').val(), location:$('#location').val()});
 			$('#success').popup("open", {transition: "pop"});
 			return false; // stop the submit
 		});
 
 		$('#keginfo a.action').on('click',function(){
-				var $_GET = getQueryParams(document.location.search);
+				var $_GET = getQueryParams();
 				$.post('postactions.php',{update:"keg", status:$(this).attr('id').substr(1,1), ids:$_GET['id']+'_'+$_GET['size']});
 				$('#success').popup('open', {transition: 'pop'});
 				});
