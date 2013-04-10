@@ -43,8 +43,8 @@ $(document).bind("pageinit",function(){
 		// update the select with the available kegs
 		$('select#size').change(function(){
 			// get the data from keginfo, display the list in #id
-				var url = window.location.pathname.substr(1);
-			$.post(url, {size:$('select#size').val(), update:"yes"}, function(data) { $('#id').replaceWith(data); });
+			$.post('postactions.php', {size:$('select#size').val(), select:"update"}, function(data) {$('#id').replaceWith(data); });
+			$('#size').selectmenu('refresh');
 			});
 
 		// hijack the submit of a keg edit
@@ -53,7 +53,7 @@ $(document).bind("pageinit",function(){
 			// from http://stackoverflow.com/questions/439463/how-to-get-get-and-post-variables-with-jquery
 
 			var $_GET = getQueryParams();
-			$.post('keg.php', {edit:"yes", id:$_GET['id'], size:$_GET['size'], status:$('#status').val(), beer:$('#beer').val(), location:$('#location').val()});
+			$.post('postactions.php', {edit:"keg", id:$_GET['id'], size:$_GET['size'], status:$('#status').val(), beer:$('#beer').val(), location:$('#location').val()});
 			$('#success').popup("open", {transition: "pop"});
 			return false; // stop the submit
 		});
