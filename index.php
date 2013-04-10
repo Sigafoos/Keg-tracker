@@ -15,10 +15,10 @@ while ($row = $result->fetch_assoc()) $stats[$row['status']] = $row['number'];
 
 <div data-role="content">
 <ul data-role="listview" data-inset="true">
-<li><a href="clean.php">Clean</a> <span class="ui-li-count"><?php echo (int)$stats[1]; ?></span></li>
-<li><a href="beer.php?action=fill">Fill<span class="ui-li-count"><?php echo (int)$stats[2]; ?></span></a></li>
-<li><a href="location.php?action=deliver">Mark in use <span class="ui-li-count"><?php echo (int)$stats[4]; ?></span></a></li>
-<li><a href="return.php">Mark as dirty <span class="ui-li-count"><?php echo (int)$stats[5]; ?></span></a></li>
+<li><a href="clean.php">To mark kegs as clean</a> <span class="ui-li-count"><?php echo (int)$stats[1]; ?></span></li>
+<li><a href="beer.php?action=fill">To mark kegs as filled with<span class="ui-li-count"><?php echo (int)$stats[2]; ?></span></a></li>
+<li><a href="location.php?action=deliver">To mark kegs as in use<span class="ui-li-count"><?php echo (int)$stats[4]; ?></span></a></li>
+<li><a href="return.php">To mark kegs as dirty <span class="ui-li-count"><?php echo (int)$stats[5]; ?></span></a></li>
 </ul>
 
 <div>
