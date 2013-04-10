@@ -114,14 +114,14 @@ $(document).bind("pageinit",function(){
 
 		$('#done').on('click',function(){
 				var ids = Array();
-				$('#kegs input:checkbox:checked').each(function(){
+				$('#kegs input:checkbox').each(function(){
 					ids[ids.length] = $(this).attr('id').substr(3);
 					});
 				// perhaps there's a better way to do this (ie localStorage)
 				// but I sort of like the backwards compatability with php
 				// that or I'm dumb
 				var vars = {clean:'true', ids:ids.join('+')};
-				$.post('postactions.php',vars,function(data){alert(data);});
+				$.post('postactions.php',vars);
 				$('#message').html('All remaining kegs marked as unknown');
 				$('#success').popup('open', {transition: 'pop'});
 				});
