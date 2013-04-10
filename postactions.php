@@ -95,9 +95,7 @@ if ($_POST['new'] == "beer") {
 } else if ($_POST['select'] == "update") {
 	$query = "SELECT id FROM " . $dbprefix . "kegs WHERE size=" . $_POST['size'];
 	if (!($result = $db->query($query))) echo "<p>Oh my: #" . $db->errno . ": " . $db->error . "</p>\r";
-	echo "<select name=\"id\" id=\"id\">";
 	while ($row = $result->fetch_assoc()) echo "<option value=\"" . $row['id'] . "\">" . $row['id'] . "</option>";
-	echo "</select>";
 	die();
 } else if ($_POST['edit'] == "keg") {
 	$keg = new Keg($_POST);

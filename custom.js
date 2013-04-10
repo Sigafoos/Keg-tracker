@@ -1,4 +1,5 @@
 /** WHAT THE HELL THIS ISN'T UPDATING!!!
+  (well, we're not minifying now, so it is, but still)
   Don't forget you're using minified code:
   uglifyjs custom.js -o custom-min.js */
 $(document).bind("pageinit",function(){
@@ -43,8 +44,12 @@ $(document).bind("pageinit",function(){
 		// update the select with the available kegs
 		$('select#size').change(function(){
 			// get the data from keginfo, display the list in #id
-			$.post('postactions.php', {size:$('select#size').val(), select:"update"}, function(data) {$('#id').replaceWith(data); });
-			$('#size').selectmenu('refresh');
+			$.post('postactions.php', {size:$('select#size').val(), select:"update"}, function(data) {
+				$('#id option').remove();
+				$('#id').append(data);
+				$('#id').selectmenu('refresh');
+				});
+
 			});
 
 		// hijack the submit of a keg edit
