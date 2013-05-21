@@ -41,17 +41,6 @@ $(document).bind("pageinit",function(){
 			$('#confirm').popup('open');
 			});
 
-		// update the select with the available kegs
-		$('select#size').change(function(){
-			// get the data from keginfo, display the list in #id
-			$.post('postactions.php', {size:$('select#size').val(), select:"update"}, function(data) {
-				$('#id option').remove();
-				$('#id').append(data);
-				$('#id').selectmenu('refresh');
-				});
-
-			});
-
 		// hijack the submit of a keg edit
 		$('#keginfo').submit(function() {
 			// grab the GET variables

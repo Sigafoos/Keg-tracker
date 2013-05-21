@@ -19,10 +19,7 @@ if (!$_GET['id']) {
 	?>
 		<div data-role="content">
 		<form method="get" action="keg.php">
-		<div data-role="fieldcontain">
-		<fieldset data-role="controlgroup" data-type="horizontal">
-		<legend>Keg id</legend>
-		<label for="size" class="ui-hidden-accessible">Keg size</label>
+		<label for="size">size</label>
 		<select name="size" id="size">
 		<?php foreach ($sizes as $id=>$size) {
 			echo "<option value=\"" . $id . "\"";
@@ -31,12 +28,9 @@ if (!$_GET['id']) {
 		}?>
 		</select>
 
-		<select name="id" id="id">
-		<?php foreach ($kegs as $keg) echo "<option value=\"" . $keg . "\">" . $keg . "</option>\r\n"; ?>
-		</select>
+			<label for="id" id="id">id</label>
+			<input type="number" pattern="[0-9]*" name="id" id="id" />
 
-		</fieldset>
-		</div>
 
 		<button type="submit" data-inline="true" data-theme="b">Submit</button>
 		</form>
@@ -157,7 +151,7 @@ if (!$_GET['id']) {
 
 		<div data-role="content" class="ui-corner-bottom ui-content">
 		<a href="/" data-role="button" data-inline="true" data-theme="b">Home</a>
-		<a href="#" data-role="button" data-inline="true" data-theme="a" data-rel="back">Close</a>
+		<a href="keg.php" data-role="button" data-inline="true" data-theme="a">Another</a>
 		</div>
 		</div>
 
