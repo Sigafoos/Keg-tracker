@@ -323,25 +323,32 @@ function select_kegs($status) {
 
 	// get the kegs themselves
 	//$query = "SELECT id, size, beer, location FROM " . $dbprefix . "kegs WHERE status=" . $status . " OR status=-1 ORDER BY location, beer, size, id";
-	$query = "SELECT id, size, beer, location FROM " . $dbprefix . "kegs WHERE status=" . $status;
-	//if ($status == 1) $query .= " OR status = -1";
-	// if you're delivering, carbonated (now obsolete) or not is irrelevant
-	if ($status == 3) $query .= " OR status=4";
-	$query .= " ORDER BY";
+	$select = "SELECT " . $dbprefix . "kegs.id, size";
+	$from = " FROM " . $dbprefix . "kegs";
+	$where = " WHERE status=" . $status;
+	$order = " ORDER BY";
 	switch ($status) {
 		case 1:
 		case 2:
-			$query .= " status";
+			$order .= " status";
 			break;
 		case 3:
-			$query .= " beer";
+			$select .= ", " . $dbprefix . "kegs.beer";
+			$from .= " INNER JOIN " . $dbprefix . "beers ON " . $dbprefix . "kegs.beer=" . $dbprefix . "beers.id";
+			$where .= " OR status=4";
+			$order .= " " . $dbprefix . "beers.beer";
 			break;
 		case 4:
 		case 5:
-			$query .= " location, beer";
+			$select .= ", " . $dbprefix . "kegs.beer, " . $dbprefix . "kegs.location";
+			$from .= " INNER JOIN " . $dbprefix . "beers ON " . $dbprefix . "kegs.beer=" . $dbprefix . "beers.id";
+			$from .= " INNER JOIN " . $dbprefix . "locations ON " . $dbprefix . "kegs.location = " . $dbprefix . "locations.id";
+			$order .= " " . $dbprefix . "locations.location, " . $dbprefix . "beers.beer";
 			break;
 	}
-	$query .= ", size, id";
+	$order .= ", size, " . $dbprefix . "kegs.id";
+	$query = $select . $from . $where . $order;
+	//die($query);
 	if (!($result = $db->query($query))) echo "<p>Something's gone wrong: #" . $db->errno . ": " . $db->error . "</p>";
 	while ($row = $result->fetch_assoc()) $kegs[] = new keg($row);
 ?>
@@ -382,7 +389,7 @@ function select_kegs($status) {
 			</form>
 			</div>
 			<!-- the success message -->
-			<div id="success" data-role="popup" data-overlay-theme="a" class="ui-corner-all">
+			*<div id="success" data-role="popup" data-overlay-theme="a" class="ui-corner-all">
 			<div data-role="header" class="ui-corner-top">
 			<h1>Success!</h1>
 			</div>
