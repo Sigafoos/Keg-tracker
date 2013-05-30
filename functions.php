@@ -352,6 +352,15 @@ function select_kegs($status) {
 	if (!($result = $db->query($query))) echo "<p>Something's gone wrong: #" . $db->errno . ": " . $db->error . "</p>";
 	while ($row = $result->fetch_assoc()) $kegs[] = new keg($row);
 ?>
+	<div id="csv">
+	<form method="post" action="">
+	<label for="keglist">Kegs</label>
+	<input type="text" pattern="[0-9, ]+" name="keglist" id="keglist" />
+	<button type="submit" data-inline="true" data-theme="b">Submit</button>
+	</form>
+	<p>(comma separated, do not have to be in the below list); or:</p>
+	</div>
+
 	<div id="kegs">
 	<form method="post" action="update.php?status=<?php echo $status . "&" . $_SERVER['QUERY_STRING']; ?>">
 	<div data-role="fieldcontain">
