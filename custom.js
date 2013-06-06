@@ -87,7 +87,7 @@ $(document).bind("pageinit",function(){
 
 		// the csv list
 		$('#csv').submit(function(){
-				var ids = $('#keglist').val().split(",");
+				var ids = $('#keglist').val().split(".");
 				for (i = 0; i < ids.length; i++) {
 				ids[i] = $.trim(ids[i]) + '_1'; // assume it's a sixtel, trim whitespace
 				}

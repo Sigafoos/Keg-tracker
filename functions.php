@@ -355,10 +355,10 @@ function select_kegs($status) {
 	<div id="csv">
 	<form method="post" action="">
 	<label for="keglist">Kegs</label>
-	<input type="text" pattern="[0-9, ]+" name="keglist" id="keglist" />
+	<input type="text" pattern="[0-9 .]+" name="keglist" id="keglist" />
 	<button type="submit" data-inline="true" data-theme="b">Submit</button>
 	</form>
-	<p>(comma separated, do not have to be in the below list); or:</p>
+	<p>(period separated, do not have to be in the below list); or:</p>
 	</div>
 
 	<div id="kegs">
