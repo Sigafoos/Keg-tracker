@@ -34,8 +34,14 @@ $(document).bind("pageinit",function(){
 				vars[qs[i].substr(0,delimiter)] = qs[i].substr(delimiter+1);
 			}
 
-			$.post('postactions.php', vars, function(data){$('#message').html(data);});
-			$('#success').popup('open', {transition: 'pop'});
+//			$.post('postactions.php', vars, function(data){$('#message').html(data);});
+//			$('#success').popup('open', {transition: 'pop'});
+			$.mobile.loading("show");
+			$.post('postactions.php', vars, function(data){
+					$.mobile.loading("hide");
+					$('#message').html(data);
+					$('#success').popup('open', {transition: 'pop'});
+					});
 		}
 
 		// archive a beer/location
