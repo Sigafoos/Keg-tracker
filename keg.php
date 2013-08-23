@@ -38,7 +38,7 @@ if (!$_GET['id']) {
 
 		<?php
 } else {
-	$query = "SELECT id, status, beer, location, size FROM " . $dbprefix . "kegs WHERE id=" . $_GET['id'] . "  AND size=" . $_GET['size'];
+	$query = "SELECT " . $dbprefix . "kegs.id, status, beer, location, size, " . $dbprefix . "keg_warnings.warning FROM " . $dbprefix . "kegs INNER JOIN " . $dbprefix . "keg_warnings ON " . $dbprefix . "kegs.warning=" . $dbprefix . "keg_warnings.id WHERE " . $dbprefix . "kegs.id=" . $_GET['id'] . "  AND size=" . $_GET['size'];
 	if (!($result = $db->query($query))) echo "<p>Oh my: #" . $db->errno . ": " . $db->error . "</p>\r";
 	$keg = new Keg($result->fetch_assoc());
 	?>
