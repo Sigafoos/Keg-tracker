@@ -2,3 +2,4 @@
 .htpasswd
 test.php
 config.inc.php
+*.png
