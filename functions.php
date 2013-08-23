@@ -353,7 +353,10 @@ function select_kegs($status) {
 	while ($row = $result->fetch_assoc()) $kegs[] = new keg($row);
 ?>
 	<div id="csv">
-	<form method="post" action="">
+	<form method="post" action="?status=<?php
+	if ($_GET['beer']) echo "&beer=" . $_GET['beer'];
+	else if ($_GET['location']) echo "&location=" . $_GET['location'];
+	?>">
 	<label for="keglist">Kegs</label>
 	<input type="text" pattern="[0-9 .]+" name="keglist" id="keglist" />
 	<button type="submit" data-inline="true" data-theme="b">Submit</button>
