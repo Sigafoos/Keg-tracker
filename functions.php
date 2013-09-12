@@ -326,24 +326,24 @@ function select_kegs($status) {
 	$select = "SELECT " . $dbprefix . "kegs.id, size";
 	$from = " FROM " . $dbprefix . "kegs";
 	$where = " WHERE status=" . $status;
-	$order = " ORDER BY";
+	$order = " ORDER BY " . $dbprefix . "kegs.id ASC";
 	switch ($status) {
 		case 1:
 		case 2:
-			$order .= " status";
+			//$order .= " status";
 			break;
 		case 3:
 			$select .= ", " . $dbprefix . "kegs.beer";
 			$from .= " INNER JOIN " . $dbprefix . "beers ON " . $dbprefix . "kegs.beer=" . $dbprefix . "beers.id";
 			$where .= " OR status=4";
-			$order .= " " . $dbprefix . "beers.beer";
+			//$order .= " " . $dbprefix . "beers.beer";
 			break;
 		case 4:
 		case 5:
 			$select .= ", " . $dbprefix . "kegs.beer, " . $dbprefix . "kegs.location";
 			$from .= " INNER JOIN " . $dbprefix . "beers ON " . $dbprefix . "kegs.beer=" . $dbprefix . "beers.id";
 			$from .= " INNER JOIN " . $dbprefix . "locations ON " . $dbprefix . "kegs.location = " . $dbprefix . "locations.id";
-			$order .= " " . $dbprefix . "locations.location, " . $dbprefix . "beers.beer";
+			//$order .= " " . $dbprefix . "locations.location, " . $dbprefix . "beers.beer";
 			break;
 	}
 	$order .= ", size, " . $dbprefix . "kegs.id";
@@ -369,12 +369,7 @@ function select_kegs($status) {
 	<div data-role="fieldcontain">
 	<fieldset data-role="controlgroup">
 	<?php
-	if ($status == 5) {
-		$currlocation = $kegs[0]->getlocation();
-		echo "<legend>" . $locations[$currlocation] . "</legend>\r\n";
-	} else {
-		echo "<legend>Kegs to update</legend>\r\n";
-	}
+	echo "<legend>Kegs to update</legend>\r\n";
 
 	foreach ($kegs as $keg) {
 		$id = $keg->getid();
@@ -384,14 +379,14 @@ function select_kegs($status) {
 		$beer = $keg->getbeer();
 		$location = $keg->getlocation();
 
-		// if we're returning kegs, separate by location
-		if ($status == 5 && $currlocation != $location) {
-			echo "</fieldset>\r\n</div>\r\n<div data-role=\"fieldcontain\">\r\n<fieldset data-role=\"controlgroup\">\r\n<legend>" . $locations[$location] . "</legend>\r\n";
-			$currlocation = $location;
-		}
-
 		echo "<input type=\"checkbox\" id=\"keg" . $formid . "\" name=\"kegs[" . $formid . "]\" /><label for=\"keg" . $formid . "\">" . $size . "  keg #" . $id;
-		if ($beer) echo " (" . $beers[$beer] . ")";
+		if ($beers || $locations) {
+			echo " (";
+			if ($locations) echo $locations[$location];
+			if ($locations && $beers) echo "/";
+			if ($beers) echo $beers[$beer];
+			echo ")";
+		}
 		echo "</label>\r\n";
 	}
 		?>

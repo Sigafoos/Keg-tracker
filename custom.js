@@ -149,8 +149,5 @@ $(document).bind("pageinit",function(){
 				$('#success').popup('open', {transition: 'pop'});
 				});
 
-		$('#warn button').on('click',function(){
-				alert("hi");
-				});
 });
 
