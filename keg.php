@@ -38,17 +38,24 @@ if (!$_GET['id']) {
 
 		<?php
 } else {
-	$query = "SELECT " . $dbprefix . "kegs.id, status, beer, location, size, " . $dbprefix . "keg_warnings.warning FROM " . $dbprefix . "kegs INNER JOIN " . $dbprefix . "keg_warnings ON " . $dbprefix . "kegs.warning=" . $dbprefix . "keg_warnings.id WHERE " . $dbprefix . "kegs.id=" . $_GET['id'] . "  AND size=" . $_GET['size'];
+	$query = "SELECT id, status, beer, location, size, warning FROM " . $dbprefix . "kegs WHERE id=" . $_GET['id'] . "  AND size=" . $_GET['size'];
 	if (!($result = $db->query($query))) echo "<p>Oh my: #" . $db->errno . ": " . $db->error . "</p>\r";
 	$keg = new Keg($result->fetch_assoc());
 	?>
 		<div id="keginfo" data-role="content">
+		<?php 
+		if ($keg->getwarning() != 1) {
+			echo "<div class=\"ui-bar ui-bar-e\">Warning: " . $keg->getwarning(1) . "</div>\r</div>\r";
+		} 
+	?>
+
 		<h2>Keg <?php echo $keg->getid() . "_" . $keg->getsize(); ?></h2>
 
 		<a href="#" class="action" id="a1" data-role="button" data-inline="true" data-theme="b">Clean</a>
 		<a href="#" class="action" id="a2" data-role="button" data-inline="true" data-theme="b">Fill</a>
 		<a href="#" class="action" id="a4" data-role="button" data-inline="true" data-theme="b">In use</a>
 		<a href="#" class="action" id="a5" data-role="button" data-inline="true" data-theme="b">Dirty</a>
+		<a href="#warn" class="action" id="a6" data-rel="popup" data-role="button" data-inline="true" data-theme="e">Record a problem</a>
 
 		<form method="post" action="keg.php<?php echo "?id=" . $_GET['id'] . "&amp;size=" . $_GET['size']; ?>">
 		<label for="status">Status</label>
@@ -154,6 +161,18 @@ if (!$_GET['id']) {
 		<a href="keg.php" data-role="button" data-inline="true" data-theme="a">Another</a>
 		</div>
 		</div>
+
+		<!-- to warn -->
+		<div id="warn" data-role="popup" data-overlay-theme="a" class="ui-corner-all">
+		<div data-role="header" class="ui-corner-top">
+		<h1>Uh oh. What's wrong?</h1>
+		</div>
+
+		<div data-role="content" class="ui-corner-bottom ui-content">
+		<button data-inline="true" data-theme="b">Submit</button>
+		</div>
+		</div>
+
 
 		<?php
 }
