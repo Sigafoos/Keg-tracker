@@ -91,7 +91,16 @@ $(document).bind("pageinit",function(){
 
 		// the csv list
 		$('#csv').submit(function(){
-				var ids = $('#keglist').val().split(".");
+				var list = $('#keglist').val();
+				// if there are no kegs entered
+				if (list == '') {
+				$('#success h1').html('Error!');
+				$('#message').html('No kegs specified');
+				$('#success').popup('open', {transition: 'pop'});
+				return false;
+				}
+				var ids = list.split(".");
+				//if (ids.length == 0) alert("oi");
 				for (i = 0; i < ids.length; i++) {
 				ids[i] = $.trim(ids[i]) + '_1'; // assume it's a sixtel, trim whitespace
 				}
@@ -140,5 +149,8 @@ $(document).bind("pageinit",function(){
 				$('#success').popup('open', {transition: 'pop'});
 				});
 
+		$('#warn button').on('click',function(){
+				alert("hi");
+				});
 });
 
