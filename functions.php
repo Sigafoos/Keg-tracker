@@ -7,6 +7,7 @@ class keg {
 	private $beer;
 	private $location;
 	private $size;
+	private $warning;
 
 	function __construct($data) {
 		$this->id = $data['id'];
@@ -19,13 +20,14 @@ class keg {
 		$this->beer = ($data['beer']) ? $data['beer'] : 0;
 		$this->location = ($data['location']) ? $data['location'] : -1;
 		$this->size = ($data['size']) ? $data['size'] : 1;
+		$this->warning = ($data['warning']) ? $data['warning'] : 0;
 	}
 
 	// DISPLAY FUNCTIONS
 	// display the keg's status
 	public function info() {
 		global $db,$dbprefix;
-		$query = "SELECT " . $dbprefix . "keg_statuses.status, " . $dbprefix . "locations.location, " . $dbprefix . "keg_sizes.size, " . $dbprefix . "beers.beer FROM " . $dbprefix . "kegs INNER JOIN " . $dbprefix . "keg_statuses ON " . $dbprefix . "kegs.status=" . $dbprefix . "keg_statuses.id INNER JOIN " . $dbprefix . "locations ON " . $dbprefix . "kegs.location=" . $dbprefix . "locations.id INNER JOIN " . $dbprefix . "keg_sizes ON " . $dbprefix . "kegs.size=" . $dbprefix . "keg_sizes.id LEFT OUTER JOIN " . $dbprefix . "beers ON " . $dbprefix . "kegs.beer=" . $dbprefix . "beers.id WHERE " . $dbprefix . "kegs.id=" . $this->id . " AND " . $dbprefix . "kegs.size=" . $this->size;
+		$query = "SELECT " . $dbprefix . "keg_statuses.status, " . $dbprefix . "locations.location, " . $dbprefix . "keg_sizes.size, " . $dbprefix . "beers.beer, " . $dbprefix . "keg_warnings.warning FROM " . $dbprefix . "kegs INNER JOIN " . $dbprefix . "keg_statuses ON " . $dbprefix . "kegs.status=" . $dbprefix . "keg_statuses.id INNER JOIN " . $dbprefix . "locations ON " . $dbprefix . "kegs.location=" . $dbprefix . "locations.id INNER JOIN " . $dbprefix . "keg_sizes ON " . $dbprefix . "kegs.size=" . $dbprefix . "keg_sizes.id LEFT OUTER JOIN " . $dbprefix . "beers ON " . $dbprefix . "kegs.beer=" . $dbprefix . "beers.id LEFT OUTER JOIN " . $dbprefix . "keg_warnings ON " . $dbprefix . "kegs.warning=" . $dbprefix . "keg_warnings.id WHERE " . $dbprefix . "kegs.id=" . $this->id . " AND " . $dbprefix . "kegs.size=" . $this->size;
 		if (!($result = $db->query($query))) {
 			echo "<p>Error getting info for keg " . $this->id . ": #" . $db->errno . ": " . $db->error . "</p>\r";
 			return FALSE;
@@ -94,6 +96,18 @@ class keg {
 			$result = $db->query($query);
 			$row = $result->fetch_assoc();
 			return $row['size'];
+		}
+	}
+
+	public function getwarning($text = 0) {
+		if (!$text) {
+			return $this->warning;
+		} else {
+			global $db,$dbprefix;
+			$query = "SELECT warning FROM " . $dbprefix . "keg_warnings WHERE id=" . $this->warning;
+			$result = $db->query($query);
+			$row = $result->fetch_assoc();
+			return $row['warning'];
 		}
 	}
 
