@@ -45,7 +45,7 @@ if (!$_GET['id']) {
 		<div id="keginfo" data-role="content">
 		<?php 
 		if ($keg->getwarning() != 1) {
-			echo "<div class=\"ui-bar ui-bar-e\">Warning: " . $keg->getwarning(1) . "</div>\r</div>\r";
+			echo "<div class=\"ui-bar ui-bar-e\">Warning: " . $keg->getwarning(1) . "</div>\r";
 		} 
 	?>
 
