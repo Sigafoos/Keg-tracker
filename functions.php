@@ -117,7 +117,7 @@ class keg {
 	public function update() {
 		global $db,$dbprefix;
 
-		$query = "UPDATE " . $dbprefix . "kegs SET status=" . $this->status . ", beer=" . $this->beer . ", location=" . $this->location . " WHERE id=" . $this->id . " AND size=" . $this->size;
+		$query = "UPDATE " . $dbprefix . "kegs SET status=" . $this->status . ", beer=" . $this->beer . ", location=" . $this->location . ", warning=" . $this->warning . " WHERE id=" . $this->id . " AND size=" . $this->size;
 
 		if (!$db->query($query)) {
 			echo "<p>Error updating info for keg " . $this->id . "-" . $this->size . ": #" . $db->errno . ": " . $db->error . "</p>\r";
