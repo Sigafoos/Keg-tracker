@@ -151,9 +151,7 @@ $(document).bind("pageinit",function(){
 
 		$('#warn button').on('click',function(){
 				var $_GET = getQueryParams();
-				$.post('postactions.php',{warn:'new', id:$_GET['id'], size:$_GET['size'], status:$('#status').val(), beer:$('#beer').val(), location:$('#location').val(), warning:$('#warning').val()},function(data) {console.log(data);});
-				$('#warn').popup('close');
-				return false;
+				$.post('postactions.php',{warn:'new', id:$_GET['id'], size:$_GET['size'], status:$('#status').val(), beer:$('#beer').val(), location:$('#location').val(), warning:$('#warning').val()});
 				});
 });
 
