@@ -223,6 +223,11 @@ class keg {
 		$this->update();
 	}
 
+	public function warn($warning) {
+		$this->warning = $warning;
+		$this->update();
+	}
+
 	// we don't know anything about this keg anymore
 	public function unknown() {
 		$this->location = -1;

@@ -97,5 +97,13 @@ if ($_POST['new'] == "beer") {
 	//echo "id: " . $keg->getid() . "\nsize: " . $keg->getsize() . "\nstatus: " . $keg->getstatus() . "\nbeer: " . $keg->getbeer() . "\nlocation: " . $keg->getlocation();
 	$keg->update();
 	die();
+} else if ($_POST['warn'] == "new") {
+	// the $_GET function in custom.js is a little wonky
+	$_POST['id'] = (int)$_POST['id'];
+	$_POST['size'] = (int)$_POST['size'];
+
+	$keg = new Keg($_POST);
+	$keg->warn($_POST['warning']);
+} else if ($_POST['warn'] == "clear") { // I'll leave this here for now
 }
 ?>

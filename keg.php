@@ -165,11 +165,21 @@ if (!$_GET['id']) {
 		<!-- to warn -->
 		<div id="warn" data-role="popup" data-overlay-theme="a" class="ui-corner-all">
 		<div data-role="header" class="ui-corner-top">
-		<h1>Uh oh. What's wrong?</h1>
+		<h1>Uh oh</h1>
 		</div>
 
 		<div data-role="content" class="ui-corner-bottom ui-content">
+		<form method="post" action="keg.php<?php echo "?id=" . $_GET['id'] . "&amp;size=" . $_GET['size']; ?>">
+		<label for="warning">The problem is</label>
+		<select name="warning" id="warning">
+		<?php
+		$query = "SELECT id, warning FROM " . $dbprefix . "keg_warnings WHERE id > 1 ORDER BY warning"; // > 1 to skip "None"
+		if (!($result = $db->query($query))) echo "<p>Oh my: #" . $db->errno . ": " . $db->error . "</p>\r";
+		while ($row = $result->fetch_assoc()) echo "<option value=\"" . $row['id'] . "\">" . $row['warning'] . "</option>\r";
+		?>
+			</select>
 		<button data-inline="true" data-theme="b">Submit</button>
+		</form>
 		</div>
 		</div>
 

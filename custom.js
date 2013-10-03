@@ -150,7 +150,10 @@ $(document).bind("pageinit",function(){
 				});
 
 		$('#warn button').on('click',function(){
-				alert("hi");
+				var $_GET = getQueryParams();
+				$.post('postactions.php',{warn:'new', id:$_GET['id'], size:$_GET['size'], warning:$('#warning').val()},function(data) {console.log(data);});
+				$('#warn').popup('close');
+				return false;
 				});
 });
 
