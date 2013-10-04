@@ -45,7 +45,10 @@ if (!$_GET['id']) {
 		<div id="keginfo" data-role="content">
 		<?php 
 		if ($keg->getwarning() != -1) {
-			echo "<div class=\"ui-bar ui-bar-e\">Warning: " . $keg->getwarning(1) . "</div>\r";
+			$query = "SELECT date FROM cbw_keg_log WHERE keg_id=" . $_GET['id'] . " AND size=" . $_GET['size'] . " AND warning != -1 ORDER BY date DESC LIMIT 1";
+			if (!($result = $db->query($query))) echo "<p>Oh my: #" . $db->errno . ": " . $db->error . "</p>\r";
+			$row = $result->fetch_assoc();
+			echo "<div class=\"ui-bar ui-bar-e\">Warning: " . $keg->getwarning(1) . " (" . date("F j, Y",strtotime($row['date'])) . ")</div>\r";
 		} 
 	?>
 
