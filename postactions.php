@@ -101,8 +101,10 @@ if ($_POST['new'] == "beer") {
 	// the $_GET function in custom.js is a little wonky
 	$_POST['id'] = (int)$_POST['id'];
 	$_POST['size'] = (int)$_POST['size'];
+	$_POST['status'] = -99; // "info" status
 
 	$keg = new Keg($_POST);
+	echo $keg->info();
 	$keg->warn($_POST['warning']);
 } else if ($_POST['warn'] == "clear") { // I'll leave this here for now
 }

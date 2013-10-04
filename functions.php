@@ -20,7 +20,7 @@ class keg {
 		$this->beer = ($data['beer']) ? $data['beer'] : 0;
 		$this->location = ($data['location']) ? $data['location'] : -1;
 		$this->size = ($data['size']) ? $data['size'] : 1;
-		$this->warning = ($data['warning']) ? $data['warning'] : 0;
+		$this->warning = ($data['warning']) ? $data['warning'] : -1;
 	}
 
 	// DISPLAY FUNCTIONS
@@ -117,7 +117,10 @@ class keg {
 	public function update() {
 		global $db,$dbprefix;
 
-		$query = "UPDATE " . $dbprefix . "kegs SET status=" . $this->status . ", beer=" . $this->beer . ", location=" . $this->location . ", warning=" . $this->warning . " WHERE id=" . $this->id . " AND size=" . $this->size;
+		$query = "UPDATE " . $dbprefix . "kegs SET";
+		if ($this->status != -99) $query .= " status=" . $this->status . ", beer=" . $this->beer . ", location=" . $this->location; // full update
+		else $query .= " warning=" . $this->warning; // just an info update
+		$query .= " WHERE id=" . $this->id . " AND size=" . $this->size;
 
 		if (!$db->query($query)) {
 			echo "<p>Error updating info for keg " . $this->id . "-" . $this->size . ": #" . $db->errno . ": " . $db->error . "</p>\r";
