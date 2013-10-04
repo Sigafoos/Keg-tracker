@@ -111,7 +111,7 @@ if (!$_GET['id']) {
 		</thead>
 		<tbody>
 		<?php
-		$query = "SELECT date, status, " . $dbprefix . "locations.location, " . $dbprefix . "beers.beer FROM " . $dbprefix . "keg_log INNER JOIN " . $dbprefix . "locations ON " . $dbprefix . "keg_log.location=" . $dbprefix . "locations.id INNER JOIN " . $dbprefix . "beers ON " . $dbprefix . "keg_log.beer=" . $dbprefix . "beers.id WHERE keg_id=" . $_GET['id'] . " AND size=" . $_GET['size'] . " ORDER BY date DESC LIMIT 5";
+		$query = "SELECT date, status, " . $dbprefix . "locations.location, " . $dbprefix . "beers.beer, " . $dbprefix . "keg_warnings.warning FROM " . $dbprefix . "keg_log INNER JOIN " . $dbprefix . "locations ON " . $dbprefix . "keg_log.location=" . $dbprefix . "locations.id INNER JOIN " . $dbprefix . "beers ON " . $dbprefix . "keg_log.beer=" . $dbprefix . "beers.id INNER JOIN " . $dbprefix . "keg_warnings ON " . $dbprefix . "keg_log.warning=" . $dbprefix . "keg_warnings.id  WHERE keg_id=" . $_GET['id'] . " AND size=" . $_GET['size'] . " ORDER BY date DESC LIMIT 5";
 		if (!($result = $db->query($query))) echo "<p>Oh my: #" . $db->errno . ": " . $db->error . "</p>\r";
 		while ($row = $result->fetch_assoc()) {
 			echo "<tr>\r";
@@ -136,6 +136,9 @@ if (!$_GET['id']) {
 					break;
 				case -1:
 					echo "Unknown";
+					break;
+				case -99:
+					echo "<strong>Warning: " . $row['warning'] . "</strong>";
 					break;
 				default:
 					echo "???";// (" . print_r($row) . ")";
