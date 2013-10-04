@@ -153,5 +153,9 @@ $(document).bind("pageinit",function(){
 				var $_GET = getQueryParams();
 				$.post('postactions.php',{warn:'new', id:$_GET['id'], size:$_GET['size'], warning:$('#warning').val()});
 				});
+		$('#clearwarn').on('click',function(){
+				var $_GET = getQueryParams();
+				$.post('postactions.php',{warn:'clear', id:$_GET['id'], size:$_GET['size']});
+				});
 });
 

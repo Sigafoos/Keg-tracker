@@ -55,7 +55,10 @@ if (!$_GET['id']) {
 		<a href="#" class="action" id="a2" data-role="button" data-inline="true" data-theme="b">Fill</a>
 		<a href="#" class="action" id="a4" data-role="button" data-inline="true" data-theme="b">In use</a>
 		<a href="#" class="action" id="a5" data-role="button" data-inline="true" data-theme="b">Dirty</a>
-		<a href="#warn" class="action" id="a6" data-rel="popup" data-role="button" data-inline="true" data-theme="e">Record a problem</a>
+		<?php
+		if ($keg->getwarning() == -1) echo "<a href=\"#warn\" class=\"action\" id=\"a6\" data-rel=\"popup\" data-role=\"button\" data-inline=\"true\" data-theme=\"e\">Record a problem</a>";
+		else echo "<a href=\"#\" class=\"action\" id=\"clearwarn\" data-role=\"button\" data-inline=\"true\" data-theme=\"e\">Clear warning</a>";
+	?>
 
 		<form method="post" action="keg.php<?php echo "?id=" . $_GET['id'] . "&amp;size=" . $_GET['size']; ?>">
 		<label for="status">Status</label>
