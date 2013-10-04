@@ -19,7 +19,7 @@ require('header.inc.php');
 </thead>
 <tbody>
 <?php
-$query = "SELECT keg_id, " . $dbprefix . "keg_sizes.size, date, status, " . $dbprefix . "locations.location, " . $dbprefix . "beers.beer FROM " . $dbprefix . "keg_log INNER JOIN " . $dbprefix . "keg_sizes ON " . $dbprefix . "keg_log.size=" . $dbprefix . "keg_sizes.id INNER JOIN " . $dbprefix . "locations ON " . $dbprefix . "keg_log.location=" . $dbprefix . "locations.id INNER JOIN " . $dbprefix . "beers ON " . $dbprefix . "keg_log.beer=" . $dbprefix . "beers.id ORDER BY date DESC LIMIT 15";
+$query = "SELECT keg_id, " . $dbprefix . "keg_sizes.size, date, status, " . $dbprefix . "locations.location, " . $dbprefix . "beers.beer, " . $dbprefix . "keg_warnings.warning FROM " . $dbprefix . "keg_log INNER JOIN " . $dbprefix . "keg_sizes ON " . $dbprefix . "keg_log.size=" . $dbprefix . "keg_sizes.id INNER JOIN " . $dbprefix . "locations ON " . $dbprefix . "keg_log.location=" . $dbprefix . "locations.id INNER JOIN " . $dbprefix . "beers ON " . $dbprefix . "keg_log.beer=" . $dbprefix . "beers.id INNER JOIN " . $dbprefix . "keg_warnings ON " . $dbprefix . "keg_log.warning=" . $dbprefix . "keg_warnings.id ORDER BY date DESC LIMIT 15";
 if (!($result = $db->query($query))) echo "<p>Oh my: #" . $db->errno . ": " . $db->error . "</p>\r";
 while ($row = $result->fetch_assoc()) {
 	echo "<tr>\r";
@@ -40,14 +40,17 @@ while ($row = $result->fetch_assoc()) {
 		case 5:
 			echo "Delivered to " . $row['location'];
 			break;
-				case 6:
-					echo "Broken";
-					break;
-				case -1:
-					echo "Unknown";
-					break;
-				default:
-					echo "???";// (" . print_r($row) . ")";
+		case 6:
+			echo "Broken";
+			break;
+		case -1:
+			echo "Unknown";
+			break;
+		case -99:
+			echo "<strong>Warning: " . $row['warning'] . "</strong>";
+			break;
+		default:
+			echo "???";// (" . print_r($row) . ")";
 
 			}
 			echo "</td>\r";

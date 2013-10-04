@@ -43,6 +43,14 @@ if (!$_GET['id']) {
 	$keg = new Keg($result->fetch_assoc());
 	?>
 		<div id="keginfo" data-role="content">
+		<?php 
+		if ($keg->getwarning() != -1) {
+			$query = "SELECT date FROM cbw_keg_log WHERE keg_id=" . $_GET['id'] . " AND size=" . $_GET['size'] . " AND warning != -1 ORDER BY date DESC LIMIT 1";
+			if (!($result = $db->query($query))) echo "<p>Oh my: #" . $db->errno . ": " . $db->error . "</p>\r";
+			$row = $result->fetch_assoc();
+			echo "<div class=\"ui-bar ui-bar-e\">Warning: " . $keg->getwarning(1) . " (" . date("F j, Y",strtotime($row['date'])) . ")</div>\r";
+		} 
+	?>
 
 		<h2>Keg <?php echo $keg->getid() . "_" . $keg->getsize(); ?></h2>
 
@@ -50,6 +58,10 @@ if (!$_GET['id']) {
 		<a href="#" class="action" id="a2" data-role="button" data-inline="true" data-theme="b">Fill</a>
 		<a href="#" class="action" id="a4" data-role="button" data-inline="true" data-theme="b">In use</a>
 		<a href="#" class="action" id="a5" data-role="button" data-inline="true" data-theme="b">Dirty</a>
+		<?php
+		if ($keg->getwarning() == -1) echo "<a href=\"#warn\" class=\"action\" id=\"a6\" data-rel=\"popup\" data-role=\"button\" data-inline=\"true\" data-theme=\"e\">Record a problem</a>";
+		else echo "<a href=\"#\" class=\"action\" id=\"clearwarn\" data-role=\"button\" data-inline=\"true\" data-theme=\"e\">Clear warning</a>";
+	?>
 
 		<form method="post" action="keg.php<?php echo "?id=" . $_GET['id'] . "&amp;size=" . $_GET['size']; ?>">
 		<label for="status">Status</label>
@@ -105,7 +117,7 @@ if (!$_GET['id']) {
 		</thead>
 		<tbody>
 		<?php
-		$query = "SELECT date, status, " . $dbprefix . "locations.location, " . $dbprefix . "beers.beer FROM " . $dbprefix . "keg_log INNER JOIN " . $dbprefix . "locations ON " . $dbprefix . "keg_log.location=" . $dbprefix . "locations.id INNER JOIN " . $dbprefix . "beers ON " . $dbprefix . "keg_log.beer=" . $dbprefix . "beers.id WHERE keg_id=" . $_GET['id'] . " AND size=" . $_GET['size'] . " ORDER BY date DESC LIMIT 5";
+		$query = "SELECT date, status, " . $dbprefix . "locations.location, " . $dbprefix . "beers.beer, " . $dbprefix . "keg_warnings.warning FROM " . $dbprefix . "keg_log INNER JOIN " . $dbprefix . "locations ON " . $dbprefix . "keg_log.location=" . $dbprefix . "locations.id INNER JOIN " . $dbprefix . "beers ON " . $dbprefix . "keg_log.beer=" . $dbprefix . "beers.id INNER JOIN " . $dbprefix . "keg_warnings ON " . $dbprefix . "keg_log.warning=" . $dbprefix . "keg_warnings.id  WHERE keg_id=" . $_GET['id'] . " AND size=" . $_GET['size'] . " ORDER BY date DESC LIMIT 5";
 		if (!($result = $db->query($query))) echo "<p>Oh my: #" . $db->errno . ": " . $db->error . "</p>\r";
 		while ($row = $result->fetch_assoc()) {
 			echo "<tr>\r";
@@ -130,6 +142,9 @@ if (!$_GET['id']) {
 					break;
 				case -1:
 					echo "Unknown";
+					break;
+				case -99:
+					echo "<strong>Warning: " . $row['warning'] . "</strong>";
 					break;
 				default:
 					echo "???";// (" . print_r($row) . ")";
@@ -156,8 +171,24 @@ if (!$_GET['id']) {
 		</div>
 		</div>
 
+		<!-- to warn -->
+		<div id="warn" data-role="popup" data-overlay-theme="a" class="ui-corner-all">
+		<div data-role="header" class="ui-corner-top">
+		<h1>Uh oh</h1>
+		</div>
+
 		<div data-role="content" class="ui-corner-bottom ui-content">
+		<form method="post" action="keg.php<?php echo "?id=" . $_GET['id'] . "&amp;size=" . $_GET['size']; ?>">
+		<label for="warning">The problem is</label>
+		<select name="warning" id="warning">
+		<?php
+		$query = "SELECT id, warning FROM " . $dbprefix . "keg_warnings WHERE id > 1 ORDER BY warning"; // > 1 to skip "None"
+		if (!($result = $db->query($query))) echo "<p>Oh my: #" . $db->errno . ": " . $db->error . "</p>\r";
+		while ($row = $result->fetch_assoc()) echo "<option value=\"" . $row['id'] . "\">" . $row['warning'] . "</option>\r";
+		?>
+			</select>
 		<button data-inline="true" data-theme="b">Submit</button>
+		</form>
 		</div>
 		</div>
 

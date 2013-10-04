@@ -7,6 +7,7 @@ class keg {
 	private $beer;
 	private $location;
 	private $size;
+	private $warning;
 
 	function __construct($data) {
 		$this->id = $data['id'];
@@ -19,13 +20,14 @@ class keg {
 		$this->beer = ($data['beer']) ? $data['beer'] : 0;
 		$this->location = ($data['location']) ? $data['location'] : -1;
 		$this->size = ($data['size']) ? $data['size'] : 1;
+		$this->warning = ($data['warning']) ? $data['warning'] : -1;
 	}
 
 	// DISPLAY FUNCTIONS
 	// display the keg's status
 	public function info() {
 		global $db,$dbprefix;
-		$query = "SELECT " . $dbprefix . "keg_statuses.status, " . $dbprefix . "locations.location, " . $dbprefix . "keg_sizes.size, " . $dbprefix . "beers.beer FROM " . $dbprefix . "kegs INNER JOIN " . $dbprefix . "keg_statuses ON " . $dbprefix . "kegs.status=" . $dbprefix . "keg_statuses.id INNER JOIN " . $dbprefix . "locations ON " . $dbprefix . "kegs.location=" . $dbprefix . "locations.id INNER JOIN " . $dbprefix . "keg_sizes ON " . $dbprefix . "kegs.size=" . $dbprefix . "keg_sizes.id LEFT OUTER JOIN " . $dbprefix . "beers ON " . $dbprefix . "kegs.beer=" . $dbprefix . "beers.id WHERE " . $dbprefix . "kegs.id=" . $this->id . " AND " . $dbprefix . "kegs.size=" . $this->size;
+		$query = "SELECT " . $dbprefix . "keg_statuses.status, " . $dbprefix . "locations.location, " . $dbprefix . "keg_sizes.size, " . $dbprefix . "beers.beer, " . $dbprefix . "keg_warnings.warning FROM " . $dbprefix . "kegs INNER JOIN " . $dbprefix . "keg_statuses ON " . $dbprefix . "kegs.status=" . $dbprefix . "keg_statuses.id INNER JOIN " . $dbprefix . "locations ON " . $dbprefix . "kegs.location=" . $dbprefix . "locations.id INNER JOIN " . $dbprefix . "keg_sizes ON " . $dbprefix . "kegs.size=" . $dbprefix . "keg_sizes.id LEFT OUTER JOIN " . $dbprefix . "beers ON " . $dbprefix . "kegs.beer=" . $dbprefix . "beers.id LEFT OUTER JOIN " . $dbprefix . "keg_warnings ON " . $dbprefix . "kegs.warning=" . $dbprefix . "keg_warnings.id WHERE " . $dbprefix . "kegs.id=" . $this->id . " AND " . $dbprefix . "kegs.size=" . $this->size;
 		if (!($result = $db->query($query))) {
 			echo "<p>Error getting info for keg " . $this->id . ": #" . $db->errno . ": " . $db->error . "</p>\r";
 			return FALSE;
@@ -97,13 +99,28 @@ class keg {
 		}
 	}
 
+	public function getwarning($text = 0) {
+		if (!$text) {
+			return $this->warning;
+		} else {
+			global $db,$dbprefix;
+			$query = "SELECT warning FROM " . $dbprefix . "keg_warnings WHERE id=" . $this->warning;
+			$result = $db->query($query);
+			$row = $result->fetch_assoc();
+			return $row['warning'];
+		}
+	}
+
 	// UPDATING FUNCTIONS
 	// now that we've checked the validity of the data in the specific action function, 
 	// update the data
 	public function update() {
 		global $db,$dbprefix;
 
-		$query = "UPDATE " . $dbprefix . "kegs SET status=" . $this->status . ", beer=" . $this->beer . ", location=" . $this->location . " WHERE id=" . $this->id . " AND size=" . $this->size;
+		$query = "UPDATE " . $dbprefix . "kegs SET";
+		if ($this->status != -99) $query .= " status=" . $this->status . ", beer=" . $this->beer . ", location=" . $this->location; // full update
+		else $query .= " warning=" . $this->warning; // just an info update
+		$query .= " WHERE id=" . $this->id . " AND size=" . $this->size;
 
 		if (!$db->query($query)) {
 			echo "<p>Error updating info for keg " . $this->id . "-" . $this->size . ": #" . $db->errno . ": " . $db->error . "</p>\r";
@@ -118,7 +135,10 @@ class keg {
 		global $db,$dbprefix;
 		if (!$timestamp) $timestamp = date("Y-m-d G:i:s");
 
-		$query = "INSERT INTO " . $dbprefix . "keg_log(keg_id, size, status, location, beer, date) VALUES(" . $this->id . "," . $this->size . ", " . $this->status . ", " . $this->location . ", " . $this->beer . ", '" . $timestamp . "')";
+		$query = "INSERT INTO " . $dbprefix . "keg_log(keg_id, size, status";
+		if ($this->status != -99) $query = "INSERT INTO " . $dbprefix . "keg_log(keg_id, size, status, location, beer, date) VALUES(" . $this->id . "," . $this->size . ", " . $this->status . ", " . $this->location . ", " . $this->beer . ", '" . $timestamp . "')";
+		else $query = "INSERT INTO " . $dbprefix . "keg_log(keg_id, size, status, warning, date) VALUES(" . $this->id . "," . $this->size . ", " . $this->status . ", " . $this->warning . ", '" . $timestamp . "')";
+
 		if (!$db->query($query)) {
 			echo "<p>Error logging update for keg " . $this->id . "-" . $this->size . ": #" . $db->errno . ": " . $db->error . "</p>\r";
 			echo "<p>" . $query . "</p>\r";
@@ -206,6 +226,11 @@ class keg {
 		$this->location = 1;
 		$this->beer = 0;
 		$this->status = 1;
+		$this->update();
+	}
+
+	public function warn($warning) {
+		$this->warning = $warning;
 		$this->update();
 	}
 
