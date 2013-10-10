@@ -39,6 +39,11 @@ if ($_POST['new'] == "beer") {
 	}
 	for ($i = $_POST['id']; $i <= $_POST['end']; $i++) new_keg($i,$_POST['size'],$_POST['status'],$beer,$location);
 
+} else if ($_POST['new'] == "warning") {
+	$query = "INSERT INTO " . $dbprefix . "keg_warnings(warning) VALUES('" . $_POST['warning'] . "')";
+	if (!($result = $db->query($query))) echo "<p>Something's gone wrong: #" . $db->errno . ": " . $db->error . "</p>";
+
+	echo $db->insert_id;
 } else if ($_POST['update']) {
 	//$ids = explode("+",$_POST['ids']);
 	if (!$_POST['ids']) die("0 kegs processed.");

@@ -175,6 +175,7 @@ if (!$_GET['id']) {
 		<div id="warn" data-role="popup" data-overlay-theme="a" class="ui-corner-all">
 		<div data-role="header" class="ui-corner-top">
 		<h1>Uh oh</h1>
+		<a href="#newwarning" data-type="button" data-theme="b" data-icon="plus" data-iconpos="notext" data-rel="popup" data-position-to="window" data-transition="pop" class="ui-btn-right new">New</a>
 		</div>
 
 		<div data-role="content" class="ui-corner-bottom ui-content">
@@ -187,12 +188,26 @@ if (!$_GET['id']) {
 		while ($row = $result->fetch_assoc()) echo "<option value=\"" . $row['id'] . "\">" . $row['warning'] . "</option>\r";
 		?>
 			</select>
-		<button data-inline="true" data-theme="b">Submit</button>
+		<button data-inline="true" data-theme="b" class="submit">Submit</button>
 		</form>
 		</div>
 		</div>
 
 
+		<div id="newwarning" data-role="popup" data-overlay-theme="a" class="ui-corner-all">
+		<div data-role="header" class="ui-corner-top">
+		<h1>New warning</h1>
+		</div>
+
+		<div data-role="content" class="ui-corner-bottom ui-content">
+		<form method="post" action="keg.php?<?php echo "id=" . $_GET['id'] . "&amp;size=" . $_GET['size']; ?>">
+		<label for="new">Warning</label>
+		<input type="text" name="new" id="new" value="" />
+
+		<button type="submit" data-inline="true" data-theme="b">Submit</button>
+		</form>
+		</div>
+		</div>
 		<?php
 }
 

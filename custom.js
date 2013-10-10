@@ -149,13 +149,25 @@ $(document).bind("pageinit",function(){
 				$('#success').popup('open', {transition: 'pop'});
 				});
 
-		$('#warn button').on('click',function(){
+		$('#warn button.submit').on('click',function(){
 				var $_GET = getQueryParams();
 				$.post('postactions.php',{warn:'new', id:$_GET['id'], size:$_GET['size'], warning:$('#warning').val()});
 				});
+
 		$('#clearwarn').on('click',function(){
 				var $_GET = getQueryParams();
 				$.post('postactions.php',{warn:'clear', id:$_GET['id'], size:$_GET['size']});
+				});
+
+		$('#newwarning').submit('click',function(){
+				$.post('postactions.php',{new:"warning",warning:$('#new').val()},function(data){
+					var $_GET = getQueryParams();
+					$.post('postactions.php',{warn:'new', id:$_GET['id'], size:$_GET['size'], warning:data});
+					});
+				$('#newwarning').popup('close');
+				$('#success').popup('open', {transition: 'pop'});
+				// vvv HERE VVV
+				return false;
 				});
 });
 
