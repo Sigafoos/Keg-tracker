@@ -162,11 +162,11 @@ $(document).bind("pageinit",function(){
 		$('#newwarning').submit('click',function(){
 				$.post('postactions.php',{new:"warning",warning:$('#new').val()},function(data){
 					var $_GET = getQueryParams();
-					$.post('postactions.php',{warn:'new', id:$_GET['id'], size:$_GET['size'], warning:data});
+					$.post('postactions.php',{warn:'new', id:$_GET['id'], size:$_GET['size'], warning:data})
 					});
+				
 				$('#newwarning').popup('close');
-				$('#success').popup('open', {transition: 'pop'});
-				// vvv HERE VVV
+				setTimeout(function(){$('#success').popup('open');},300);
 				return false;
 				});
 });
