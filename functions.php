@@ -155,17 +155,17 @@ class keg {
 
 		// it's not at CBW
 		if ($this->location != 1) {
-			$warnings[] = "keg " . $this->id . "_" . $this->size . " was not marked as being at HQ";
+			$warnings[2][] = "keg " . $this->id . "_" . $this->size . " was not marked as being at HQ";
 			$this->location = 1;
 		}
 		// it had beer in it
 		if ($this->beer != 0) {
-			$warnings[] = "keg " . $this->id . "_" . $this->size . " was not marked as empty";
+			$warnings[2][] = "keg " . $this->id . "_" . $this->size . " was not marked as empty";
 			$this->beer = 0;
 		}
 		// it's not dirty
 		if ($this->status != 1) {
-			$warnings[] = "keg " . $this->id . "_" . $this->size . " was not marked as dirty";
+			$warnings[2][] = "keg " . $this->id . "_" . $this->size . " was not marked as dirty";
 		}
 
 		$this->status = 2;
@@ -178,16 +178,16 @@ class keg {
 
 		// it's not at CBW
 		if ($this->location != 1) {
-			$warnings[] = "keg " . $this->id . "_" . $this->size . "  was not marked as being at HQ\r";
+			$warnings[2][] = "keg " . $this->id . "_" . $this->size . "  was not marked as being at HQ\r";
 			$this->location = 1;
 		}
 		// it had beer in it
 		if ($this->beer != 0) {
-			$warnings[] = "keg " . $this->id . "_" . $this->size . "  was not marked as empty\r";
+			$warnings[2][] = "keg " . $this->id . "_" . $this->size . "  was not marked as empty\r";
 		}
 		// it wasn't clean
 		if ($this->status != 2) {
-			$warnings[] = "keg " . $this->id . "_" . $this->size . "  was not marked as clean\r";
+			$warnings[2][] = "keg " . $this->id . "_" . $this->size . "  was not marked as clean\r";
 		}
 
 		$this->status = 3;
@@ -201,7 +201,7 @@ class keg {
 
 		// we don't know the beer
 		if ($this->beer == 0) {
-			$warnings[] = "keg " . $this->id . "_" . $this->size . "  full of unknown beer\r";
+			$warnings[2][] = "keg " . $this->id . "_" . $this->size . "  full of unknown beer\r";
 			$this->beer = -1;
 		}
 
@@ -216,11 +216,11 @@ class keg {
 
 		// it wasn't out somewhere
 		if ($this->status != 5) {
-			$warnings[] = "keg " . $this->id . "_" . $this->size . "  was not marked as being in use\r";
+			$warnings[2][] = "keg " . $this->id . "_" . $this->size . "  was not marked as being in use\r";
 		}
 		// it didn't have beer in it
 		if ($this->beer == 0) {
-			$warnings[] = "keg " . $this->id . "_" . $this->size . "  was marked as empty\r";
+			$warnings[2][] = "keg " . $this->id . "_" . $this->size . "  was marked as empty\r";
 		}
 
 		$this->location = 1;

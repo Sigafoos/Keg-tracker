@@ -82,7 +82,7 @@ if ($_POST['new'] == "beer") {
 
 		$i++;
 	}
-	//if (count($warnings)) echo "<h2>Warnings</h2>\r\n<ul>\r\n<li>" . implode("</li>\r\n<li>",$warnings) . "</ul>\r";
+	if (count($warnings[2]) && $warninglevel >= 2) echo "<h2>Warnings</h2>\r\n<ul>\r\n<li>" . implode("</li>\r\n<li>",$warnings[2]) . "</ul>\r";
 	echo "<p>" . $i . " keg";
 	if ($i > 1) echo "s";
 	echo " processed.</p>\r\n";
