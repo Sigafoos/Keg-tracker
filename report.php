@@ -22,7 +22,7 @@ if (!is_numeric($_GET['report'])) {
 		<?php
 		switch($_GET['report']) {
 			case 1:
-				echo "<h1>Prodigal kegs</h1>\r";
+				echo "<h1>Forgotten kegs</h1>\r";
 				$query = "SELECT a.keg_id, a.size, " . $dbprefix . "keg_sizes.size, a.date, " . $dbprefix . "keg_statuses.status, " . $dbprefix . "locations.location, " . $dbprefix . "beers.beer, " . $dbprefix . "keg_warnings.warning";
 				$query .= " FROM " . $dbprefix . "keg_log a";
 				$query .= " JOIN (SELECT keg_id, size, max(date) AS date FROM " . $dbprefix . "keg_log WHERE date < NOW() - INTERVAL 45 DAY GROUP BY keg_id) b";
