@@ -25,7 +25,7 @@ if (!is_numeric($_GET['report'])) {
 				echo "<h1>Forgotten kegs</h1>\r";
 				$query = "SELECT a.keg_id, a.size, " . $dbprefix . "keg_sizes.size, a.date, " . $dbprefix . "keg_statuses.status, " . $dbprefix . "locations.location, " . $dbprefix . "beers.beer, " . $dbprefix . "keg_warnings.warning";
 				$query .= " FROM " . $dbprefix . "keg_log a";
-				$query .= " JOIN (SELECT keg_id, size, max(date) AS date FROM " . $dbprefix . "keg_log WHERE date < NOW() - INTERVAL 45 DAY GROUP BY keg_id) b";
+				$query .= " JOIN (SELECT keg_id, size, max(date) AS date FROM " . $dbprefix . "keg_log WHERE date < NOW() - INTERVAL 45 DAY AND status != 6 GROUP BY keg_id) b"; // 6 = broken
 				$query .= " ON a.keg_id=b.keg_id AND a.size=b.size AND a.date=b.date";
 				$query .= " INNER JOIN " . $dbprefix . "keg_sizes ON a.size=" . $dbprefix . "keg_sizes.id";
 				$query .= " INNER JOIN " . $dbprefix . "keg_statuses on a.status=" . $dbprefix . "keg_statuses.id";
