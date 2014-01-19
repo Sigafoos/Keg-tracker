@@ -386,7 +386,7 @@ function select_kegs($status) {
 	<input type="text" pattern="[0-9 .]+" name="keglist" id="keglist" />
 	<button type="submit" data-inline="true" data-theme="b">Submit</button>
 	</form>
-	<p>(period separated, do not have to be in the below list); or:</p>
+	<p>(period separated, do not have to be in the below list, <em>sixtels only</em>); or:</p>
 	</div>
 
 	<div id="kegs">
@@ -404,7 +404,7 @@ function select_kegs($status) {
 		$beer = $keg->getbeer();
 		$location = $keg->getlocation();
 
-		echo "<input type=\"checkbox\" id=\"keg" . $formid . "\" name=\"kegs[" . $formid . "]\" /><label for=\"keg" . $formid . "\">" . $size . "  keg #" . $id;
+		echo "<input type=\"checkbox\" id=\"keg" . $formid . "\" name=\"kegs[" . $formid . "]\" /><label for=\"keg" . $formid . "\">" . $size . "  #" . $id;
 		if ($beers || $locations) {
 			echo " (";
 			if ($locations) echo $locations[$location];
