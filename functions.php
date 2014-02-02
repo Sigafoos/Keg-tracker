@@ -379,6 +379,7 @@ function select_kegs($status) {
 ?>
 	<div id="csv">
 	<form method="post" action="?status=<?php
+	echo $status;
 	if ($_GET['beer']) echo "&beer=" . $_GET['beer'];
 	else if ($_GET['location']) echo "&location=" . $_GET['location'];
 	?>">
