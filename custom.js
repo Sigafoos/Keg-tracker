@@ -21,6 +21,24 @@ $(document).bind("pageinit",function(){
 		return params;
 		}
 
+		function getIDs() {
+		var ids = [];
+		// the csv
+		var list = $('#keglist').val();
+		if (list != '') {
+			ids = list.split(".");
+			for (i = 0; i < ids.length; i++) {
+				ids[i] = $.trim(ids[i]) + '_1'; // assume it's a sixtel, trim whitespace
+			}
+		}
+
+		// the checkboxes
+		$('#kegs input:checkbox:checked').each(function(){
+				ids[ids.length] = $(this).attr('id').substr(3);
+				});
+		return ids;
+		}
+
 		// take an array of ids, update the kegs (used by the #keglist csv and #kegs old school checkbox forms)
 		function updateKegs(ids) {
 			// perhaps there's a better way to do this (ie localStorage)
@@ -36,6 +54,7 @@ $(document).bind("pageinit",function(){
 
 			$.mobile.loading("show");
 			$.post('postactions.php', vars, function(data){
+					console.log(data);
 					$.mobile.loading("hide");
 					$('#message').html(data);
 					$('#success').popup('open', {transition: 'pop'});
@@ -47,7 +66,7 @@ $(document).bind("pageinit",function(){
 				var theid = $(this).attr('id');
 
 				if (theid.substr(0,1) == "b") { // beer
-			$('#confirm a.archive').on('click',function(){
+				$('#confirm a.archive').on('click',function(){
 				$.post('archive.php', {beer:theid.substr(1)});
 				$('#confirm').popup('close');
 				$('#'+theid).parent().fadeOut('slow');
@@ -80,31 +99,15 @@ $(document).bind("pageinit",function(){
 				});
 
 		$('#kegs').submit(function() {
-				var ids = Array();
-				$('#kegs input:checkbox:checked').each(function(){
-					ids[ids.length] = $(this).attr('id').substr(3);
-					});
-
-				updateKegs(ids);
+				console.log(getIDs());
+				updateKegs(getIDs());
 				return false; // stop the submit
 				});
 
 		// the csv list
 		$('#csv').submit(function(){
-				var list = $('#keglist').val();
-				// if there are no kegs entered
-				if (list == '') {
-				$('#success h1').html('Error!');
-				$('#message').html('No kegs specified');
-				$('#success').popup('open', {transition: 'pop'});
-				return false;
-				}
-				var ids = list.split(".");
-				//if (ids.length == 0) alert("oi");
-				for (i = 0; i < ids.length; i++) {
-				ids[i] = $.trim(ids[i]) + '_1'; // assume it's a sixtel, trim whitespace
-				}
-				updateKegs(ids);
+				console.log(getIDs());
+				updateKegs(getIDs());
 				return false;
 				});
 
