@@ -3,13 +3,13 @@
 require('functions.php');
 
 if ($_POST['new'] == "beer") {
-	$query = "INSERT INTO cbw_beers(beer) VALUES('" . $db->real_escape_string($_POST['beer']) . "')";
+	$query = "INSERT INTO " . $dbprefix . "beers(beer) VALUES('" . $db->real_escape_string($_POST['beer']) . "')";
 	if (!($result = $db->query($query))) echo "<p>Something's gone wrong: #" . $db->errno . ": " . $db->error . "</p>";
 
 	echo $db->insert_id;
 
 } else if ($_POST['new'] == "location") {
-	$query = "INSERT INTO cbw_locations(location) VALUES('" . $db->real_escape_string($_POST['location']) . "')";
+	$query = "INSERT INTO " . $dbprefix . "locations(location) VALUES('" . $db->real_escape_string($_POST['location']) . "')";
 	if (!($result = $db->query($query))) echo "<p>Something's gone wrong: #" . $db->errno . ": " . $db->error . "</p>";
 
 	echo $db->insert_id;
@@ -53,7 +53,7 @@ if ($_POST['new'] == "beer") {
 	foreach (explode("+",$_POST['ids']) as $info) {
 		// [0] = id; [1] = size
 		$info = explode("_",$info);
-		$query = "SELECT id, location, status, size, beer FROM cbw_kegs WHERE id=" . $info[0] . " AND size=" . $info[1];
+		$query = "SELECT id, location, status, size, beer FROM " . $dbprefix . "kegs WHERE id=" . $info[0] . " AND size=" . $info[1];
 		$result = $db->query($query);
 		$keg = new Keg($result->fetch_assoc());
 
@@ -91,7 +91,7 @@ if ($_POST['new'] == "beer") {
 	foreach (explode("+",$_POST['ids']) as $info) {
 		// [0] = id; [1] = size
 		$info = explode("_",$info);
-		$query = "SELECT id, location, status, size, beer FROM cbw_kegs WHERE id=" . $info[0] . " AND size=" . $info[1];
+		$query = "SELECT id, location, status, size, beer FROM " . $dbprefix . "kegs WHERE id=" . $info[0] . " AND size=" . $info[1];
 		$result = $db->query($query);
 		$keg = new Keg($result->fetch_assoc());
 
