@@ -120,7 +120,7 @@ $(document).bind("pageinit",function(){
 
 		// re-activate a deactivated beer
 		$('.activate').on('click',function(){
-				$.post('postactions.php',{activate:$(this).attr('id')});
+				$.post('postactions.php',{activate:$(this).attr('id')},function(data){console.log(data);});
 				$(this).fadeOut('fast');
 				});
 

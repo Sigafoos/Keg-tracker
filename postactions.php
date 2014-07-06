@@ -112,5 +112,13 @@ if ($_POST['new'] == "beer") {
 	$keg = new Keg($_POST);
 	echo $keg->info();
 	$keg->warn($_POST['warning']);
+} else if ($_POST['activate']) {
+	$query = "UPDATE " . $dbprefix;
+	if (substr($_POST['activate'],0,1) == "b") $query .= "beers";
+	else if (substr($_POST['activate'],0,1) == "l") $query .= "locations";
+	$query .= " SET active=1 WHERE id=" . substr($_POST['activate'],1);
+	$result = $db->query($query);
+
+	echo "Reactivated!";
 }
 ?>
