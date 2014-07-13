@@ -10,7 +10,7 @@
 <body>
 <div data-role="page">
 <?php 
-if (file_exists("install.php")) {
+if (file_exists("install.php") && $_SERVER['PHP_SELF'] != "/install.php") {
 	?>
 		<div data-role="header">
 		<h1>Error</h1>
