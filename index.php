@@ -8,7 +8,7 @@ require('functions.php');
 </div>
 
 <?php
-$query = "SELECT count(id) AS number, status FROM cbw_kegs GROUP BY status ORDER BY status";
+$query = "SELECT count(id) AS number, status FROM " . $dbprefix . "kegs GROUP BY status ORDER BY status";
 if (!($result = $db->query($query))) echo "<p>Oh my: #" . $db->errno . ": " . $db->error . "</p>\r";
 while ($row = $result->fetch_assoc()) $stats[$row['status']] = $row['number'];
 ?>
