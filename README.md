@@ -1,12 +1,14 @@
 # Keg Tracker
 
-By Dan Conley (dan.j.conley@gmail.com/[@Sigafoos](http://twitter.com/Sigafoos))
+By Dan Conley (dan@communitybeerworks.com/[@Sigafoos](http://twitter.com/Sigafoos))
 
 Originally developed for [Community Beer Works](http://www.communitybeerworks.com)
 
 CBW needed a way to track kegs: what's where, what our current inventory is, etc. So I decided to write one.
 
 It's based in jQuery Mobile/PHP/MySQL, because that's what I know. (well, I could also use Oracle, but we don't have that kind of money).
+
+Are you a brewery that uses this? Let me know!
 
 ## Installing
 1. Move config-sample.inc.php to config.inc.php
