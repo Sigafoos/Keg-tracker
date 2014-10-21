@@ -23,7 +23,7 @@ if (!is_numeric($_GET['report'])) {
 		switch($_GET['report']) {
 			case 1:
 				echo "<h1>Forgotten kegs</h1>\r";
-				$query = "SELECT a.keg_id, a.size, " . $dbprefix . "keg_sizes.size, a.date, " . $dbprefix . "keg_statuses.status, " . $dbprefix . "locations.location, " . $dbprefix . "beers.beer, " . $dbprefix . "keg_warnings.warning";
+				$query = "SELECT a.keg_id, a.size AS size_id, " . $dbprefix . "keg_sizes.size, a.date, " . $dbprefix . "keg_statuses.status, " . $dbprefix . "locations.location, " . $dbprefix . "beers.beer, " . $dbprefix . "keg_warnings.warning";
 				$query .= " FROM " . $dbprefix . "keg_log a";
 				$query .= " JOIN (SELECT keg_id, size, max(date) AS date FROM " . $dbprefix . "keg_log GROUP BY keg_id, size) b"; // 6 = broken
 				$query .= " ON a.keg_id=b.keg_id AND a.size=b.size AND a.date=b.date";
@@ -65,7 +65,7 @@ if (!is_numeric($_GET['report'])) {
 		<?php
 		foreach ($kegs as $keg) {
 			echo "<tr>\r";
-			echo "<th>" . $keg['size'] . " " . $keg['keg_id']. "</td>\r";
+			echo "<th><a data-role=\"button\" data-theme=\"e\" data-inline=\"true\" href=\"/keg.php?size=" . $keg['size_id'] . "&amp;id=" . $keg['keg_id'] . "\">" . $keg['size'] . " " . $keg['keg_id']. "</a></th>\r";
 			echo "<td>" . date("m/d/y",strtotime($keg['date'])) . "</td>\r";
 			echo "<td>" . $keg['status'] . "</td>\r";
 			echo "<td>" . $keg['location'] . "</td>\r";
