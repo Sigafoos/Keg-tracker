@@ -1,20 +1,22 @@
 <?php
 require('functions.php');
-require('header.inc.php');
-?>
-<div data-role="header">
-<a href="/" data-type="button" data-theme="b" data-icon="home">Home</a>
+if (!isset($_GET['download'])) { // you can't header() if you print shit
+	require('header.inc.php');
+	?>
+		<div data-role="header">
+		<a href="/" data-type="button" data-theme="b" data-icon="home">Home</a>
 
-<?php
-
-//$_GET['report'] = 1; // hard coding til we have more
+		<?php
+}
 
 if (!is_numeric($_GET['report'])) {
 	?>
 		<h1>Choose report</h1>
 		</div>
 		<div data-role="content">
-		<p>Um maybe add stuff here</p>
+		<ul data-role="listview" data-inset="true">
+		<li><a href="?report=1">Forgotten/lost kegs</a></li>
+		<li><a href="?report=2&amp;download">csv of all kegs</a></li>
 		</div>
 		<?php
 } else {
