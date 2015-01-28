@@ -50,7 +50,7 @@ if ($_POST['new'] == "beer") {
 	if (!$_POST['beer']) $_POST['beer'] = -1;
 	if (!$_POST['location']) $_POST['location'] = -1;
 
-	foreach (explode("+",$_POST['ids']) as $info) {
+	foreach (array_unique(explode("+",$_POST['ids'])) as $info) {
 		// [0] = id; [1] = size
 		$info = explode("_",$info);
 		$query = "SELECT id, location, status, size, beer FROM " . $dbprefix . "kegs WHERE id=" . $info[0] . " AND size=" . $info[1];
