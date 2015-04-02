@@ -6,9 +6,11 @@ Originally developed for [Community Beer Works](http://www.communitybeerworks.co
 
 CBW needed a way to track kegs: what's where, what our current inventory is, etc. So I decided to write one.
 
+**Note**: This is currently not in a state ready to install elsewhere. If you would like to use it, send me an email and I'll get it ready for you.
+
 It's based in jQuery Mobile/PHP/MySQL, because that's what I know. (well, I could also use Oracle, but we don't have that kind of money).
 
-Are you a brewery that uses this? Let me know!
+Are you a brewery that wants to use this? Let me know!
 
 ## Installing
 1. Move config-sample.inc.php to config.inc.php
