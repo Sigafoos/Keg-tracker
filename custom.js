@@ -28,7 +28,7 @@ $(document).bind("pageinit",function(){
 		if (list != '') {
 			ids = list.split(".");
 			for (i = 0; i < ids.length; i++) {
-				ids[i] = $.trim(ids[i]) + '_1'; // assume it's a sixtel, trim whitespace
+				ids[i] = $.trim(ids[i]) + '_' + $('#size').val(); // trim whitespace
 			}
 		}
 

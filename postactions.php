@@ -55,7 +55,13 @@ if ($_POST['new'] == "beer") {
 		$info = explode("_",$info);
 		$query = "SELECT id, location, status, size, beer FROM " . $dbprefix . "kegs WHERE id=" . $info[0] . " AND size=" . $info[1];
 		$result = $db->query($query);
-		$keg = new Keg($result->fetch_assoc());
+
+		try {
+			$keg = new Keg($result->fetch_assoc());
+		} catch (Exception $e) {
+			$errors[] = $info[0] . "_" . $info[1] . ": " . $e->getMessage();
+			continue;
+		}
 
 		switch($_POST['status']) {
 			case 1:
@@ -82,6 +88,7 @@ if ($_POST['new'] == "beer") {
 
 		$i++;
 	}
+	if (count($errors)) echo "<h2>Errors</h2>\r\n<ul>\r\n<li>" . implode("</li>\r\n<li>",$errors) . "</ul>\r";
 	if (count($warnings[2]) && $warninglevel >= 2) echo "<h2>Warnings</h2>\r\n<ul>\r\n<li>" . implode("</li>\r\n<li>",$warnings[2]) . "</ul>\r";
 	echo "<p>" . $i . " keg";
 	if ($i > 1) echo "s";
