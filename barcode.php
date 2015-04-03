@@ -14,7 +14,8 @@
 <body>
 <?php
 	require("functions.php");
-if (!$_GET['submit'] && !$_GET['size'] && !$_POST['barcode']) {
+	// this is out of order. oh well.
+if (!$_GET['start'] && !$_GET['submit'] && !$_GET['size'] && !$_POST['barcode']) {
 	$query = "SELECT id, size FROM " . $dbprefix . "keg_sizes ORDER BY id";
 	$result = $db->query($query);
 	while ($row = $result->fetch_assoc()) $sizes[$row['id']] = $row['size'];
@@ -32,6 +33,24 @@ if (!$_GET['submit'] && !$_GET['size'] && !$_POST['barcode']) {
 		</div>
 		<div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
 		<div class="panel-body">
+		<p>manually:</p>
+		<form action="" method="get" class="form-inline">
+		<div class="form-group">
+		<label for="start" class="sr-only">From:</label>
+		<input class="form-control" name="start" id="start" placeholder="From" />
+		</div>
+		<div class="form-group">
+		<label for="end" class="sr-only">To:</label>
+		<input class="form-control" name="end" id="end" placeholder="To" />
+		</div>
+		<div class="form-group">
+		<button type="submit" id="submit" class="btn btn-primary">Submit</button>
+		</div>
+		</form>
+
+
+		<p>or by size:</p>
+
 		<ul class="list-group">
 		<?php foreach ($sizes as $id=>$size) echo "<li class=\"list-group-item\"><a href=\"?size=" . $id . "\">All " . $size . "</a></li>"; ?>
 		</ul>
@@ -101,7 +120,7 @@ if (!$_GET['submit'] && !$_GET['size'] && !$_POST['barcode']) {
 
 		</div>
 		<?php
-} else if ($_GET['submit'] || $_GET['size']) {
+} else if ($_GET['submit'] || $_GET['size'] || $_GET['start']) {
 	/*
 	$query = "SELECT size FROM " . $dbprefix . "keg_sizes WHERE id=" . $_GET['size'];
 	$result = $db->query($query);
@@ -112,7 +131,10 @@ if (!$_GET['submit'] && !$_GET['size'] && !$_POST['barcode']) {
 	require('lib/barcode/BarcodeBase.php');
 	require('lib/barcode/Code128.php');
 	$bcode = array('name' => 'Code128', 'obj' => new emberlabs\Barcode\Code128());
-	if ($_GET['kegs']) {
+	if ($_GET['start']) {
+		if (!$_GET['end']) $kegs[] = $_GET['start'];
+		else for ($i = $_GET['start']; $i <= $_GET['end']; $i++) $kegs[] = $i;
+	} else if ($_GET['kegs']) {
 		$_GET['kegs'] = preg_replace("/\./",",",$_GET['kegs']);
 		$_GET['kegs'] = preg_replace("/\s+/","",$_GET['kegs']);
 		$list = array_unique(explode(",",$_GET['kegs']));
