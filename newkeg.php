@@ -34,7 +34,12 @@ while ($row = $result->fetch_assoc()) $statuses[$row['id']] = $row['status'];
 <div data-role="fieldcontain">
 <label for="size">Size</label>
 <select name="size" id="size">
-<?php foreach($sizes as $id=>$size) echo "<option value=\"" . $id . "\">" . $size . "</option>\r\n"; ?>
+<?php foreach($sizes as $id=>$size) {
+	echo "<option value=\"" . $id . "\"";
+	if ($id == 5) echo " selected=\"selected\"";
+	echo ">" . $size . "</option>\r\n"; 
+}
+?>
 </select>
 </div>
 
