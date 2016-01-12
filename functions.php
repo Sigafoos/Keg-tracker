@@ -133,6 +133,7 @@ class keg {
 
 	private function log($timestamp = NULL) {
 		global $db,$dbprefix;
+		date_default_timezone_set('America/New_York');
 		if (!$timestamp) $timestamp = date("Y-m-d G:i:s");
 
 		$query = "INSERT INTO " . $dbprefix . "keg_log(keg_id, size, status";
